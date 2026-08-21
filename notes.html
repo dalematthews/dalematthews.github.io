@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notes — Dale Matthews</title>
+    <meta
+        name="description"
+        content="Technical notes and derivations by Dale Matthews."
+    >
+
+    <style>
+        :root {
+            --background: #ffffff;
+            --text: #1f2933;
+            --muted: #64748b;
+            --accent: #2563eb;
+            --border: #e2e8f0;
+            --section-background: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+            line-height: 1.65;
+        }
+
+        .container {
+            width: min(760px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        .site-header {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .site-header .container {
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .site-name {
+            color: var(--text);
+            font-weight: 650;
+            letter-spacing: -0.015em;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus-visible {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 82px 0 100px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2.5rem, 7vw, 4rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+        }
+
+        .intro {
+            max-width: 620px;
+            margin: 20px 0 50px;
+            color: var(--muted);
+            font-size: 1.1rem;
+        }
+
+        .note-list {
+            border-top: 1px solid var(--border);
+        }
+
+        .note {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 20px;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .note h2 {
+            margin: 0 0 8px;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .note p {
+            max-width: 580px;
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .topic {
+            color: var(--muted);
+            font-size: 0.88rem;
+            white-space: nowrap;
+        }
+
+        footer {
+            padding: 30px 0 50px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .site-header .container {
+                min-height: 60px;
+            }
+
+            main {
+                padding: 60px 0 72px;
+            }
+
+            .note {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .topic {
+                grid-row: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <a class="site-name" href="index.html">Dale Matthews</a>
+        <nav aria-label="Primary navigation">
+            <a href="index.html">About</a>
+            <a href="notes.html" aria-current="page">Notes</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <h1>Notes</h1>
+
+    <p class="intro">
+        Technical notes and derivations on mathematics, physics and related
+        subjects.
+    </p>
+
+    <div class="note-list">
+        <article class="note">
+            <div>
+                <h2>
+                    <a href="quantum-mechanics.html">Quantum mechanics</a>
+                </h2>
+                <p>
+                    Derivations involving spherical coordinates, Legendre and
+                    Laguerre polynomials, angular equations and the hydrogen
+                    atom.
+                </p>
+            </div>
+            <div class="topic">Physics</div>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        © 2026 Dale Matthews
+    </div>
+</footer>
+
+</body>
+</html>
