@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Matrix Calculus — Dale Matthews</title>
+    <meta
+        name="description"
+        content="Matrix calculus notes and derivations by Dale Matthews."
+    >
+
+    <style>
+        :root {
+            --background: #ffffff;
+            --text: #1f2933;
+            --muted: #64748b;
+            --accent: #2563eb;
+            --border: #e2e8f0;
+            --section-background: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.04rem;
+            line-height: 1.72;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus-visible {
+            text-decoration: underline;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            padding: 8px 12px;
+            background: var(--text);
+            color: white;
+            transform: translateY(-160%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .site-header,
+        .article-header,
+        footer,
+        #TOC {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        .site-header {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .site-header-inner {
+            width: min(1120px, calc(100% - 40px));
+            min-height: 68px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .site-name {
+            color: var(--text);
+            font-weight: 650;
+            letter-spacing: -0.015em;
+        }
+
+        .site-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        main {
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 78px 0 100px;
+        }
+
+        .article-header {
+            max-width: 780px;
+            margin: 0 auto 62px;
+        }
+
+        .kicker {
+            margin: 0 0 12px;
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.11em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2.4rem, 7vw, 4.15rem);
+            line-height: 1.04;
+            letter-spacing: -0.045em;
+        }
+
+        .byline {
+            margin: 16px 0 0;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
+        .article-layout {
+            display: grid;
+            grid-template-columns: 220px minmax(0, 780px);
+            justify-content: center;
+            gap: 72px;
+            align-items: start;
+        }
+
+        #TOC {
+            position: sticky;
+            top: 28px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--section-background);
+            font-size: 0.84rem;
+            line-height: 1.45;
+        }
+
+        #TOC::before {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text);
+            content: "On this page";
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
+        #TOC ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #TOC li + li {
+            margin-top: 8px;
+        }
+
+        #TOC a {
+            color: var(--muted);
+        }
+
+        #TOC a:hover,
+        #TOC a:focus-visible {
+            color: var(--accent);
+        }
+
+        .article-body {
+            min-width: 0;
+        }
+
+        .article-body h2 {
+            margin: 4.5rem 0 1.4rem;
+            padding-top: 1.6rem;
+            border-top: 1px solid var(--border);
+            font-size: clamp(1.55rem, 3vw, 2rem);
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            scroll-margin-top: 24px;
+        }
+
+        .article-body h2:first-child {
+            margin-top: 0;
+        }
+
+        .article-body h3 {
+            max-width: 100%;
+            margin: 2.8rem 0 1.15rem;
+            font-size: 1.17rem;
+            line-height: 1.4;
+            letter-spacing: -0.012em;
+            scroll-margin-top: 24px;
+        }
+
+        .article-body h3 .math {
+            display: block;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0.2rem 0;
+        }
+
+        .article-body p {
+            margin: 0 0 1.15rem;
+        }
+
+        .math.display {
+            display: block;
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0.25rem 0 0.55rem;
+        }
+
+        mjx-container[display="true"] {
+            margin: 1.15rem 0 !important;
+            text-align: left !important;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            margin-top: 60px;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            padding: 30px 0 50px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-inner {
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .article-layout {
+                grid-template-columns: minmax(0, 780px);
+                gap: 42px;
+            }
+
+            #TOC {
+                position: static;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 1rem;
+            }
+
+            .site-header-inner {
+                min-height: 60px;
+            }
+
+            main {
+                padding: 54px 0 72px;
+            }
+
+            .article-header {
+                margin-bottom: 40px;
+            }
+
+            .article-body h2 {
+                margin-top: 3.5rem;
+            }
+        }
+
+        @media print {
+            .site-header,
+            #TOC,
+            .back-to-top,
+            footer {
+                display: none;
+            }
+
+            main {
+                width: 100%;
+                padding: 0;
+            }
+
+            .article-layout {
+                display: block;
+            }
+        }
+    </style>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                macros: {
+                    Tr: "\\operatorname{Tr}",
+                    trace: "\\operatorname{tr}",
+                    diff: "\\mathrm{d}"
+                }
+            },
+            chtml: {
+                displayAlign: "left"
+            }
+        };
+    </script>
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+    ></script>
+</head>
+
+<body id="top">
+
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-name" href="index.html">Dale Matthews</a>
+        <nav class="site-nav" aria-label="Primary navigation">
+            <a href="index.html">About</a>
+            <a href="notes.html">Notes</a>
+        </nav>
+    </div>
+</header>
+
+<main id="content">
+    <article>
+        <header class="article-header">
+            <p class="kicker">Mathematics notes</p>
+            <h1>Matrix Calculus</h1>
+            <p class="byline">Dale Matthews</p>
+        </header>
+
+        <div class="article-layout">
+                        <nav id="TOC" aria-label="Table of contents">
+                <ul>
+                <li><a href="#derivative-of-a-scalar-wrt-matrix"
+                id="toc-derivative-of-a-scalar-wrt-matrix">Derivative of
+                a scalar wrt matrix</a></li>
+                <li><a href="#differentials"
+                id="toc-differentials">Differentials</a></li>
+                <li><a href="#examples"
+                id="toc-examples">Examples</a></li>
+                <li><a href="#machine-learning-examples"
+                id="toc-machine-learning-examples">Machine Learning
+                Examples</a></li>
+                </ul>
+            </nav>
+            
+            <div class="article-body">
+                <h2 id="derivative-of-a-scalar-wrt-matrix">Derivative of
+                a scalar wrt matrix</h2>
+                <p>Let <span class="math inline">\(\nabla_X f\)</span>
+                be the matrix;</p>
+                <p><span class="math display">\[(\nabla_X f)_{ij} =
+                \frac{\partial f}{\partial X_{ij}}\]</span></p>
+                <p>and</p>
+                <p><span class="math display">\[\frac{\partial
+                f}{\partial X}=(\nabla_X f)^T\]</span></p>
+                <p>so</p>
+                <p><span class="math display">\[(\frac{\partial
+                f}{\partial X})_{ij}=\frac{\partial f}{\partial
+                X_{ji}}\]</span></p>
+                <p><span class="math inline">\(\nabla_X f\)</span> is
+                commonly called the derivative in denominator layout and
+                <span class="math inline">\(\frac{\partial f}{\partial
+                X}\)</span> is the derivative in numerator layout.</p>
+                <p>For a function <span
+                class="math inline">\(f:\mathbb{R}^n \to
+                \mathbb{R}\)</span> the differential is;</p>
+                <p><span class="math display">\[df=&lt;\nabla_x f,
+                h&gt;=(\nabla_x f)^T h\]</span></p>
+                <p>for <span class="math inline">\(f:\mathbb{R}^{m\times
+                n}\to \mathbb{R}\)</span></p>
+                <p>the differential is;</p>
+                <p><span class="math display">\[df=&lt;\nabla_X f,
+                H&gt;=\mathop{\mathrm{Tr}}((\nabla_X f)^T H) =
+                \mathop{\mathrm{Tr}}(\frac{\partial f}{\partial
+                X}H)\]</span></p>
+                <p>i.e. it is the inner product of the gradient and the
+                matrix <span class="math inline">\(H\)</span> using the
+                standard inner product for matrices namely the Frobenius
+                inner product of the gradient and H.</p>
+                <p><span class="math display">\[df=&lt;\nabla_X f,
+                H&gt;=\mathop{\mathrm{Tr}}((\nabla_X f)^T H) =
+                \mathop{\mathrm{Tr}}(\frac{\partial f}{\partial
+                X}H)=\sum_{i=1}^n\sum_{j=1}^m \frac{\partial f}{\partial
+                X_{ij}}H_{ij}\]</span></p>
+                <p>The derivative is the linear transformation;</p>
+                <p><span
+                class="math display">\[L(H)=\sum_{i=1}^n\sum_{j=1}^m
+                \frac{\partial f}{\partial
+                X_{ij}}H_{ij}=\mathop{\mathrm{Tr}}((\nabla_X f)^T
+                H)\]</span></p>
+                <p>where <span class="math inline">\(H\)</span> is a
+                matrix of the same shape as <span
+                class="math inline">\(X\)</span> just as <span
+                class="math inline">\(dx\)</span> is a column vector
+                like <span class="math inline">\(x\)</span> and</p>
+                <p><span class="math display">\[\frac{\partial
+                f}{\partial X}\]</span></p>
+                <p>is a matrix with the same shape as <span
+                class="math inline">\(X^T\)</span></p>
+                <p>as</p>
+                <p><span class="math display">\[\frac{\partial
+                f}{\partial x}\]</span></p>
+                <p>is the transpose of the gradient and has the same
+                shape as <span class="math inline">\(x^T\)</span></p>
+                <p><span class="math display">\[\lim_{H \to 0}
+                \frac{1}{|H|}[f(X+H)-f(X)-\mathop{\mathrm{Tr}}(\frac{\partial
+                f}{\partial X}H)]=0\]</span></p>
+                <h3 class="unnumbered" id="row-column-rule">Row-Column
+                Rule</h3>
+                <p>The row-column rule for matrix multiplication can be
+                written as:</p>
+                <p><span class="math display">\[\begin{aligned}
+                        (AB)_{ij} = \sum_k A_{ik} B_{kj} \\
+                    \end{aligned}\]</span></p>
+                <p>We can apply the row-column rule twice to find an
+                expression for the <span
+                class="math inline">\((i,j)^{th}\)</span> element of a
+                product of three matrices:</p>
+                <p><span class="math display">\[\begin{aligned}
+                        (ABC)_{ij} &amp;= \sum_m (AB)_{im} C_{mj} \\
+                        &amp;= \sum_m \sum_k A_{ik} B_{km} C_{mj} \\
+                        &amp;= \sum_k \sum_m A_{ik} B_{km} C_{mj} \\
+                    \end{aligned}\]</span></p>
+                <p>Similarly for a product of four matrices:</p>
+                <p><span class="math display">\[\begin{aligned}
+                        (ABCD)_{ij} = \sum_k \sum_m \sum_u A_{ik} B_{km}
+                C_{mu} D_{uj}
+                    \end{aligned}\]</span></p>
+                <p>and so on.</p>
+                <p>The following rules for expressing the <span
+                class="math inline">\(i^{th}\)</span> element of a
+                matrix multiplied by a column vector or a row vector
+                multiplied by a matrix can sometimes be useful.</p>
+                <p>Matrix times column vector rule:</p>
+                <p><span class="math display">\[\begin{aligned}
+                        (Ax)_i = \sum_k A_{ik} x_k \\
+                    \end{aligned}\]</span></p>
+                <p>Row vector times matrix rule:</p>
+                <p><span class="math display">\[\begin{aligned}
+                        (x^T A)_i = \sum_k A_{ki} x_k \\
+                    \end{aligned}\]</span></p>
+                <h3 class="unnumbered" id="traces">Traces</h3>
+                <p>We can use the row column rule to write expressions
+                for traces of the product of several matrices in terms
+                of summation notation.</p>
+                <p>Trace of product of two matrices:</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{Tr}}(AB) &amp;= \sum_i (AB)_{ii}
+                \\
+                        &amp;= \sum_i \sum_k A_{ik} B_{ki} \\
+                    \end{aligned}\]</span></p>
+                <p>Trace of product of three matrices:</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{Tr}}(ABC) &amp;= \sum_i
+                (ABC)_{ii} \\
+                        &amp;= \sum_i \sum_k (AB)_{ik} C_{ki} \\
+                        &amp;= \sum_i \sum_k \sum_m A_{im} B_{mk} C_{ki}
+                \\
+                    \end{aligned}\]</span></p>
+                <p>Trace of product of four matrices:</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{Tr}}(ABCD) &amp;= \sum_i
+                (ABCD)_{ii} \\
+                        &amp;= \sum_i \sum_k (ABC)_{ik} D_{ki} \\
+                        &amp;= \sum_i \sum_k \sum_m (AB)_{im}C_{mk}
+                D_{ki} \\
+                        &amp;= \sum_i \sum_k \sum_m \sum_u A_{iu} B_{um}
+                C_{mk} D_{ki} \\
+                    \end{aligned}\]</span></p>
+                <h3 class="unnumbered"
+                id="other-useful-identities">Other useful
+                identities</h3>
+                <p>We can express the quadratic form <span
+                class="math inline">\(x^T A x\)</span> as a trace:</p>
+                <p><span class="math display">\[\begin{aligned}
+                        x^TAx = \mathop{\mathrm{Tr}}\{ Axx^T \} \\
+                    \end{aligned}\]</span></p>
+                <p>This is useful because quadratic forms such as this
+                come up a lot in the exponent of multivariate Gaussians
+                which are used extensively in statistical machine
+                learning.</p>
+                <p>To prove this we use the row-column rule and the
+                expression for the element of the outer product from
+                earlier <span class="math inline">\((uv^T)_{ij}=u_i
+                v_j\)</span>;</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{Tr}}(Axx^T) &amp;= \sum_i
+                (Axx^T)_{ii} \\
+                        &amp;= \sum_i \sum_k A_{ik} (xx^T)_{ki} \\
+                        &amp;= \sum_i \sum_k A_{ik} x_k x_i \\
+                    \end{aligned}\]</span></p>
+                <p><span class="math inline">\(x^T Ax\)</span> is the
+                dot product of the vectors <span
+                class="math inline">\(x\)</span> and <span
+                class="math inline">\(Ax\)</span> so we can write;</p>
+                <p><span class="math display">\[x^T Ax = \sum_i x_i
+                (Ax)_i\]</span></p>
+                <p>Then we use <span class="math inline">\((Ax)_i =
+                \sum_k A_{ik} x_k\)</span> for the matrix vector product
+                from earlier;</p>
+                <p>Therefore;</p>
+                <p><span class="math display">\[\begin{aligned}
+                        x^T A x &amp;= \sum_i x_i (Ax)_i \\
+                        &amp;= \sum_i x_i \sum_k A_{ik} x_k \\
+                        &amp;= \sum_i \sum_k x_i A_{ik} x_k \\
+                        &amp;= \mathop{\mathrm{Tr}}(Axx^T)
+                    \end{aligned}\]</span></p>
+                <p>We can also express the squared Euclidean norm of a
+                vector as a trace (use <span
+                class="math inline">\(x^TAx=\mathop{\mathrm{Tr}}(Axx^T)\)</span>
+                with <span class="math inline">\(A\)</span> equal to the
+                identity):</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \lVert x \rVert ^2 = x^Tx =
+                \mathop{\mathrm{Tr}}\{ xx^T \} \\
+                    \end{aligned}\]</span></p>
+                <p>We can express the quadratic form <span
+                class="math inline">\(x^T A x\)</span> in summation
+                notation as follows:</p>
+                <p><span class="math display">\[\begin{aligned}
+                        x^TAx = \sum_i \sum_j x_i A_{ij} x_j
+                    \end{aligned}\]</span></p>
+                <p>We can find the <span
+                class="math inline">\((i,j)^{th}\)</span> element of the
+                outer product <span class="math inline">\(uv^T\)</span>
+                as follows;</p>
+                <p><span class="math display">\[\begin{aligned}
+                        (uv^T)_{ij}=u_i v_j
+                    \end{aligned}\]</span></p>
+                <p>Trace of <span
+                class="math inline">\(A^TA\)</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{Tr}}(A^TA) = \sum A_{ij}^2 \\
+                    \end{aligned}\]</span></p>
+                <h2 id="differentials">Differentials</h2>
+                <p>Definition of differential</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}f = f&#39;(x)
+                \mathop{\mathrm{d}}x \\
+                    \end{aligned}\]</span></p>
+                <p>Sum Rule for Differentials</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}(f+g) &amp;= (f+g)&#39;(x)
+                \mathop{\mathrm{d}}x \\
+                        &amp;= f&#39;(x) \mathop{\mathrm{d}}x +
+                g&#39;(x) \mathop{\mathrm{d}}x \\
+                        &amp;= \mathop{\mathrm{d}}f +
+                \mathop{\mathrm{d}}g \\
+                    \end{aligned}\]</span></p>
+                <p>Constant Multiple Rule for Differentials</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}(cf) &amp;= (cf)&#39;(x)
+                \mathop{\mathrm{d}}x \\
+                        &amp;= cf&#39;(x) \mathop{\mathrm{d}}x \\
+                        &amp;= c (\mathop{\mathrm{d}}f) \\
+                    \end{aligned}\]</span></p>
+                <p>Product Rule for Differentials</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}(fg) &amp;= (fg)&#39;(x)
+                \mathop{\mathrm{d}}x \\
+                        &amp;= (f&#39;(x)g(x)+f(x)g&#39;(x))
+                \mathop{\mathrm{d}}x \\
+                        &amp;= f&#39;(x)g(x) \mathop{\mathrm{d}}x + f(x)
+                g&#39;(x) \mathop{\mathrm{d}}x \\
+                        &amp;= (f&#39;(x)\mathop{\mathrm{d}}x) g(x) +
+                f(x) (g&#39;(x) \mathop{\mathrm{d}}x) \\
+                        &amp;= (\mathop{\mathrm{d}}f) g + f
+                (\mathop{\mathrm{d}}g)
+                    \end{aligned}\]</span></p>
+                <p>Differential of constant</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}c &amp;= (c)&#39;
+                \mathop{\mathrm{d}}x \\
+                        &amp;= 0 \mathop{\mathrm{d}}x \\
+                        &amp;= 0 \\
+                    \end{aligned}\]</span></p>
+                <h3 class="unnumbered" id="vector-differentials">Vector
+                Differentials</h3>
+                <p>If <span class="math inline">\(a\)</span> is a
+                constant vector;</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}a=0 \\
+                        \mathop{\mathrm{d}}(x^T)=(\mathop{\mathrm{d}}x)^T
+                \\
+                        \mathop{\mathrm{d}}(a^T x) = a^T
+                \mathop{\mathrm{d}}x \\
+                        \mathop{\mathrm{d}}(x^T a) =
+                (\mathop{\mathrm{d}}x^T) a=(\mathop{\mathrm{d}}x)^T a \\
+                        \mathop{\mathrm{d}}(x+y) = \mathop{\mathrm{d}}x
+                + \mathop{\mathrm{d}}y \\
+                        \mathop{\mathrm{d}}(x-y) = \mathop{\mathrm{d}}x
+                - \mathop{\mathrm{d}}y \\
+                        \mathop{\mathrm{d}}(x^Ty) =
+                (\mathop{\mathrm{d}}x^T)y + x^T
+                (\mathop{\mathrm{d}}y)=(\mathop{\mathrm{d}}x)^Ty+x^T
+                (\mathop{\mathrm{d}}y)\\
+                    \end{aligned}\]</span></p>
+                <h3 class="unnumbered" id="matrix-differentials">Matrix
+                Differentials</h3>
+                <p>If <span class="math inline">\(A\)</span> is a
+                constant matrix;</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}A = 0 \\
+                        \mathop{\mathrm{d}}cX = c \mathop{\mathrm{d}}X
+                \\
+                        \mathop{\mathrm{d}}(X^T) =
+                (\mathop{\mathrm{d}}X)^T \\
+                        \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}(X) =
+                \mathop{\mathrm{Tr}}\mathop{\mathrm{d}}X \\
+                        \mathop{\mathrm{d}}(X+Y) = \mathop{\mathrm{d}}X
+                + \mathop{\mathrm{d}}Y \\
+                        \mathop{\mathrm{d}}(X-Y) = \mathop{\mathrm{d}}X
+                - \mathop{\mathrm{d}}Y \\
+                        \mathop{\mathrm{d}}(XY) =
+                (\mathop{\mathrm{d}}X)Y + X (\mathop{\mathrm{d}}Y) \\
+                        \mathop{\mathrm{d}}|X| = |X|
+                \mathop{\mathrm{Tr}}\{ X^{-1} \mathop{\mathrm{d}}X \} \\
+                        \mathop{\mathrm{d}}\log |X| =
+                \frac{1}{|X|}(\mathop{\mathrm{d}}|X|) =
+                \mathop{\mathrm{Tr}}\{ X^{-1} \mathop{\mathrm{d}}X \} \\
+                        \mathop{\mathrm{d}}X^{-1} = - X^{-1}
+                (\mathop{\mathrm{d}}X) X^{-1} \\
+                    \end{aligned}\]</span></p>
+                <h3 class="unnumbered"
+                id="finding-the-hessian-second-identification-theorem">Finding
+                the Hessian (Second Identification Theorem)</h3>
+                <p><span class="math display">\[\mathop{\mathrm{d}}^2
+                \phi = (\mathop{\mathrm{d}}x)^T B(x)
+                \mathop{\mathrm{d}}x \iff H\phi =
+                \frac{B(x)+B(x)^T}{2}\]</span></p>
+                <h3 class="unnumbered"
+                id="conversion-between-differential-and-derivatives">Conversion
+                between differential and derivatives</h3>
+                <p>We can use the following rules to convert between
+                differentials and derivatives;</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}y = a \mathop{\mathrm{d}}x
+                \iff \frac{dy}{dx}=a \\
+                        \mathop{\mathrm{d}}y =\vec{a}^T
+                \mathop{\mathrm{d}}\vec{x} \iff
+                \frac{dy}{d\vec{x}}=\vec{a}^T \\
+                        \mathop{\mathrm{d}}y = \mathop{\mathrm{Tr}}\{ A
+                \mathop{\mathrm{d}}X\} \iff \frac{\partial y}{\partial
+                X}=A \\
+                        \mathop{\mathrm{d}}\vec{y} = \vec{a}
+                \mathop{\mathrm{d}}x \iff \frac{ d \vec{y}}{dx}=\vec{a}
+                \\
+                        \mathop{\mathrm{d}}\vec{y} = A
+                \mathop{\mathrm{d}}\vec{x} \iff \frac{d \vec{y}}{d
+                \vec{x}}=A \\
+                        \mathop{\mathrm{d}}Y = A \mathop{\mathrm{d}}x
+                \iff \frac{d Y}{dx}=A \\
+                    \end{aligned}\]</span></p>
+                <h3 class="unnumbered"
+                id="numerator-and-denominator-layout-and-indices">Numerator
+                and Denominator Layout and Indices</h3>
+                <p>If</p>
+                <p><span class="math display">\[\frac{\partial
+                f(X)}{\partial X_{ij}}= A_{ij}\]</span></p>
+                <p>then in denominator layout</p>
+                <p><span class="math display">\[\frac{\partial
+                f(X)}{\partial X} = A\]</span></p>
+                <p>or in numerator layout;</p>
+                <p><span class="math display">\[\frac{\partial
+                f(X)}{\partial X} = A^T\]</span></p>
+                <p>If</p>
+                <p><span class="math display">\[\frac{\partial
+                f(X)}{\partial X_{ij}}= A_{ji}\]</span></p>
+                <p>then in numerator layout</p>
+                <p><span class="math display">\[\frac{\partial
+                f(X)}{\partial X} = A\]</span></p>
+                <p>or in denominator layout</p>
+                <p><span class="math display">\[\frac{\partial
+                f(X)}{\partial X} = A^T\]</span></p>
+                <h2 id="examples">Examples</h2>
+                <h3 id="fracpartial-xtapartial-xat"><span
+                class="math inline">\(\frac{\partial x^Ta}{\partial
+                x}=a^T\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}(x^Ta) &amp;=
+                \mathop{\mathrm{d}}(a^T x) \\
+                        &amp;= a^T \mathop{\mathrm{d}}x \\
+                    \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                x^Ta}{\partial x}=a^T\]</span></p>
+                <h3 id="fracpartial-xtapartial-xat-1"><span
+                class="math inline">\(\frac{\partial x^Ta}{\partial
+                x}=a^T\)</span></h3>
+                <p><span class="math display">\[f(x)=x^Ta\]</span></p>
+                <p><span
+                class="math display">\[\begin{aligned}f(x+h)-f(x)&amp;=(x+h)^Ta-x^Ta\\&amp;=x^Ta+h^Ta-x^Ta\\&amp;=h^Ta\\&amp;=a^Th
+                \\&amp;= a^Th+o(h) \end{aligned}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                x^Ta}{\partial x}=a^T\]</span></p>
+                <h3
+                id="fracpartial-x2-partial-xfracpartial-xtxpartial-x2xt"><span
+                class="math inline">\(\frac{\partial \|x\|^2 }{\partial
+                x}=\frac{\partial x^Tx}{\partial x}=2x^T\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}(x^Tx) &amp;=
+                (\mathop{\mathrm{d}}x^T)x + x^T (\mathop{\mathrm{d}}x)
+                \\
+                        &amp;= (\mathop{\mathrm{d}}x)^T x + x^T
+                (\mathop{\mathrm{d}}x) \\
+                        &amp;= 2x^T (\mathop{\mathrm{d}}x)
+                    \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial \|x\|^2
+                }{\partial x}=\frac{\partial x^Tx}{\partial
+                x}=2x^T\]</span></p>
+                <h3
+                id="fracpartial-x2-partial-xfracpartial-xtxpartial-x2xt-1"><span
+                class="math inline">\(\frac{\partial \|x\|^2 }{\partial
+                x}=\frac{\partial x^Tx}{\partial x}=2x^T\)</span></h3>
+                <p><span class="math display">\[f(x)=x^Tx\]</span></p>
+                <p><span
+                class="math display">\[\begin{aligned}f(x+h)-f(x)&amp;=(x+h)^T(x+h)-x^Tx
+                \\ &amp;= x^Tx+x^Th+h^Tx+h^Th-x^Tx\\&amp;=
+                x^Th+h^Tx+h^Th\\&amp;= 2x^Th+h^Th\\&amp;=2x^Th+o(h)
+                \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial \|x\|^2
+                }{\partial x}=\frac{\partial x^Tx}{\partial
+                x}=2x^T\]</span></p>
+                <h3 id="fracpartial-bt-axpartial-xbta"><span
+                class="math inline">\(\frac{\partial b^T Ax}{\partial
+                x}=b^TA\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}(b^T A x) &amp;= b^T A
+                \mathop{\mathrm{d}}x \\
+                    \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial b^T
+                Ax}{\partial x}=b^TA\]</span></p>
+                <h3 id="fracpartial-bt-axpartial-xbta-1"><span
+                class="math inline">\(\frac{\partial b^T Ax}{\partial
+                x}=b^TA\)</span></h3>
+                <p><span class="math display">\[f(x)=b^TAx\]</span></p>
+                <p><span
+                class="math display">\[\begin{aligned}f(x+h)-f(x)&amp;=
+                b^TA(x+h)-b^TAx \\ &amp;= b^TAh \\ &amp;=
+                b^TAh+o(h)\end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial b^T
+                Ax}{\partial x}=b^TA\]</span></p>
+                <h3 id="fracpartial-axpartial-xa"><span
+                class="math inline">\(\frac{\partial Ax}{\partial
+                x}=A\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}(Ax) = A \mathop{\mathrm{d}}x
+                \\
+                    \end{aligned}\]</span></p>
+                <p>Therefore <span class="math display">\[\frac{\partial
+                Ax}{\partial x}=A\]</span></p>
+                <h3 id="fracpartial-axpartial-xa-1"><span
+                class="math inline">\(\frac{\partial Ax}{\partial
+                x}=A\)</span></h3>
+                <p><span class="math display">\[f(x)=Ax\]</span></p>
+                <p><span
+                class="math display">\[\begin{aligned}f(x+h)-f(x)&amp;=A(x+h)-Ax\\&amp;=Ah\\&amp;=Ah+o(h)\end{aligned}\]</span></p>
+                <p>Therefore <span class="math display">\[\frac{\partial
+                Ax}{\partial x}=A\]</span></p>
+                <h3 id="fracpartial-xtaxpartial-xxtaat"><span
+                class="math inline">\(\frac{\partial x^TAx}{\partial
+                x}=x^T(A+A^T)\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}(x^TAx) &amp;=
+                (\mathop{\mathrm{d}}x^T)Ax + x^T (\mathop{\mathrm{d}}Ax)
+                \\
+                        &amp;= (\mathop{\mathrm{d}}x)^TAx + x^T A
+                (\mathop{\mathrm{d}}x) \\
+                        &amp;= x^TA^T (\mathop{\mathrm{d}}x) + x^T A
+                (\mathop{\mathrm{d}}x) \\
+                        &amp;= x^T(A+A^T) (\mathop{\mathrm{d}}x) \\
+                    \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                x^TAx}{\partial x}=x^T(A+A^T)\]</span></p>
+                <p>If <span class="math inline">\(A\)</span> is
+                symmetric then this reduces to <span
+                class="math inline">\(2x^TA\)</span>.</p>
+                <h3 id="fracpartial-xtaxpartial-xxtaat-1"><span
+                class="math inline">\(\frac{\partial x^TAx}{\partial
+                x}=x^T(A+A^T)\)</span></h3>
+                <p><span class="math display">\[f(x)=x^TAx\]</span></p>
+                <p><span
+                class="math display">\[\begin{aligned}f(x+h)-f(x)&amp;=(x+h)^TA(x+h)-x^TAx
+                \\ &amp;= x^TAx +h^TAx +x^TAh +h^TAh -x^TAx \\&amp;=
+                h^TAx+x^TAh+h^TAh \\ &amp;= x^TA^Th+x^TAh+h^TAh \\
+                &amp;= x^T(A^T+A)h + h^TAh \\ &amp;=
+                x^T(A^T+A)h+o(h)\end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                x^TAx}{\partial x}=x^T(A+A^T)\]</span></p>
+                <h3 id="fracpartial-xtaxpartial-axxt"><span
+                class="math inline">\(\frac{\partial x^TAx}{\partial
+                A}=xx^T\)</span></h3>
+                <p>We have</p>
+                <p><span
+                class="math display">\[x^TAx=\mathop{\mathrm{Tr}}\{ A
+                xx^T\}\]</span></p>
+                <p>The differential of <span
+                class="math inline">\(x^TAx\)</span> wrt <span
+                class="math inline">\(A\)</span> is</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}(x^T A x) &amp;=
+                \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}\{ Axx^T\} \\
+                        &amp;= \mathop{\mathrm{Tr}}\{
+                \mathop{\mathrm{d}}(Axx^T)\} \\
+                        &amp;= \mathop{\mathrm{Tr}}\{
+                (\mathop{\mathrm{d}}A) xx^T \} \\
+                        &amp;= \mathop{\mathrm{Tr}}\{ xx^T
+                (\mathop{\mathrm{d}}A) \}
+                    \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                x^TAx}{\partial A}=xx^T\]</span></p>
+                <h3 id="fracpartial-xtaxpartial-axxt-1"><span
+                class="math inline">\(\frac{\partial x^TAx}{\partial
+                A}=xx^T\)</span></h3>
+                <p><span class="math display">\[f(A)=x^TAx\]</span></p>
+                <p><span
+                class="math display">\[\begin{aligned}f(A+H)-f(A)&amp;=x^T(A+H)x-x^TAx\\&amp;=x^THx\\&amp;=\mathop{\mathrm{Tr}}(Hxx^T)\\&amp;=\mathop{\mathrm{Tr}}(xx^TH)\\&amp;=\mathop{\mathrm{Tr}}(xx^TH)+o(H)\end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                x^TAx}{\partial A}=xx^T\]</span></p>
+                <h3 id="fracpartial-mathopmathrmtraxpartial-xa"><span
+                class="math inline">\(\frac{\partial
+                \mathop{\mathrm{Tr}}(AX)}{\partial X}=A\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}(AX)&amp;=\mathop{\mathrm{Tr}}(\mathop{\mathrm{d}}(AX))
+                \\
+                        &amp;= \mathop{\mathrm{Tr}}(A
+                \mathop{\mathrm{d}}X) \\
+                    \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                \mathop{\mathrm{Tr}}(AX)}{\partial X}=A\]</span></p>
+                <h3 id="fracpartial-mathopmathrmtraxtpartial-xat"><span
+                class="math inline">\(\frac{\partial
+                \mathop{\mathrm{Tr}}(AX^T)}{\partial
+                X}=A^T\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                        \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}(AX^T)
+                &amp;= \mathop{\mathrm{Tr}}(\mathop{\mathrm{d}}(AX^T))
+                \\
+                        &amp;= \mathop{\mathrm{Tr}}(A
+                \mathop{\mathrm{d}}X^T) \\
+                        &amp;= \mathop{\mathrm{Tr}}(A
+                (\mathop{\mathrm{d}}X)^T) \\
+                        &amp;= \mathop{\mathrm{Tr}}(
+                (\mathop{\mathrm{d}}X) A^T) \\
+                        &amp;= \mathop{\mathrm{Tr}}( A^T
+                \mathop{\mathrm{d}}X)
+                    \end{aligned}\]</span></p>
+                <p>Therefore <span class="math display">\[\frac{\partial
+                \mathop{\mathrm{Tr}}(AX^T)}{\partial X}=A^T\]</span></p>
+                <h3
+                id="fracpartial-mathopmathrmtrxtaxpartial-xxtaat"><span
+                class="math inline">\(\frac{\partial
+                \mathop{\mathrm{Tr}}(X^TAX)}{\partial
+                X}=X^T(A+A^T)\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}(X^TAX)&amp;=
+                \mathop{\mathrm{Tr}}\mathop{\mathrm{d}}(X^TAX) \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                (\mathop{\mathrm{d}}X^T)AX + X^T
+                (\mathop{\mathrm{d}}AX)  \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                (\mathop{\mathrm{d}}X^T)AX + X^T A
+                (\mathop{\mathrm{d}}X)  \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                (\mathop{\mathrm{d}}X^T)AX  \}+ \mathop{\mathrm{Tr}}\{
+                X^T A (\mathop{\mathrm{d}}X)  \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                (\mathop{\mathrm{d}}X)^TAX  \}+ \mathop{\mathrm{Tr}}\{
+                X^T A (\mathop{\mathrm{d}}X)  \}  \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ X^T A^T
+                (\mathop{\mathrm{d}}X)  \}+ \mathop{\mathrm{Tr}}\{ X^T A
+                (\mathop{\mathrm{d}}X)  \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ X^T A^T
+                (\mathop{\mathrm{d}}X) + X^T A
+                (\mathop{\mathrm{d}}X)  \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ X^T (A+A^T)
+                (\mathop{\mathrm{d}}X)  \}
+                \end{aligned}\]</span></p>
+                <p>Therefore <span class="math display">\[\frac{\partial
+                \mathop{\mathrm{Tr}}(X^TAX)}{\partial
+                X}=X^T(A+A^T)\]</span></p>
+                <h3
+                id="fracpartial-mathopmathrmtrx-1apartial-x-x-1ax-1"><span
+                class="math inline">\(\frac{\partial
+                \mathop{\mathrm{Tr}}(X^{-1}A)}{\partial
+                X}=-X^{-1}AX^{-1}\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}\{
+                X^{-1}A  \} &amp;= \mathop{\mathrm{Tr}}\{
+                \mathop{\mathrm{d}}(X^{-1}A)  \}\\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                \mathop{\mathrm{d}}(X^{-1}A)^T  \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                \mathop{\mathrm{d}}(A^T X^{-T})  \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ A^T
+                \mathop{\mathrm{d}}( X^{-T})  \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ A^T
+                (\mathop{\mathrm{d}}X^{-1})^T  \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                (\mathop{\mathrm{d}}X^{-1}) A  \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ A
+                (\mathop{\mathrm{d}}X^{-1})   \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                -AX^{-1}(\mathop{\mathrm{d}}X) X^{-1}   \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                -X^{-1}AX^{-1}(\mathop{\mathrm{d}}X) \} \\
+                \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                \mathop{\mathrm{Tr}}(X^{-1}A)}{\partial
+                X}=-X^{-1}AX^{-1}\]</span></p>
+                <h3
+                id="fracpartial-mathopmathrmtraxbxt-c-partial-x-bxt-c-a-bt-xt-at-ct"><span
+                class="math inline">\(\frac{\partial
+                \mathop{\mathrm{Tr}}(AXBX^T C) }{\partial X}= BX^T C A +
+                B^T X^T A^T C^T\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}(AXBX^TC)&amp;=
+                \mathop{\mathrm{Tr}}\{ \mathop{\mathrm{d}}(AXBX^TC) \}
+                \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                (\mathop{\mathrm{d}}(AX))BX^TC +
+                AX(\mathop{\mathrm{d}}(BX^TC)) \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                A(\mathop{\mathrm{d}}X)BX^TC +
+                AXB(\mathop{\mathrm{d}}X^T)C \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{
+                A(\mathop{\mathrm{d}}X)BX^TC\}  +
+                \mathop{\mathrm{Tr}}\{AXB(\mathop{\mathrm{d}}X^T)C \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ BX^TCA
+                (\mathop{\mathrm{d}}X)\}  +
+                \mathop{\mathrm{Tr}}\{CAXB(\mathop{\mathrm{d}}X^T) \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ BX^TCA
+                (\mathop{\mathrm{d}}X)\}  +
+                \mathop{\mathrm{Tr}}\{(\mathop{\mathrm{d}}X)B^TX^TA^TC^T
+                \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ BX^TCA
+                (\mathop{\mathrm{d}}X)\}  +
+                \mathop{\mathrm{Tr}}\{B^TX^TA^TC^T(\mathop{\mathrm{d}}X)
+                \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ BX^TCA
+                (\mathop{\mathrm{d}}X) +
+                B^TX^TA^TC^T(\mathop{\mathrm{d}}X) \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ (BX^TCA +
+                B^TX^TA^TC^T)(\mathop{\mathrm{d}}X) \} \\
+                \end{aligned}\]</span></p>
+                <p>Therefore <span class="math display">\[\frac{\partial
+                \mathop{\mathrm{Tr}}(AXBX^T C) }{\partial X}= BX^T C A +
+                B^T X^T A^T C^T\]</span></p>
+                <h3
+                id="fracpartial-xabtcxab-partial-x-axabtcct-cctxabatt"><span
+                class="math inline">\(\frac{\partial (Xa+b)^TC(Xa+b)
+                }{\partial X} = a(Xa+b)^T(C+C^T) =
+                [(C+C^T)(Xa+b)a^T]^T\)</span></h3>
+                <p>Let</p>
+                <p><span
+                class="math display">\[y=(Xa+b)^TC(Xa+b)\]</span></p>
+                <p>and <span class="math inline">\(w=Xa+b\)</span>, then
+                <span class="math inline">\(y=w^TCw\)</span>.</p>
+                <p><span class="math display">\[\frac{\partial
+                y}{\partial w}=w^T (C+C^T)\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                    dy &amp;= \mathop{\mathrm{Tr}}\{ w^T (C+C^T)
+                (\mathop{\mathrm{d}}w)\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ w^T (C+C^T)
+                \mathop{\mathrm{d}}(Xa+b) \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ w^T (C+C^T)
+                (\mathop{\mathrm{d}}X) a\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ a w^T (C+C^T)
+                (\mathop{\mathrm{d}}X)\} \\  
+                \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \frac{\partial y}{\partial X}&amp;=aw^T (C+C^T) \\
+                    &amp;= a (Xa+b)^T (C+C^T) \\
+                    &amp;= [(C+C^T) (Xa+b) a^T]^T
+                \end{aligned}\]</span></p>
+                <h3
+                id="fracpartial-bxbt-c-dxdpartial-xbt-c-dxddt-ct-bxbt"><span
+                class="math inline">\(\frac{\partial (Bx+b)^T C
+                (Dx+d)}{\partial x}=[B^T C (Dx+d)+D^T C^T
+                (Bx+b)]^T\)</span></h3>
+                <p><span class="math display">\[\begin{aligned}
+                    (Bx+b)^T C (Dx+d)&amp;= (x^T B^T + b^T) C (Dx+d) \\
+                    &amp;= (x^T B^T C + b^T C) (Dx+d) \\
+                    &amp;= x^T B^T C Dx + x^T B^T C d + b^T C D x + b^T
+                C d \\
+                \end{aligned}\]</span></p>
+                <p>Therefore we have;</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}[(Bx+b)^T C (Dx+d)] &amp;=
+                \mathop{\mathrm{d}}[x^T B^T C Dx + x^T B^T C d + b^T C D
+                x + b^T C d] \\
+                    &amp;= \mathop{\mathrm{d}}(x^T B^T C Dx) +
+                \mathop{\mathrm{d}}(x^T B^T C d) +
+                \mathop{\mathrm{d}}(b^T C D x) \\
+                    &amp;= x^T (B^T C D + D^T C^T B)
+                \mathop{\mathrm{d}}x + (\mathop{\mathrm{d}}x^T) (B^T C
+                d) + (b^T C D)(\mathop{\mathrm{d}}x) \\
+                    &amp;= x^T (B^T C D + D^T C^T B)
+                \mathop{\mathrm{d}}x + (d^T C^T B)
+                (\mathop{\mathrm{d}}x) + (b^T C D)(\mathop{\mathrm{d}}x)
+                \\
+                    &amp;= [x^T (B^T C D + D^T C^T B) + (d^T C^T B) +
+                (b^T C D)](\mathop{\mathrm{d}}x) \\
+                    &amp;= [x^T (B^T C D + D^T C^T B) + (d^T C^T B) +
+                (b^T C D)](\mathop{\mathrm{d}}x)
+                \end{aligned}\]</span></p>
+                <p>Therefore;</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \frac{\partial (Bx+b)^T C (Dx+d)}{\partial x} &amp;=
+                x^T B^T C D + x^T D^T C^T B + d^T C^T B + b^T C D \\
+                    &amp;= (Dx+d)^TC^TB + (Bx+b)^T CD\\
+                    &amp;= [B^T C(Dx+d)+D^TC^T(Bx+b)]^T
+                \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial (Bx+b)^T
+                C (Dx+d)}{\partial x}=[B^T C (Dx+d)+D^T C^T
+                (Bx+b)]^T\]</span></p>
+                <h3
+                id="fracpartial-bt-xt-dxcpartial-xdtxbctdxcbttcbtxtdbctxtdt"><span
+                class="math inline">\(\frac{\partial b^T X^T
+                DXc}{\partial
+                X}=[D^TXbc^T+DXcb^T]^T=cb^TX^TD+bc^TX^TD^T\)</span></h3>
+                <p>Let</p>
+                <p><span class="math display">\[y=b^TX^TDXc\]</span></p>
+                <p><span class="math display">\[A=X^TDX\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[y=b^TAc\]</span></p>
+                <p>and let</p>
+                <p><span class="math display">\[z=Ac\]</span></p>
+                <p>then</p>
+                <p><span class="math display">\[y=b^Tz\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}y &amp;=
+                \mathop{\mathrm{d}}(b^Tz) \\
+                    &amp;= b^T \mathop{\mathrm{d}}z \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ b^T
+                \mathop{\mathrm{d}}z \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ b^T
+                \mathop{\mathrm{d}}(Ac)\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ b^T
+                (\mathop{\mathrm{d}}A) c\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ cb^T
+                (\mathop{\mathrm{d}}A) \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ cb^T
+                \mathop{\mathrm{d}}(X^TDX) \}  \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ cb^T
+                (\mathop{\mathrm{d}}X^T) DX + cb^T X^T D
+                (\mathop{\mathrm{d}}X) \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ DXcb^T
+                (\mathop{\mathrm{d}}X^T)  \} +\mathop{\mathrm{Tr}}\{
+                cb^T X^T D (\mathop{\mathrm{d}}X)\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ (\mathop{\mathrm{d}}X)
+                bc^TX^TD^T \} + \mathop{\mathrm{Tr}}\{ cb^T X^T D
+                (\mathop{\mathrm{d}}X)\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ bc^TX^TD^T
+                (\mathop{\mathrm{d}}X)\} + \mathop{\mathrm{Tr}}\{ cb^T
+                X^T D (\mathop{\mathrm{d}}X)\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ (bc^TX^TD^T +cb^T X^T
+                D) (\mathop{\mathrm{d}}X)\} \\  
+                \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial b^T X^T
+                DXc}{\partial
+                X}=cb^TX^TD+bc^TX^TD^T=[D^TXbc^T+DXcb^T]^T\]</span></p>
+                <h3 class="unnumbered"
+                id="inverse-and-determinant">Inverse and
+                Determinant</h3>
+                <h3 id="differential-of-inverse">Differential of
+                Inverse</h3>
+                <p>The differential of <span
+                class="math inline">\(X^{-1}\)</span> wrt <span
+                class="math inline">\(X\)</span> is:</p>
+                <p><span
+                class="math display">\[\mathop{\mathrm{d}}X^{-1} = -
+                X^{-1} (\mathop{\mathrm{d}}X) X^{-1}\]</span></p>
+                <h3
+                id="differential-and-derivative-of-determinant">Differential
+                and Derivative of Determinant</h3>
+                <p>In numerator layout;</p>
+                <p><span class="math display">\[\frac{\partial
+                det(X)}{\partial X}= adj(X) = det(X) X^{-1}\]</span></p>
+                <p>and in denominator layout;</p>
+                <p><span class="math display">\[\frac{\partial
+                det(X)}{\partial X}= adj(X) = det(X)
+                (X^{-1})^T\]</span></p>
+                <h3
+                id="derivative-of-inverse-fracpartial-a-1_mnpartial-a_ij-a-1_mi-a-1_jn">Derivative
+                of Inverse <span class="math display">\[\frac{\partial
+                A^{-1}_{mn}}{\partial A_{ij}}=-A^{-1}_{mi}
+                A^{-1}_{jn}\]</span></h3>
+                <p>We use</p>
+                <p><span class="math display">\[\frac{\partial
+                A^{-1}}{\partial x}=-A^{-1} \frac{\partial A}{\partial
+                x} A^{-1}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                A^{-1}}{\partial A_{ij}}=-A^{-1} \frac{\partial
+                A}{\partial A_{ij}} A^{-1}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\begin{aligned}
+                        \frac{\partial A^{-1}_{mn}}{\partial A_{ij}}
+                &amp;=\Bigg [ -A^{-1} \frac{\partial A}{\partial A_{ij}}
+                A^{-1} \Bigg ]_{mn} \\
+                        &amp;= - \sum_k A^{-1}_{mk} [ \frac{\partial
+                A}{\partial A_{ij}} A^{-1} ]_{kn} \\
+                        &amp;= -\sum_k A^{-1}_{mk} \sum_l
+                (\frac{\partial A}{\partial A_{ij}})_{kl} A^{-1}_{ln} \\
+                        &amp;= -\sum_k \sum_l A^{-1}_{mk} \frac{\partial
+                A_{kl}}{\partial A_{ij}} A^{-1}_{ln} \\
+                         &amp;= -\sum_k \sum_l A^{-1}_{mk} \delta_{ki}
+                \delta_{lj} A^{-1}_{ln}  \\
+                         &amp;=  -\sum_k A^{-1}_{mk} \delta_{ki}
+                A^{-1}_{jn} \\  
+                         &amp;=  -A^{-1}_{mi} A^{-1}_{jn} \\
+                    \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                A^{-1}_{mn}}{\partial A_{ij}}=-A^{-1}_{mi}
+                A^{-1}_{jn}\]</span></p>
+                <h3
+                id="derivative-of-determinant-fracpartial-detxpartial-x_ij-detx-x-1t_ij">Derivative
+                of Determinant <span
+                class="math display">\[\frac{\partial det(X)}{\partial
+                X_{ij}}= det(X) (X^{-1})^T_{ij}\]</span></h3>
+                <p>In this section we will use Jacobi’s formula (see
+                Wikipedia)</p>
+                <p>In denominator layout we have;</p>
+                <p><span class="math display">\[\frac{\partial
+                det(X)}{\partial X_{ij}}=\Bigg ( \frac{\partial
+                det(X)}{\partial X} \Bigg )_{ij}\]</span></p>
+                <p>The cofactor matrix <span
+                class="math inline">\(C\)</span> of a matrix <span
+                class="math inline">\(X\)</span> is given by:</p>
+                <p><span
+                class="math display">\[X^{-1}=\frac{1}{det(X)}C^T\]</span></p>
+                <p>Therefore <span
+                class="math display">\[C^T=det(X)X^{-1}\]</span></p>
+                <p>i.e.</p>
+                <p><span class="math display">\[C=det(X)
+                (X^{-1})^T\]</span></p>
+                <p>The adjugate of <span
+                class="math inline">\(X\)</span> is the transpose of the
+                cofactor matrix therefore;</p>
+                <p><span class="math display">\[adj(X)=det(X)
+                X^{-1}\]</span></p>
+                <p>The differential of <span
+                class="math inline">\(det(X)\)</span> is</p>
+                <p><span
+                class="math display">\[\mathop{\mathrm{d}}det(X) =
+                \mathop{\mathrm{Tr}}\{ adj(X) \mathop{\mathrm{d}}X\} =
+                \mathop{\mathrm{Tr}}\{ det(X) X^{-1}
+                \mathop{\mathrm{d}}X\}\]</span></p>
+                <p>Therefore in numerator layout</p>
+                <p><span class="math display">\[\frac{\partial
+                det(X)}{\partial X}=adj(X)=det(X) X^{-1}\]</span></p>
+                <p>and in denominator layout <span
+                class="math display">\[\frac{\partial det(X)}{\partial
+                X}=adj(X)^T=det(X)(X^{-1})^T\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                det(X)}{\partial X_{ij}}=[det(X)(X^{-1})^T]_{ij} =
+                det(X) (X^{-1})^T_{ij} = det(X)
+                (X^{-1})_{ji}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                det(X)}{\partial X_{ij}}= det(X)
+                (X^{-1})^T_{ij}\]</span></p>
+                <h2 id="machine-learning-examples">Machine Learning
+                Examples</h2>
+                <h3 id="least-squares">Least Squares</h3>
+                <p>We want to minimize <span
+                class="math inline">\((Y-X\beta)^T(Y-X\beta)\)</span>.</p>
+                <p>We use differentials to find the derivative.</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}(Y-X\beta)^T(Y-X\beta) &amp;=
+                \mathop{\mathrm{d}}(Y^TY-Y^TX\beta -\beta^T X^T Y +
+                \beta^T X^TX \beta) \\
+                    &amp;= \mathop{\mathrm{d}}( -2 Y^T X \beta) +
+                \mathop{\mathrm{d}}(\beta^T X^TX \beta) \\
+                    &amp;= -2Y^T X (\mathop{\mathrm{d}}\beta) +
+                (\mathop{\mathrm{d}}\beta)^T X^TX \beta + \beta^T X^TX
+                (\mathop{\mathrm{d}}\beta) \\
+                    &amp;= - 2 Y^T X (\mathop{\mathrm{d}}\beta) +
+                2\beta^T X^TX (\mathop{\mathrm{d}}\beta) \\
+                    &amp;= \Bigg [ 2 \beta^T X^T X - 2 Y^T X \Bigg ]
+                (\mathop{\mathrm{d}}\beta) \\
+                \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                (Y-X\beta)^T(Y-X\beta)}{\partial \beta}=2 \beta^T X^T X
+                - 2 Y^T X\]</span></p>
+                <p>Setting this derivative to zero we get:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    &amp; 2 \beta^T X^T X - 2 Y^T X = 0 \\
+                    &amp; \Rightarrow X^TX \beta = X^T Y \\
+                    &amp; \Rightarrow \beta = (X^TX)^{-1} X^T Y \\
+                \end{aligned}\]</span></p>
+                <h3
+                id="linear-regression-with-multiple-outputs-prml-3.1.5">Linear
+                Regression with Multiple Outputs (PRML 3.1.5)</h3>
+                <p>The log likelihood can be expressed using a trace
+                since:</p>
+                <p><span
+                class="math display">\[\|x\|^2=x^Tx=\mathop{\mathrm{Tr}}\{xx^T
+                \}\]</span></p>
+                <p>Therefore the log likelihood is:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \log p(T|X,W,\beta) &amp;= \frac{NK}{2} \log \{
+                \frac{\beta }{2\pi}\} - \frac{\beta}{2}\sum_{n=1}^N \|
+                t_n - W^T \phi_n \|^2 \\
+                    &amp;= \frac{NK}{2} \log \{ \frac{\beta }{2\pi}\} -
+                \frac{\beta}{2}\sum_{n=1}^N (t_n - W^T \phi_n
+                )^T(t_n-W^T\phi_n) \\
+                    &amp;= \frac{NK}{2} \log \{ \frac{\beta }{2\pi}\} -
+                \frac{\beta}{2}\sum_{n=1}^N \mathop{\mathrm{Tr}}\{(t_n -
+                W^T \phi_n )(t_n-W^T\phi_n)^T \} \\
+                \end{aligned}\]</span></p>
+                <p>Concentrating on the trace we have:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{Tr}}\{(t_n - W^T \phi_n
+                )(t_n-W^T\phi_n)^T\}
+                    &amp;=\mathop{\mathrm{Tr}}\{(t_n - W^T \phi_n
+                )(t_n^T-\phi_n^T W)\} \\
+                    &amp;=  \mathop{\mathrm{Tr}}\{t_n t_n^T - t_n
+                \phi_n^T W - W^T \phi_n t_n^T + W^T \phi_n \phi_n^T
+                W   \} \\
+                    &amp;=  \mathop{\mathrm{Tr}}\{t_n t_n^T \} -
+                \mathop{\mathrm{Tr}}\{ t_n \phi_n^T W \} -
+                \mathop{\mathrm{Tr}}\{W^T \phi_n t_n^T \}
+                +\mathop{\mathrm{Tr}}\{W^T \phi_n \phi_n^T W   \}  \\
+                \end{aligned}\]</span></p>
+                <p>Now we apply other formulas we have derived to find
+                the derivatives of these traces.</p>
+                <p><span class="math display">\[\frac{\partial
+                \mathop{\mathrm{Tr}}\{ t_n \phi_n^T W\}}{\partial W}=t_n
+                \phi_n^T\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \mathop{\mathrm{Tr}}\{ W^T \phi_n t_n^T \} }{\partial
+                W}=t_n \phi_n^T\]</span></p>
+                <p><span class="math display">\[\frac{\partial W^T
+                \phi_n \phi_n^T W }{\partial W}=2 W^T \phi_n
+                \phi_n^T\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \frac{\partial \log p (T|X,W,\beta)}{\partial
+                W}&amp;=-\frac{\beta}{2}\sum_{n=1}^N \Bigg \{ -2 t_n
+                \phi_n^T + 2 W^T \phi_n \phi_n^T \Bigg \} \\
+                    &amp;= \beta \sum_{n=1}^N \Bigg \{ t_n \phi_n^T -
+                W^T \phi_n \phi_n^T \Bigg \} \\
+                \end{aligned}\]</span></p>
+                <p>Setting this derivative equal to zero we get:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    &amp; W^T \sum_{n=1}^N \phi_n \phi_n^T =
+                \sum_{n=1}^N t_n \phi_n^T \\
+                    &amp; \Rightarrow (\sum_{n=1}^N \phi_n \phi_n^T) W =
+                \sum_{n=1}^N \phi_n t_n^T  \\
+                \end{aligned}\]</span></p>
+                <p><span class="math inline">\(\sum_{n=1}^N \phi_n
+                t_n^T\)</span> is the standard column-row expansion of
+                the matrix <span class="math inline">\(\Phi^T T\)</span>
+                where <span class="math inline">\(\Phi\)</span> is a
+                matrix with rows <span
+                class="math inline">\(\phi_n^T\)</span> and <span
+                class="math inline">\(T\)</span> is a matrix with rows
+                <span class="math inline">\(t_n^T\)</span>.</p>
+                <p>Using the expression for the <span
+                class="math inline">\((i,j)^{th}\)</span> element of the
+                outer product:</p>
+                <p><span class="math display">\[(uv^T)_{ij}=u_i
+                v_j\]</span></p>
+                <p>we have</p>
+                <p><span
+                class="math display">\[(\phi(x_n)t_n^T)_{ij}=\phi_i(x_n)(t_n)_j\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[(\sum_{n=1}^N
+                \phi(x_n)t_n^T)_{ij}=\sum_{n=1}^N
+                \phi_i(x_n)(t_n)_j\]</span></p>
+                <p>Now consider <span class="math inline">\(\Phi^T
+                T\)</span>. We have:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    (\Phi^T T)_{ij}&amp;=\sum_k \Phi^T_{ik} T_{kj} \\
+                    &amp;= \sum_k \Phi_{ki} T_{kj} \\
+                    &amp;= \sum_k \phi_i(x_k) (t_k)_j \\
+                    &amp;= (\sum_k \phi(x_k) t_k^T)_{ij}
+                \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\sum_{n=1}^N
+                \phi(x_n)t_n^T=\Phi^T T\]</span></p>
+                <p>Now let’s examine <span
+                class="math inline">\(\sum_{n=1}^N \phi_n
+                \phi_n^T\)</span>.</p>
+                <p>We have</p>
+                <p><span class="math display">\[(uv^T)_{ij}=u_i
+                v_j\]</span></p>
+                <p>therefore</p>
+                <p><span class="math display">\[(\phi(x_n)
+                \phi(x_n)^T)_{ij} = \phi_i(x_n) \phi_j(x_n)\]</span></p>
+                <p>therefore</p>
+                <p><span class="math display">\[(\sum_{n=1}^N \phi(x_n)
+                \phi(x_n)^T)_{ij} = \sum_{n=1}^N \phi_i(x_n)
+                \phi_j(x_n)\]</span></p>
+                <p>Also if <span class="math inline">\(\Phi\)</span> is
+                the matrix with rows <span
+                class="math inline">\(\phi(x_n)\)</span> then by the
+                row-column rule:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    (\Phi^T\Phi)_{ij} &amp;= \sum_k (\Phi^T)_{ik}
+                \Phi_{kj} \\
+                    &amp;= \sum_k \Phi_{ki} \Phi_{kj} \\
+                    &amp;= \sum_k \phi_i(x_k) \phi_j (x_k) \\
+                \end{aligned}\]</span></p>
+                <p>Therefore <span
+                class="math inline">\(\Phi^T\Phi=\sum_{n=1}^N
+                \phi(x_n)\phi(x_n)^T\)</span>.</p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\Phi^T \Phi W = \Phi^T
+                T\]</span></p>
+                <p>or</p>
+                <p><span class="math display">\[W = (\Phi^T \Phi)^{-1}
+                \Phi^T T\]</span></p>
+                <h3
+                id="maximum-likelihood-for-the-gaussian-ch-2.3.4-prml">Maximum
+                Likelihood for the Gaussian (Ch 2.3.4 PRML)</h3>
+                <p>The log likelihood is given by</p>
+                <p><span class="math display">\[\log p(X|\mu,
+                \Sigma)=-\frac{ND}{2}\log (2\pi) - \frac{N}{2} \log
+                |\Sigma| - \frac{1}{2}\sum_{n=1}^N (x_n-\mu)^T
+                \Sigma^{-1} (x_n - \mu)\]</span></p>
+                <p>Now use the differential of <span
+                class="math inline">\(x^TAx\)</span> wrt <span
+                class="math inline">\(A\)</span> which is given by</p>
+                <p><span
+                class="math display">\[\mathop{\mathrm{d}}(x^TAx) =
+                \mathop{\mathrm{Tr}}\{xx^T
+                (\mathop{\mathrm{d}}A)\}\]</span></p>
+                <p>and the differential of the log of the determinant
+                which is</p>
+                <p><span class="math display">\[\mathop{\mathrm{d}}\log
+                |X| = \mathop{\mathrm{Tr}}\{ X^{-1}
+                (\mathop{\mathrm{d}}X)\}\]</span></p>
+                <p>then the differential of the log likelihood with
+                respect to <span
+                class="math inline">\(\Sigma^{-1}\)</span> is</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}\log p(X|\mu, \Sigma) &amp;=
+                \frac{N}{2} \mathop{\mathrm{d}}\log |\Sigma^{-1}|
+                -\frac{1}{2} \sum_{n=1}^N
+                \mathop{\mathrm{d}}[(x_n-\mu)^T \Sigma^{-1} (x_n-\mu)]
+                \\
+                    &amp;= \frac{N}{2} \mathop{\mathrm{Tr}}\{ \Sigma
+                (\mathop{\mathrm{d}}\Sigma^{-1}) \} - \frac{1}{2}
+                \sum_{n=1}^N \mathop{\mathrm{Tr}}\{ (x_n-\mu)(x_n-\mu)^T
+                (\mathop{\mathrm{d}}\Sigma^{-1})\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\Bigg \{ \Bigg
+                [\frac{N}{2} \Sigma - \frac{1}{2}\sum_{n=1}^N
+                (x_n-\mu)(x_n-\mu)^T \Bigg ]
+                (\mathop{\mathrm{d}}\Sigma^{-1}) \Bigg \} \\
+                \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial \log
+                p(X|\mu, \Sigma)}{\partial
+                \Sigma^{-1}}=\frac{N}{2}\Sigma - \frac{1}{2}
+                \sum_{n=1}^N (x_n-\mu)(x_n-\mu)^T\]</span></p>
+                <p>Setting this derivative equal to zero we get</p>
+                <p><span class="math display">\[\Sigma = \frac{1}{N}
+                \sum_{n=1}^N (x_n-\mu)(x_n-\mu)^T\]</span></p>
+                <h3 id="prml-ch-3.51-equation-3.83">PRML Ch 3.51
+                Equation 3.83</h3>
+                <p>Let</p>
+                <p><span class="math display">\[E(w)=\frac{\beta}{2} \|
+                t-\Phi w \|^2 + \frac{\alpha}{2}w^Tw\]</span></p>
+                <p>We want to show</p>
+                <p><span class="math display">\[\nabla \nabla E(w) =
+                \alpha I + \beta \Phi^T\Phi\]</span></p>
+                <p>The first differential of <span
+                class="math inline">\(\frac{\alpha}{2} w^Tw\)</span>
+                is:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}(\frac{\alpha}{2} w^Tw) &amp;=
+                \frac{\alpha}{2} \mathop{\mathrm{d}}(w^Tw)\\
+                    &amp;= \frac{\alpha}{2} (\mathop{\mathrm{d}}w)^T w +
+                \frac{\alpha}{2} w^T (\mathop{\mathrm{d}}w) \\
+                    &amp;= \alpha w^T (\mathop{\mathrm{d}}w) \\
+                \end{aligned}\]</span></p>
+                <p>The second differential of <span
+                class="math inline">\(\frac{\alpha}{2} w^Tw\)</span>
+                is:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}^2 (\frac{\alpha}{2} w^Tw) &amp;=
+                \mathop{\mathrm{d}}( \alpha w^T (\mathop{\mathrm{d}}w))
+                \\
+                    &amp;= \alpha (\mathop{\mathrm{d}}w^T)
+                (\mathop{\mathrm{d}}w) + \alpha w^T
+                (\mathop{\mathrm{d}}^2 w) \\
+                    &amp;= \alpha (\mathop{\mathrm{d}}w)^T
+                (\mathop{\mathrm{d}}w) \\
+                    &amp;= (\mathop{\mathrm{d}}w)^T (\alpha I)
+                (\mathop{\mathrm{d}}w) \\
+                \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\nabla \nabla
+                \frac{\alpha}{2} w^Tw = \alpha I\]</span></p>
+                <p>Now consider <span
+                class="math inline">\(\frac{\beta}{2} \| t-\Phi w
+                \|^2\)</span></p>
+                <p>We have</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \frac{\beta}{2} \| t-\Phi w \|^2 &amp;=
+                \frac{\beta}{2} (t-\Phi w )^T (t-\Phi w) \\
+                    &amp;= \frac{\beta}{2} (t^T t- 2 t^T \Phi w + w^T
+                \Phi^T \Phi w) \\
+                \end{aligned}\]</span></p>
+                <p>Therefore the first differential of <span
+                class="math inline">\(\frac{\beta}{2} \| t-\Phi w
+                \|^2\)</span> is:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}(\frac{\beta}{2} \| t-\Phi w
+                \|^2) &amp;= \mathop{\mathrm{d}}(\frac{\beta}{2} (t^T t-
+                2 t^T \Phi w + w^T \Phi^T \Phi w)) \\
+                    &amp;=  (\frac{\beta}{2} \mathop{\mathrm{d}}(t^T t-
+                2 t^T \Phi w + w^T \Phi^T \Phi w)) \\
+                    &amp;= \frac{\beta}{2} (- 2 t^T
+                \Phi(\mathop{\mathrm{d}}w) + (\mathop{\mathrm{d}}w)^T
+                \Phi^T \Phi w +w^T \Phi^T \Phi (\mathop{\mathrm{d}}w))
+                \\
+                    &amp;= -\beta t^T
+                \Phi(\mathop{\mathrm{d}}w)+\frac{\beta}{2}(\mathop{\mathrm{d}}w)^T
+                \Phi^T \Phi w +\frac{\beta}{2}w^T \Phi^T \Phi
+                (\mathop{\mathrm{d}}w) \\
+                    &amp;= -\beta t^T \Phi(\mathop{\mathrm{d}}w)+\beta
+                w^T \Phi^T \Phi (\mathop{\mathrm{d}}w) \\
+                \end{aligned}\]</span></p>
+                <p>Therefore the second differential of <span
+                class="math inline">\(\frac{\beta}{2} \| t-\Phi w
+                \|^2\)</span> is:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}^2 (\frac{\beta}{2} \| t-\Phi w
+                \|^2) &amp;= \mathop{\mathrm{d}}(-\beta t^T
+                \Phi(\mathop{\mathrm{d}}w)+\beta w^T \Phi^T \Phi
+                (\mathop{\mathrm{d}}w)) \\
+                    &amp;= -\beta t^T \Phi (\mathop{\mathrm{d}}^2 w) +
+                \beta (\mathop{\mathrm{d}}w^T) \Phi^T \Phi
+                (\mathop{\mathrm{d}}w) + \beta w^T \Phi ^T \Phi
+                (\mathop{\mathrm{d}}^2 w) \\
+                    &amp;= \beta (\mathop{\mathrm{d}}w^T) \Phi^T \Phi
+                (\mathop{\mathrm{d}}w) \\
+                    &amp;= \beta (\mathop{\mathrm{d}}w)^T \Phi^T \Phi
+                (\mathop{\mathrm{d}}w) \\
+                    &amp;= (\mathop{\mathrm{d}}w)^T \beta \Phi^T \Phi
+                (\mathop{\mathrm{d}}w) \\
+                \end{aligned}\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\nabla \nabla
+                \frac{\beta}{2} \| t-\Phi w \|^2 = \beta \Phi^T
+                \Phi\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\nabla \nabla E(w) =
+                \alpha I + \beta \Phi^T\Phi\]</span></p>
+                <p>which is equation 3.83 in Pattern Recognition and
+                Machine Learning.</p>
+                <h3
+                id="ch-4.1.3-least-squares-for-classification-prml">Ch
+                4.1.3 Least squares for classification PRML</h3>
+                <p>Let</p>
+                <p><span
+                class="math display">\[E_D(\widetilde{W})=\frac{1}{2}
+                \mathop{\mathrm{Tr}}\{ (\widetilde{X}\widetilde{W}-T)^T
+                (\widetilde{X}\widetilde{W}-T) \}=\frac{1}{2}
+                \mathop{\mathrm{Tr}}\{ \widetilde{W}^T \widetilde{X}^T
+                \widetilde{X} \widetilde{W}\}-\mathop{\mathrm{Tr}}\{
+                \widetilde{W}^T \widetilde{X}^T T \} + \frac{1}{2}
+                \mathop{\mathrm{Tr}}\{ T^T T\}\]</span></p>
+                <p>Now use what we proved earlier:</p>
+                <p><span class="math display">\[\frac{\partial
+                \mathop{\mathrm{Tr}}\{X^T A X\} }{\partial X}=X^T
+                (A+A^T)\]</span></p>
+                <p>and</p>
+                <p><span class="math display">\[\frac{\partial
+                \mathop{\mathrm{Tr}}\{ X^TA \} }{\partial
+                X}=A^T\]</span></p>
+                <p>Therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                E_D(\widetilde{W})}{\partial \widetilde{W}}=
+                \widetilde{W}^T \widetilde{X}^T \widetilde{X}-T^T
+                \widetilde{X}\]</span></p>
+                <p>Setting this derivative to zero we get</p>
+                <p><span class="math display">\[\widetilde{W} =
+                (\widetilde{X}^T \widetilde{X})^{-1} \widetilde{X}^T
+                T\]</span></p>
+                <p>which is equation 4.16 in PRML.</p>
+                <h3 id="ch-4.2.2-probabilistic-generative-models">Ch
+                4.2.2 Probabilistic Generative Models</h3>
+                <p>Let</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \log p(t | \pi, \mu_1, \mu_2, \Sigma) &amp;=
+                -\frac{1}{2}\sum_{n=1}^N t_n (x_n - \mu_1)^T \Sigma
+                ^{-1} (x_n - \mu_1) - \frac{1}{2} \sum_{n=1}^N t_n \log
+                |\Sigma | \\&amp; - \frac{1}{2} \sum_{n=1}^N (1-t_n)
+                (x_n-\mu_2)^T \Sigma ^{-1} (x_n-\mu_2) - \frac{1}{2}
+                \sum_{n=1}^N (1-t_n) \log | \Sigma |+const.
+                \end{aligned}\]</span></p>
+                <p>Also <span class="math inline">\(t_n=1\)</span> for
+                <span class="math inline">\(n \in C_1\)</span> and <span
+                class="math inline">\(t_n=0\)</span> for <span
+                class="math inline">\(n \in C_2\)</span> and also <span
+                class="math inline">\(\sum_{n=1}^N t_n = N_1\)</span>
+                and <span class="math inline">\(\sum_{n=1}^N
+                (1-t_n)=N_2\)</span> and <span
+                class="math inline">\(N_1+N_2=N\)</span>.</p>
+                <p>Then using <span class="math display">\[x^TAx =
+                \mathop{\mathrm{Tr}}\{ A x x^T\}\]</span> we have:</p>
+                <p><span class="math display">\[\begin{aligned}
+                \log p(t | \pi, \mu_1, \mu_2,
+                \Sigma)&amp;=-\frac{1}{2}\sum_{n\in C_1}
+                \mathop{\mathrm{Tr}}\{\Sigma ^{-1} (x_n - \mu_1)(x_n -
+                \mu_1)^T \}  +\frac{N_1}{2} \log |\Sigma^{-1} | \\ &amp;
+                - \frac{1}{2} \sum_{n \in C_2} \mathop{\mathrm{Tr}}\{
+                \Sigma ^{-1} (x_n-\mu_2)(x_n-\mu_2)^T\}  + \frac{N_2}{2}
+                \log | \Sigma^{-1} |+const.   \\
+                \end{aligned}\]</span></p>
+                <p>Now using <span class="math display">\[\frac{\partial
+                \mathop{\mathrm{Tr}}(XA)}{\partial X}=A\]</span></p>
+                <p>and <span class="math display">\[\frac{\partial \log
+                |X|}{\partial X}= X^{-1}\]</span></p>
+                <p>we have</p>
+                <p><span class="math display">\[\frac{\partial \log p(t
+                | \pi, \mu_1, \mu_2, \Sigma ) }{\partial
+                \Sigma^{-1}}=-\frac{1}{2}\sum_{n\in C_1}
+                (x_n-\mu_1)(x_n-\mu_1)^T-\frac{1}{2}\sum_{n \in C_2}
+                (x_n-\mu_2)(x_n-\mu_2)^T +
+                \frac{N}{2}\Sigma\]</span></p>
+                <p>Setting this derivative equal to zero we get:</p>
+                <p><span class="math display">\[\Sigma =
+                \frac{1}{N}\sum_{n\in C_1} (x_n-\mu_1)(x_n-\mu_1)^T +
+                \frac{1}{N} \sum_{n \in C_2}
+                (x_n-\mu_2)(x_n-\mu_2)^T\]</span></p>
+                <h3 id="comp4670-anu-example">COMP4670 ANU Example</h3>
+                <p><span class="math inline">\(f(X) = \frac{1}{2}
+                \mathop{\mathrm{Tr}}\{X^T C X N\} + \mu \frac{1}{4} \| N
+                - X^T X \|^2_F\)</span></p>
+                <p>where <span class="math inline">\(C^T=C\)</span> and
+                <span class="math inline">\(N\)</span> is diagonal
+                therefore <span class="math inline">\(N^T=N\)</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}(X^TCXN)&amp;=
+                \mathop{\mathrm{Tr}}\{ \mathop{\mathrm{d}}(X^TCXN) \}\\
+                &amp; =
+                \mathop{\mathrm{Tr}}\{(\mathop{\mathrm{d}}X^T)CXN+X^TC(\mathop{\mathrm{d}}X)N\}
+                \\ &amp;=
+                \mathop{\mathrm{Tr}}\{(\mathop{\mathrm{d}}X^T)CXN\}+\mathop{\mathrm{Tr}}\{X^TC(\mathop{\mathrm{d}}X)N\}
+                \\ &amp;=
+                \mathop{\mathrm{Tr}}\{N^TX^TC^T(\mathop{\mathrm{d}}X)\}+\mathop{\mathrm{Tr}}\{NX^TC(\mathop{\mathrm{d}}X)\}
+                \\ &amp;=
+                \mathop{\mathrm{Tr}}\{[N^TX^TC^T+NX^TC](\mathop{\mathrm{d}}X)\}
+                \end{aligned}\]</span></p>
+                <p>Therefore in numerator layout:</p>
+                <p><span class="math display">\[\frac{\partial \space
+                \mathop{\mathrm{Tr}}(X^TCXN)}{\partial
+                X}=N^TX^TC^T+NX^TC\]</span></p>
+                <p>or in denominator layout (taking the transpose):</p>
+                <p><span class="math display">\[\frac{\partial \space
+                \mathop{\mathrm{Tr}}(X^TCXN)}{\partial
+                X}=CXN+C^TXN^T\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                    \| N - X^T X \|^2_F &amp;= \mathop{\mathrm{Tr}}\{
+                (N-X^TX)^T (N-X^TX) \} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ (N^T - X^TX)(N-X^TX)\}
+                \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ N^TN - N^T X^TX - X^TX
+                N + X^TX X^TX\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ N^T N\} -
+                \mathop{\mathrm{Tr}}\{ N^T X^TX\} -
+                \mathop{\mathrm{Tr}}\{ X^T X N\} +
+                \mathop{\mathrm{Tr}}\{ X^T X X^TX\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ N^T N\} -2
+                \mathop{\mathrm{Tr}}\{ N^T X^T X\} +
+                \mathop{\mathrm{Tr}}\{ X^TX X^TX\}
+                \end{aligned}\]</span></p>
+                <p>Now</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \mathop{\mathrm{d}}\| N - X^T X \|^2_F &amp;=
+                \mathop{\mathrm{d}}[\mathop{\mathrm{Tr}}\{ N^T N\} -2
+                \mathop{\mathrm{Tr}}\{ N^T X^T X\} +
+                \mathop{\mathrm{Tr}}\{ X^TX X^TX\} ] \\
+                    &amp;= \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}\{ N^T
+                N\} -2 \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}\{ N^T X^T
+                X\} + \mathop{\mathrm{d}}\mathop{\mathrm{Tr}}\{ X^TX
+                X^TX\} \\
+                    &amp;= -2
+                \mathop{\mathrm{Tr}}\{\mathop{\mathrm{d}}(N^TX^TX)\} +
+                \mathop{\mathrm{Tr}}\{ \mathop{\mathrm{d}}(X^TXX^TX)\}
+                \\
+                    &amp;= - 2 \mathop{\mathrm{Tr}}\{
+                N^T(\mathop{\mathrm{d}}X^T) X + N^T X^T
+                (\mathop{\mathrm{d}}X)\}  \\
+                    &amp;\space+\mathop{\mathrm{Tr}}\{
+                (\mathop{\mathrm{d}}X^T)XX^TX + X^T
+                (\mathop{\mathrm{d}}X)X^TX + X^TX
+                (\mathop{\mathrm{d}}X^T)X + X^TXX^T
+                (\mathop{\mathrm{d}}X)\} \\
+                    &amp;= - 2 \mathop{\mathrm{Tr}}\{
+                N^T(\mathop{\mathrm{d}}X^T) X \} -2
+                \mathop{\mathrm{Tr}}\{ N^T X^T (\mathop{\mathrm{d}}X)\}
+                + \mathop{\mathrm{Tr}}\{ (\mathop{\mathrm{d}}X^T)XX^TX
+                \} \\
+                    &amp;+ \mathop{\mathrm{Tr}}\{X^T
+                (\mathop{\mathrm{d}}X)X^TX \} +
+                \mathop{\mathrm{Tr}}\{X^TX (\mathop{\mathrm{d}}X^T)X \}
+                +\mathop{\mathrm{Tr}}\{ X^TXX^T (\mathop{\mathrm{d}}X)\}
+                \\
+                    &amp;= -2 \mathop{\mathrm{Tr}}\{ X^T
+                (\mathop{\mathrm{d}}X) N\} - 2 \mathop{\mathrm{Tr}}\{
+                N^T X^T (\mathop{\mathrm{d}}X)\} +
+                \mathop{\mathrm{Tr}}\{ X^TXX^T (\mathop{\mathrm{d}}X)\}
+                \\
+                    &amp; + \mathop{\mathrm{Tr}}\{ X^TX X^T
+                (\mathop{\mathrm{d}}X)\} + \mathop{\mathrm{Tr}}\{
+                X^T(\mathop{\mathrm{d}}X) X^TX\} +
+                \mathop{\mathrm{Tr}}\{X^TX X^T (\mathop{\mathrm{d}}X) \}
+                \\
+                    &amp;=  -2 \mathop{\mathrm{Tr}}\{ N X^T
+                (\mathop{\mathrm{d}}X)\}  -2 \mathop{\mathrm{Tr}}\{ N^T
+                X^T (\mathop{\mathrm{d}}X)\}
+                    + 4 \mathop{\mathrm{Tr}}\{ X^TX X^T
+                (\mathop{\mathrm{d}}X)\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ -2 NX^T
+                (\mathop{\mathrm{d}}X) -2 N^T X^T (\mathop{\mathrm{d}}X)
+                + 4 X^TXX^T (\mathop{\mathrm{d}}X)\} \\
+                    &amp;= \mathop{\mathrm{Tr}}\{ [4 X^TX X^T - 2
+                (N+N^T)X^T](\mathop{\mathrm{d}}X)\} \\
+                \end{aligned}\]</span></p>
+                <p>Therefore in numerator layout:</p>
+                <p><span class="math display">\[\frac{\partial \| N -
+                X^T X \|^2_F}{\partial X} = 4 X^TX X^T -2 (N+N^T)
+                X^T\]</span></p>
+                <p>or in denominator layout (taking transpose):</p>
+                <p><span class="math display">\[\frac{\partial \| N -
+                X^T X \|^2_F}{\partial X} = 4 X X^T X - 2
+                X(N^T+N)\]</span></p>
+                <p>Now since <span class="math inline">\(N^T=N\)</span>
+                and <span class="math inline">\(C^T=C\)</span> we
+                have:</p>
+                <p><span class="math display">\[\begin{aligned}
+                    \frac{\partial f}{\partial
+                X}&amp;=\frac{1}{2}(CXN+C^TXN^T)+\frac{\mu}{4}[4 X X^T X
+                - 2 X(N^T+N)] \\
+                    &amp;= \frac{1}{2}(CXN+C^TXN^T)+\mu X X^T X -
+                \frac{\mu}{4} \cdot 4 XN \\
+                    &amp;= \frac{1}{2}(CXN+C^TXN^T)+\mu X X^T X -  \mu
+                XN \\
+                    &amp;= \frac{1}{2}(2CXN) +\mu XX^TX  - \mu XN \\
+                    &amp;= CXN + \mu XX^TX  - \mu XN
+                \end{aligned}\]</span></p>
+                <a class="back-to-top" href="#top">Back to top ↑</a>
+            </div>
+        </div>
+    </article>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        © 2026 Dale Matthews
+    </div>
+</footer>
+
+</body>
+</html>
