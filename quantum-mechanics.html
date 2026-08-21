@@ -1,0 +1,2086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quantum Mechanics Notes — Dale Matthews</title>
+    <meta
+        name="description"
+        content="Derivations and working notes on the mathematics of quantum mechanics by Dale Matthews."
+    >
+
+    <style>
+        :root {
+            --background: #ffffff;
+            --text: #1f2933;
+            --muted: #64748b;
+            --accent: #2563eb;
+            --border: #e2e8f0;
+            --section-background: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.04rem;
+            line-height: 1.72;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus-visible {
+            text-decoration: underline;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            padding: 8px 12px;
+            background: var(--text);
+            color: white;
+            transform: translateY(-160%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .site-header,
+        .article-header,
+        footer,
+        #TOC {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        .site-header {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .site-header-inner {
+            width: min(1120px, calc(100% - 40px));
+            min-height: 68px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .site-name {
+            color: var(--text);
+            font-weight: 650;
+            letter-spacing: -0.015em;
+        }
+
+        .site-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        main {
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 78px 0 100px;
+        }
+
+        .article-header {
+            max-width: 780px;
+            margin: 0 auto 62px;
+        }
+
+        .kicker {
+            margin: 0 0 12px;
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.11em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2 {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2.4rem, 7vw, 4.15rem);
+            line-height: 1.04;
+            letter-spacing: -0.045em;
+        }
+
+        .summary {
+            max-width: 680px;
+            margin: 22px 0 14px;
+            color: var(--muted);
+            font-size: 1.12rem;
+            line-height: 1.6;
+        }
+
+        .byline {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
+        .article-layout {
+            display: grid;
+            grid-template-columns: 220px minmax(0, 780px);
+            justify-content: center;
+            gap: 72px;
+            align-items: start;
+        }
+
+        #TOC {
+            position: sticky;
+            top: 28px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--section-background);
+            font-size: 0.84rem;
+            line-height: 1.45;
+        }
+
+        #TOC::before {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text);
+            content: "On this page";
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
+        #TOC ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #TOC li + li {
+            margin-top: 8px;
+        }
+
+        #TOC a {
+            color: var(--muted);
+        }
+
+        #TOC a:hover,
+        #TOC a:focus-visible {
+            color: var(--accent);
+        }
+
+        .article-body {
+            min-width: 0;
+        }
+
+        .article-body h2 {
+            margin: 4.5rem 0 1.4rem;
+            padding-top: 1.6rem;
+            border-top: 1px solid var(--border);
+            font-size: clamp(1.55rem, 3vw, 2rem);
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            scroll-margin-top: 24px;
+        }
+
+        .article-body h2:first-child {
+            margin-top: 0;
+        }
+
+        .article-body p {
+            margin: 0 0 1.15rem;
+        }
+
+        .math.display {
+            display: block;
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0.25rem 0 0.55rem;
+        }
+
+        mjx-container[display="true"] {
+            margin: 1.15rem 0 !important;
+            text-align: left !important;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            margin-top: 60px;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            padding: 30px 0 50px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-inner {
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .article-layout {
+                grid-template-columns: minmax(0, 780px);
+                gap: 42px;
+            }
+
+            #TOC {
+                position: static;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 1rem;
+            }
+
+            .site-header-inner {
+                min-height: 60px;
+            }
+
+            main {
+                padding: 54px 0 72px;
+            }
+
+            .article-header {
+                margin-bottom: 40px;
+            }
+
+            .article-body h2 {
+                margin-top: 3.5rem;
+            }
+        }
+
+        @media print {
+            .site-header,
+            #TOC,
+            .back-to-top,
+            footer {
+                display: none;
+            }
+
+            main {
+                width: 100%;
+                padding: 0;
+            }
+
+            .article-layout {
+                display: block;
+            }
+        }
+    </style>
+
+    <script>
+        window.MathJax = {
+            chtml: {
+                displayAlign: "left"
+            }
+        };
+    </script>
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+    ></script>
+</head>
+
+<body id="top">
+
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-name" href="index.html">Dale Matthews</a>
+        <nav class="site-nav" aria-label="Primary navigation">
+            <a href="index.html">About</a>
+            <a href="notes.html">Notes</a>
+        </nav>
+    </div>
+</header>
+
+<main id="content">
+    <article>
+        <header class="article-header">
+            <p class="kicker">Physics notes</p>
+            <h1>Quantum Mechanics Notes</h1>
+            <p class="summary">
+                Derivations and working notes on the mathematical machinery
+                used in introductory quantum mechanics.
+            </p>
+            <p class="byline">Dale Matthews</p>
+        </header>
+
+        <div class="article-layout">
+                        <nav id="TOC" aria-label="Table of contents">
+                <ul>
+                <li><a href="#laplacian-in-spherical-coordinates"
+                id="toc-laplacian-in-spherical-coordinates">Laplacian in
+                Spherical Coordinates</a></li>
+                <li><a href="#legendre-polynomials"
+                id="toc-legendre-polynomials">Legendre
+                Polynomials</a></li>
+                <li><a href="#associated-legendre-functions"
+                id="toc-associated-legendre-functions">Associated
+                Legendre Functions</a></li>
+                <li><a href="#angular-equation"
+                id="toc-angular-equation">Angular Equation</a></li>
+                <li><a href="#laguerre-polynomials"
+                id="toc-laguerre-polynomials">Laguerre
+                Polynomials</a></li>
+                <li><a href="#associated-laguerre-polynomials"
+                id="toc-associated-laguerre-polynomials">Associated
+                Laguerre Polynomials</a></li>
+                <li><a href="#radial-equation-for-hydrogen-atom"
+                id="toc-radial-equation-for-hydrogen-atom">Radial
+                Equation for Hydrogen Atom</a></li>
+                <li><a href="#radial-equation"
+                id="toc-radial-equation">Radial Equation</a></li>
+                </ul>
+            </nav>
+            
+            <div class="article-body">
+                <h2 id="laplacian-in-spherical-coordinates">Laplacian in
+                Spherical Coordinates</h2>
+                <p>Here we derive an expression for the Laplacian in
+                spherical coordinates using only the chain rule.</p>
+                <p>The definition of spherical coordinates (from Stewart
+                Calculus):</p>
+                <p><span class="math display">\[x=\rho \sin(\phi)
+                \cos(\theta)\]</span></p>
+                <p><span class="math display">\[y=\rho \sin(\phi)
+                \sin(\theta)\]</span></p>
+                <p><span class="math display">\[z=\rho
+                \cos(\phi)\]</span></p>
+                <p>and we have:</p>
+                <p><span
+                class="math display">\[\rho^2=x^2+y^2+z^2\]</span></p>
+                <p>from these;</p>
+                <p><span class="math display">\[\rho =
+                \sqrt{x^2+y^2+z^2}\]</span></p>
+                <p><span
+                class="math display">\[\phi=\arccos(z/\rho)\]</span></p>
+                <p><span class="math display">\[\theta =
+                atan2(y,x)\]</span></p>
+                <p>The arctangent function returns angles in range <span
+                class="math inline">\((-\pi/2,\pi/2)\)</span> whereas
+                atan2 returns angles in the range <span
+                class="math inline">\((-\pi,\pi]\)</span> (depends on
+                definition). atan2 is defined piecewise in terms of the
+                arctangent function.</p>
+                <p>We want to find the Laplacian of a function <span
+                class="math inline">\(u\)</span> expressed in terms of
+                spherical coordinates.</p>
+                <p>In Cartesian coordinates the Laplacian of <span
+                class="math inline">\(u\)</span> is given by:</p>
+                <p><span class="math display">\[\frac{\partial^2
+                u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} +
+                \frac{\partial^2 u}{\partial z^2}\]</span></p>
+                <p>By the chain rule we can write:</p>
+                <p><span class="math display">\[\frac{\partial
+                u}{\partial x}=\frac{\partial u}{\partial \rho}
+                \frac{\partial \rho}{\partial x} + \frac{\partial
+                u}{\partial \theta} \frac{\partial \theta}{\partial
+                x}+\frac{\partial u}{\partial \phi}\frac{\partial
+                \phi}{\partial x}\]</span></p>
+                <p>Similarly we can compute the other first derivatives
+                of <span class="math inline">\(u\)</span> wrt <span
+                class="math inline">\(y\)</span> and <span
+                class="math inline">\(z\)</span> which have the same
+                form.</p>
+                <p>First compute <span
+                class="math inline">\(\rho_x,\rho_y,\rho_z\)</span></p>
+                <p><span
+                class="math display">\[\rho=\sqrt{x^2+y^2+z^2}=(x^2+y^2+z^2)^{1/2}\]</span></p>
+                <p><span
+                class="math display">\[\rho_x=\frac{1}{2}(x^2+y^2+z^2)^{-1/2}
+                \times 2x= x / \sqrt{x^2+y^2+z^2}=x/\rho\]</span></p>
+                <p>Similarly for <span
+                class="math inline">\(\rho_y\)</span> and <span
+                class="math inline">\(\rho_z\)</span> we have:</p>
+                <p><span
+                class="math display">\[\rho_y=\frac{1}{2}(x^2+y^2+z^2)^{-1/2}
+                \times 2y= y / \sqrt{x^2+y^2+z^2}=y/\rho\]</span></p>
+                <p><span
+                class="math display">\[\rho_z=\frac{1}{2}(x^2+y^2+z^2)^{-1/2}
+                \times 2z= z / \sqrt{x^2+y^2+z^2}=z/\rho\]</span></p>
+                <p>Now compute <span
+                class="math inline">\(\theta_x,\theta_y,\theta_z\)</span></p>
+                <p><span
+                class="math display">\[\theta=atan2(y,x)\]</span></p>
+                <p>so</p>
+                <p><span
+                class="math display">\[\tan(\theta)=y/x\]</span></p>
+                <p>this is valid away from the <span
+                class="math inline">\(x=y=0\)</span> axis.</p>
+                <p><span class="math display">\[d
+                \tan(\theta)=\sec^2(\theta) d\theta\]</span></p>
+                <p>By the quotient rule:</p>
+                <p><span class="math display">\[\sec^2(\theta) d\theta =
+                d (y/x)=\frac{x dy - y dx}{x^2}\]</span></p>
+                <p><span
+                class="math display">\[\sec^2(\theta)=1+\tan^2(\theta)=1+(y/x)^2
+                = \frac{x^2+y^2}{x^2}\]</span></p>
+                <p>so</p>
+                <p><span class="math display">\[\frac{(x^2+y^2)}{x^2}
+                d\theta =\frac{x dy - y dx}{x^2}\]</span></p>
+                <p><span class="math display">\[d\theta = \frac{x dy - y
+                dx}{x^2+y^2}= -\frac{y}{x^2+y^2}dx + \frac{x}{x^2+y^2}
+                dy\]</span></p>
+                <p>But we know from calculus that the differential <span
+                class="math inline">\(d\theta\)</span> is given by:</p>
+                <p><span class="math display">\[d\theta = \frac{\partial
+                \theta}{\partial x} dx + \frac{\partial \theta}{\partial
+                y} dy+\frac{\partial \theta}{\partial z} dz\]</span></p>
+                <p>so we can identify:</p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial x} = -\frac{y}{x^2+y^2}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial y} = \frac{x}{x^2+y^2}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial z}=0\]</span></p>
+                <p>Let’s write these in terms of the spherical
+                coordinates. From the definition of spherical
+                coordinates;</p>
+                <p><span class="math display">\[x=\rho \sin(\phi)
+                \cos(\theta)\]</span></p>
+                <p><span class="math display">\[y=\rho \sin(\phi)
+                \sin(\theta)\]</span></p>
+                <p><span class="math display">\[z=\rho
+                \cos(\phi)\]</span></p>
+                <p>so</p>
+                <p><span class="math display">\[x^2+y^2= \rho^2
+                \sin^2(\phi) \cos^2(\theta)+\rho^2 \sin^2(\phi)
+                \sin^2(\theta)=\rho^2 \sin^2(\phi)\]</span></p>
+                <p>therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial x} =-\frac{y}{x^2+y^2}= -\frac{\rho
+                \sin(\phi) \sin(\theta)}{\rho^2
+                \sin^2(\phi)}=-\frac{\sin(\theta)}{\rho
+                \sin(\phi)}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial y}=\frac{x}{x^2+y^2}=\frac{\rho
+                \sin(\phi) \cos(\theta)}{\rho^2
+                \sin^2(\phi)}=\frac{\cos(\theta)}{\rho
+                \sin(\phi)}\]</span></p>
+                <p>and we found earlier</p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial z}=0\]</span></p>
+                <p>Now we want to find <span
+                class="math inline">\(\phi_x,\phi_y,\phi_z\)</span>.</p>
+                <p>Recall</p>
+                <p><span
+                class="math display">\[\phi=\arccos(z/\rho)\]</span></p>
+                <p>Introduce the variable <span
+                class="math inline">\(v=z/\rho=z \rho^{-1}\)</span> so
+                <span class="math inline">\(\phi =
+                \arccos(v)\)</span></p>
+                <p>Using the standard formula from calculus we have:</p>
+                <p><span class="math display">\[d\phi
+                =-\frac{1}{\sqrt{1-v^2}} dv\]</span></p>
+                <p>Now calculate <span class="math inline">\(dv\)</span>
+                by calculating <span
+                class="math inline">\(v_x,v_y,v_z\)</span>.</p>
+                <p>Use <span class="math inline">\(\frac{\partial
+                \rho}{\partial x} = x/\rho\)</span> which we calculated
+                earlier.</p>
+                <p><span class="math display">\[\frac{\partial
+                v}{\partial x}= \frac{\partial}{\partial x} [z
+                \rho^{-1}]=-z\rho^{-2}\frac{\partial \rho}{\partial
+                x}=-\frac{z}{\rho^2} \cdot \frac{x}{\rho} =
+                -\frac{zx}{\rho^3}\]</span></p>
+                <p>By symmetry <span class="math inline">\(v_y\)</span>
+                has the same form as <span
+                class="math inline">\(v_x\)</span></p>
+                <p><span class="math display">\[\frac{\partial
+                v}{\partial y} = -\frac{zy}{\rho^3}\]</span></p>
+                <p>Calculate <span
+                class="math inline">\(v_z\)</span></p>
+                <p><span class="math display">\[\frac{\partial
+                v}{\partial z}=\frac{\partial}{\partial z} (z
+                \rho^{-1})=\rho^{-1}+z(-\rho^{-2})\frac{\partial
+                \rho}{\partial z}=\frac{1}{\rho}-\frac{z}{\rho^2
+                }\frac{\partial \rho}{\partial z}=
+                \frac{1}{\rho}-\frac{z}{\rho^2
+                }\frac{z}{\rho}=\frac{1}{\rho} - \frac{z^2}{\rho^3} =
+                \frac{\rho^2-z^2}{\rho^3}\]</span></p>
+                <p>therefore</p>
+                <p><span class="math display">\[\frac{\partial
+                v}{\partial
+                z}=\frac{\rho^2-z^2}{\rho^3}=\frac{x^2+y^2}{\rho^3}\]</span></p>
+                <p>For <span class="math inline">\(\sqrt{1-v^2}\)</span>
+                we have;</p>
+                <p><span
+                class="math display">\[\sqrt{1-v^2}=\sqrt{1-z^2/\rho^2}=\sqrt{\frac{\rho^2-z^2}{\rho^2}}=\frac{\sqrt{x^2+y^2}}{\rho}\]</span></p>
+                <p>Recall we are trying to find <span
+                class="math inline">\(d\phi\)</span> by calculating
+                <span class="math inline">\(dv\)</span>. So far what we
+                have calculated is;</p>
+                <p><span class="math display">\[\frac{\partial
+                v}{\partial y} = -\frac{zy}{\rho^3}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                v}{\partial x} = -\frac{zx}{\rho^3}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                v}{\partial z}=\frac{x^2+y^2}{\rho^3}\]</span></p>
+                <p><span
+                class="math display">\[\sqrt{1-v^2}=\frac{\sqrt{x^2+y^2}}{\rho}\]</span></p>
+                <p>and</p>
+                <p><span class="math display">\[\begin{aligned}
+                d\phi &amp; =
+                -\frac{1}{\sqrt{1-v^2}}dv=-\frac{1}{\sqrt{1-v^2}}(v_x dx
+                + v_y dy + v_z dz) \\
+                &amp; = \left (-\frac{\rho}{\sqrt{x^2+y^2}} \right )
+                \left ( \frac{-zx}{\rho^3} \right ) dx+\left
+                (-\frac{\rho}{\sqrt{x^2+y^2}} \right ) \left (
+                \frac{-zy}{\rho^3} \right )dy+\left
+                (-\frac{\rho}{\sqrt{x^2+y^2}} \right ) \left (
+                \frac{x^2+y^2}{\rho^3} \right ) dz \\
+                &amp;= \frac{zx}{\rho^2 \sqrt{x^2+y^2}}
+                dx+\frac{zy}{\rho^2 \sqrt{x^2+y^2}} dy -
+                \frac{\sqrt{x^2+y^2}}{\rho^2} dz
+                \end{aligned}\]</span></p>
+                <p>But we know from calculus;</p>
+                <p><span class="math display">\[d\phi = \frac{\partial
+                \phi}{\partial x} dx + \frac{\partial \phi}{\partial y}
+                dy + \frac{\partial \phi}{\partial z} dz\]</span></p>
+                <p>so we can identify;</p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial x} = \frac{zx}{\rho^2
+                \sqrt{x^2+y^2}}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial y} = \frac{zy}{\rho^2
+                \sqrt{x^2+y^2}}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial z} = -
+                \frac{\sqrt{x^2+y^2}}{\rho^2}\]</span></p>
+                <p>Let’s convert these results to spherical
+                coordinates.</p>
+                <p><span class="math display">\[x=\rho \sin(\phi)
+                \cos(\theta)\]</span></p>
+                <p><span class="math display">\[y=\rho \sin(\phi)
+                \sin(\theta)\]</span></p>
+                <p><span class="math display">\[z=\rho
+                \cos(\phi)\]</span></p>
+                <p><span class="math display">\[x^2+y^2=\rho^2
+                \sin^2(\phi)\]</span></p>
+                <p><span class="math display">\[\sqrt{x^2+y^2}=\rho
+                \sin(\phi)\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial x}=\frac{zx}{\rho^2
+                \sqrt{x^2+y^2}}=\frac{(\rho \cos(\phi))(\rho \sin(\phi)
+                \cos(\theta))}{\rho^2 \cdot \rho
+                \sin(\phi)}=\frac{\cos(\phi)\cos(\theta)}{\rho
+                }\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial y} = \frac{zy}{\rho^2 \sqrt{x^2+y^2}}
+                =\frac{(\rho \cos(\phi))(\rho \sin(\phi)
+                \sin(\theta))}{\rho^2 \cdot \rho \sin
+                (\phi)}=\frac{\cos(\phi)\sin(\theta)}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial z} = - \frac{\sqrt{x^2+y^2}}{\rho^2}=
+                -\frac{\rho \sin(\phi)}{\rho^2} = -
+                \frac{\sin(\phi)}{\rho}\]</span></p>
+                <p>To summarise the results we have so far for the
+                derivatives of the spherical variables we have;</p>
+                <p><span class="math display">\[\frac{\partial
+                \rho}{\partial x} = \frac{x}{\sqrt{x^2+y^2+z^2}} =
+                \frac{x}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \rho}{\partial y} =
+                \frac{y}{\sqrt{x^2+y^2+z^2}}=\frac{y}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \rho}{\partial
+                z}=\frac{z}{\sqrt{x^2+y^2+z^2}}=\frac{z}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial x}
+                =-\frac{y}{x^2+y^2}=-\frac{\sin(\theta)}{\rho
+                \sin(\phi)}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial
+                y}=\frac{x}{x^2+y^2}=\frac{\cos(\theta)}{\rho
+                \sin(\phi)}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial z}=0\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial x}=\frac{zx}{\rho^2
+                \sqrt{x^2+y^2}}=\frac{\cos(\phi)\cos(\theta)}{\rho
+                }\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial y} = \frac{zy}{\rho^2 \sqrt{x^2+y^2}}
+                =\frac{\cos(\phi)\sin(\theta)}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial z} = - \frac{\sqrt{x^2+y^2}}{\rho^2}= -
+                \frac{\sin(\phi)}{\rho}\]</span></p>
+                <p>Now we find an expression for the Laplacian into
+                which we will plug in these results. We also need to
+                find the second derivatives</p>
+                <p><span
+                class="math display">\[\rho_{xx},\rho_{yy},\rho_{zz},\theta_{xx},\theta_{yy},\theta_{zz},\phi_{xx},\phi_{yy},\phi_{zz}\]</span></p>
+                <p>But first I will find an expression for the Laplacian
+                so we see why we need these second derivatives.</p>
+                <p>The Laplacian is;</p>
+                <p><span class="math display">\[\frac{\partial^2
+                u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} +
+                \frac{\partial^2 u}{\partial z^2}\]</span></p>
+                <p>So to find an expression for the Laplacian we have to
+                find an expression for the second derivatives of <span
+                class="math inline">\(u\)</span>.</p>
+                <p>We have for the first derivative <span
+                class="math inline">\(u_x\)</span>;</p>
+                <p><span class="math display">\[\frac{\partial
+                u}{\partial x}=\frac{\partial u}{\partial
+                \rho}\frac{\partial \rho}{\partial x}+\frac{\partial
+                u}{\partial \theta}\frac{\partial \theta}{\partial
+                x}+\frac{\partial u}{\partial \phi}\frac{\partial
+                \phi}{\partial x}\]</span></p>
+                <p>taking the derivative again and using the product
+                rule;</p>
+                <p><span class="math display">\[\frac{\partial^2
+                u}{\partial x^2}=\left [\frac{\partial}{\partial x}
+                \left (\frac{\partial u}{\partial \rho} \right ) \right]
+                \frac{\partial \rho}{\partial x} + \frac{\partial
+                u}{\partial \rho} \frac{\partial^2 \rho}{\partial x^2} +
+                \left [ \frac{\partial}{\partial x} \left
+                (\frac{\partial u}{\partial \theta} \right ) \right
+                ]\frac{\partial \theta}{\partial x} + \frac{\partial
+                u}{\partial \theta} \frac{\partial^2 \theta}{\partial
+                x^2} + \left [ \frac{\partial}{\partial x} \left
+                (\frac{\partial u}{\partial \phi} \right ) \right ]
+                \frac{\partial \phi}{\partial x} + \frac{\partial
+                u}{\partial \phi} \frac{\partial^2 \phi}{\partial
+                x^2}\]</span></p>
+                <p>Now we find each of the terms in brackets <span
+                class="math inline">\([]\)</span> using the chain
+                rule.</p>
+                <p>From the chain rule we have;</p>
+                <p><span class="math display">\[\frac{\partial}{\partial
+                x}=\frac{\partial}{\partial \rho} \frac{\partial
+                \rho}{\partial x}+\frac{\partial}{\partial \theta}
+                \frac{\partial \theta}{\partial x} +
+                \frac{\partial}{\partial \phi}\frac{\partial
+                \phi}{\partial x}\]</span></p>
+                <p>so for the first bracketed term</p>
+                <p><span class="math display">\[\frac{\partial}{\partial
+                x} \left ( \frac{\partial u}{\partial \rho} \right ) =
+                \frac{\partial^2 u}{\partial \rho^2} \frac{\partial
+                \rho}{\partial x}+\frac{\partial^2 u}{\partial \theta
+                \partial \rho} \frac{\partial \theta}{\partial x} +
+                \frac{\partial^2 u}{\partial \phi \partial
+                \rho}\frac{\partial \phi}{\partial x}= u_{\rho \rho}
+                \rho_x + u_{\theta \rho} \theta_x + u_{\phi \rho}
+                \phi_x\]</span></p>
+                <p>for the second bracketed term;</p>
+                <p><span class="math display">\[\frac{\partial}{\partial
+                x} \left ( \frac{\partial u}{\partial \theta} \right ) =
+                \frac{\partial^2 u}{\partial \rho \partial \theta}
+                \frac{\partial \rho}{\partial x} + \frac{\partial^2
+                u}{\partial \theta^2} \frac{\partial \theta}{\partial x}
+                + \frac{\partial^2 u}{\partial \phi \partial
+                \theta}\frac{\partial \phi}{\partial x}= u_{\rho \theta}
+                \rho_x + u_{\theta \theta} \theta_x + u_{\phi \theta}
+                \phi_x\]</span></p>
+                <p>For the third bracketed term;</p>
+                <p><span class="math display">\[\frac{\partial}{\partial
+                x} \left ( \frac{\partial u}{\partial \phi} \right ) =
+                \frac{\partial^2 u}{\partial \rho \partial
+                \phi}\frac{\partial \rho}{\partial x} + \frac{\partial^2
+                u}{\partial \theta \partial \phi}\frac{\partial
+                \theta}{\partial x} + \frac{\partial^2 u}{\partial
+                \phi^2}\frac{\partial \phi}{\partial x} = u_{\rho \phi}
+                \rho_x + u_{\theta \phi} \theta_x + u_{\phi \phi}
+                \phi_x\]</span></p>
+                <p>collecting all these results together for the
+                bracketed terms and plugging into the original equation
+                for <span class="math inline">\(u_{xx}\)</span> we
+                get;</p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{\partial^2 u}{\partial x^2}
+                &amp;=  \left [ u_{\rho \rho} \rho_x + u_{\theta \rho}
+                \theta_x + u_{\phi \rho} \phi_x \right] \frac{\partial
+                \rho}{\partial x} + \frac{\partial u}{\partial \rho}
+                \frac{\partial^2 \rho}{\partial x^2}\\
+                &amp;+  \left [ u_{\rho \theta} \rho_x + u_{\theta
+                \theta} \theta_x + u_{\phi \theta} \phi_x \right
+                ]\frac{\partial \theta}{\partial x} + \frac{\partial
+                u}{\partial \theta} \frac{\partial^2 \theta}{\partial
+                x^2} \\
+                &amp;+ \left [ u_{\rho \phi} \rho_x + u_{\theta \phi}
+                \theta_x + u_{\phi \phi} \phi_x \right ] \frac{\partial
+                \phi}{\partial x} + \frac{\partial u}{\partial \phi}
+                \frac{\partial^2 \phi}{\partial x^2} \\
+                &amp;=  \left [ u_{\rho \rho} \rho_x + u_{\theta \rho}
+                \theta_x + u_{\phi \rho} \phi_x \right] \rho_x +
+                u_{\rho} \rho_{xx}\\
+                &amp;+  \left [ u_{\rho \theta} \rho_x + u_{\theta
+                \theta} \theta_x + u_{\phi \theta} \phi_x \right ]
+                \theta_x + u_{\theta} \theta_{xx} \\
+                &amp;+ \left [ u_{\rho \phi} \rho_x + u_{\theta \phi}
+                \theta_x + u_{\phi \phi} \phi_x \right ] \phi_x +
+                u_{\phi} \phi_{xx} \\
+                &amp;=   u_{\rho \rho} \rho_x^2 + u_{\theta \rho}
+                \theta_x\rho_x + u_{\phi \rho} \phi_x \rho_x  + u_{\rho}
+                \rho_{xx}\\
+                &amp;+  u_{\rho \theta} \rho_x \theta_x + u_{\theta
+                \theta} \theta_x^2 + u_{\phi \theta} \phi_x \theta_x  +
+                u_{\theta} \theta_{xx} \\
+                &amp;+ u_{\rho \phi} \rho_x \phi_x + u_{\theta \phi}
+                \theta_x \phi_x + u_{\phi \phi} \phi_x^2 + u_{\phi}
+                \phi_{xx} \\
+                &amp;=   u_{\rho \rho} \rho_x^2 + u_{\theta \theta}
+                \theta_x^2 + u_{\phi \phi} \phi_x^2 \\
+                &amp;+ u_{\rho} \rho_{xx} + u_{\theta} \theta_{xx}  +
+                u_{\phi} \phi_{xx} \\
+                &amp;+  2 u_{\rho \theta} \rho_x \theta_x   \\
+                &amp;+  2 u_{\rho \phi} \rho_x \phi_x \\
+                &amp;+  2 u_{\theta \phi} \theta_x \phi_x
+                \end{aligned}\]</span></p>
+                <p>therefore we have the following result</p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{\partial^2 u}{\partial x^2}
+                &amp;=   u_{\rho \rho} \rho_x^2 + u_{\theta \theta}
+                \theta_x^2 + u_{\phi \phi} \phi_x^2 \\
+                &amp;+ u_{\rho} \rho_{xx} + u_{\theta} \theta_{xx}  +
+                u_{\phi} \phi_{xx} \\
+                &amp;+  2 u_{\rho \theta} \rho_x \theta_x   \\
+                &amp;+  2 u_{\rho \phi} \rho_x \phi_x \\
+                &amp;+  2 u_{\theta \phi} \theta_x \phi_x  \\
+                \end{aligned}\]</span></p>
+                <p>Notice we did not actually plug in the derivatives
+                for <span class="math inline">\(x\)</span> anywhere - we
+                just found the form of the expression and did so in a
+                very general way - so the same form of expression holds
+                for <span class="math inline">\(u_{yy}\)</span> and
+                <span class="math inline">\(u_{zz}\)</span> with <span
+                class="math inline">\(x\)</span> replaced by <span
+                class="math inline">\(y\)</span> or <span
+                class="math inline">\(z\)</span>. Therefore we can
+                combine these into a single expression for the Laplacian
+                which we will plug the derivatives into.</p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{\partial^2 u}{\partial x^2}+\frac{\partial^2
+                u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2}
+                &amp;=   u_{\rho \rho}( \rho_x^2 + \rho_y^2+\rho_z^2) \\
+                &amp;+ u_{\theta \theta}
+                (\theta_x^2+\theta_y^2+\theta_z^2) \\
+                &amp;+ u_{\phi \phi} (\phi_x^2+ \phi_y^2+\phi_z^2) \\
+                &amp;+ u_{\rho} (\rho_{xx}+\rho_{yy}+\rho_{zz}) \\
+                &amp;+ u_{\theta} (\theta_{xx} + \theta_{yy} +
+                \theta_{zz}) \\
+                &amp;+ u_{\phi} (\phi_{xx} + \phi_{yy} + \phi_{zz}) \\
+                &amp;+  2 u_{\rho \theta} (\rho_x \theta_x + \rho_y
+                \theta_y + \rho_z \theta_z)   \\
+                &amp;+  2 u_{\rho \phi} (\rho_x \phi_x + \rho_y \phi_y +
+                \rho_z \phi_z) \\
+                &amp;+  2 u_{\theta \phi} (\theta_x \phi_x + \theta_y
+                \phi_y + \theta_z \phi_z)  \\
+                \end{aligned}\]</span></p>
+                <p>We have already evaluated all the first derivatives
+                in this expression we just have to evaluate the second
+                derivatives and then plug everything in and we will get
+                our result. It turns out all the cross terms vanish.</p>
+                <p>Restating the results from earlier;</p>
+                <p><span class="math display">\[\frac{\partial
+                \rho}{\partial x} = \frac{x}{\sqrt{x^2+y^2+z^2}} =
+                \frac{x}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \rho}{\partial y} =
+                \frac{y}{\sqrt{x^2+y^2+z^2}}=\frac{y}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \rho}{\partial
+                z}=\frac{z}{\sqrt{x^2+y^2+z^2}}=\frac{z}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial x}
+                =-\frac{y}{x^2+y^2}=-\frac{\sin(\theta)}{\rho
+                \sin(\phi)}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial
+                y}=\frac{x}{x^2+y^2}=\frac{\cos(\theta)}{\rho
+                \sin(\phi)}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial z}=0\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial x}=\frac{zx}{\rho^2
+                \sqrt{x^2+y^2}}=\frac{\cos(\phi)\cos(\theta)}{\rho
+                }\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial y} = \frac{zy}{\rho^2 \sqrt{x^2+y^2}}
+                =\frac{\cos(\phi)\sin(\theta)}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial z} = - \frac{\sqrt{x^2+y^2}}{\rho^2}= -
+                \frac{\sin(\phi)}{\rho}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \rho_{xx}
+                &amp;=  \frac{\partial}{\partial x} \rho_x \\
+                &amp;= \frac{\partial}{\partial x} [ x
+                (x^2+y^2+z^2)^{-1/2}] \\
+                &amp;= (x^2+y^2+z^2)^{-1/2}-\frac{1}{2} x
+                (x^2+y^2+z^2)^{-3/2} (2x)\\
+                &amp;= \frac{1}{\sqrt{x^2+y^2+z^2}} -
+                \frac{x^2}{(x^2+y^2+z^2)^{3/2}} \\
+                &amp;= \frac{x^2+y^2+z^2 - x^2}{(x^2+y^2+z^2)^{3/2}} \\
+                &amp;= \frac{y^2+z^2}{(x^2+y^2+z^2)^{3/2}} \\
+                \end{aligned}\]</span></p>
+                <p>By symmetry;</p>
+                <p><span
+                class="math display">\[\rho_{yy}=\frac{x^2+z^2}{(x^2+y^2+z^2)^{3/2}}\]</span></p>
+                <p><span
+                class="math display">\[\rho_{zz}=\frac{x^2+y^2}{(x^2+y^2+z^2)^{3/2}}\]</span></p>
+                <p>So;</p>
+                <p><span
+                class="math display">\[\rho_{xx}+\rho_{yy}+\rho_{zz}=
+                \frac{(y^2+z^2)+(x^2+z^2)+(x^2+y^2)}{(x^2+y^2+z^2)^{3/2}}=\frac{2(x^2+y^2+z^2)}{(x^2+y^2+z^2)^{3/2}}=\frac{2}{\sqrt{x^2+y^2+z^2}}=\frac{2}{\rho}\]</span></p>
+                <p>We calculated earlier;</p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial x}
+                =-\frac{y}{x^2+y^2}=-\frac{\sin(\theta)}{\rho
+                \sin(\phi)}\]</span></p>
+                <p>So;</p>
+                <p><span class="math display">\[\begin{aligned}
+                \theta_{xx}
+                &amp;=  \frac{\partial}{\partial x} \left
+                [-\frac{y}{x^2+y^2} \right ] \\
+                &amp;= \frac{\partial}{\partial x} \left
+                [-y(x^2+y^2)^{-1} \right ]  \\
+                &amp;= -y(-1)(x^2+y^2)^{-2} (2x)\\
+                &amp;= \frac{2xy}{(x^2+y^2)^2} \\
+                \end{aligned}\]</span></p>
+                <p>Similarly;</p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial
+                y}=\frac{x}{x^2+y^2}=\frac{\cos(\theta)}{\rho
+                \sin(\phi)}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \theta_{yy}
+                &amp;=  \frac{\partial}{\partial y} \left
+                [\frac{x}{x^2+y^2} \right ] \\
+                &amp;= \frac{\partial}{\partial y} \left
+                [x(x^2+y^2)^{-1} \right ]  \\
+                &amp;= x(-1)(x^2+y^2)^{-2} (2y)\\
+                &amp;= -\frac{2xy}{(x^2+y^2)^2} \\
+                \end{aligned}\]</span></p>
+                <p>So</p>
+                <p><span
+                class="math display">\[\theta_{xx}+\theta_{yy}+\theta_{zz}=0\]</span></p>
+                <p>And for the <span class="math inline">\(\phi\)</span>
+                variables we calculated;</p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial x}=\frac{zx}{\rho^2
+                \sqrt{x^2+y^2}}=\frac{\cos(\phi)\cos(\theta)}{\rho
+                }\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial y} = \frac{zy}{\rho^2 \sqrt{x^2+y^2}}
+                =\frac{\cos(\phi)\sin(\theta)}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial z} = - \frac{\sqrt{x^2+y^2}}{\rho^2}= -
+                \frac{\sin(\phi)}{\rho}\]</span></p>
+                <p>Since <span class="math inline">\(\phi_x\)</span> and
+                <span class="math inline">\(\phi_y\)</span> have the
+                same form <span class="math inline">\(\phi_{xx}\)</span>
+                and <span class="math inline">\(\phi_{yy}\)</span> will
+                have the same form.</p>
+                <p><span class="math display">\[\begin{aligned}
+                \phi_{xx}
+                &amp;=  \frac{\partial}{\partial x} \left [
+                \frac{zx}{\rho^2 \sqrt{x^2+y^2}} \right ] \\
+                &amp;= \frac{\partial}{\partial x} \left [
+                \frac{zx}{(x^2+y^2+z^2) \sqrt{x^2+y^2}} \right ]  \\
+                &amp;= \frac{\partial}{\partial x} \left [ zx
+                (x^2+y^2+z^2)^{-1} (x^2+y^2)^{-1/2} \right ]\\
+                &amp;= \frac{z}{\rho^2 \sqrt{x^2+y^2}} +
+                zx(-1)(x^2+y^2+z^2)^{-2} (2x)(x^2+y^2)^{-1/2} \\
+                &amp;+ zx(x^2+y^2+z^2)^{-1} (-1/2)(x^2+y^2)^{-3/2}(2x)
+                \\
+                &amp;= \frac{z}{\rho^2 \sqrt{x^2+y^2}} -
+                \frac{2zx^2}{\rho^4 \sqrt{x^2+y^2}}
+                -\frac{zx^2}{\rho^2(x^2+y^2)^{3/2}} \\
+                \end{aligned}\]</span></p>
+                <p>By symmetry;</p>
+                <p><span
+                class="math display">\[\phi_{yy}=\frac{z}{\rho^2
+                \sqrt{x^2+y^2}} - \frac{2zy^2}{\rho^4 \sqrt{x^2+y^2}}
+                -\frac{zy^2}{\rho^2(x^2+y^2)^{3/2}}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \phi_{xx}+\phi_{yy}
+                &amp;=  \frac{2z}{\rho^2 \sqrt{x^2+y^2}} -
+                \frac{2z(x^2+y^2)}{\rho^4 \sqrt{x^2+y^2}}
+                -\frac{z(x^2+y^2)}{\rho^2(x^2+y^2)^{3/2}} \\
+                &amp;=  \frac{2z}{\rho^2 \sqrt{x^2+y^2}} -
+                \frac{2z\sqrt{x^2+y^2}}{\rho^4 } -\frac{z}{\rho^2
+                \sqrt{x^2+y^2}} \\
+                &amp;= \frac{z}{\rho^2 \sqrt{x^2+y^2}} -
+                \frac{2z\sqrt{x^2+y^2}}{\rho^4 } \\
+                \end{aligned}\]</span></p>
+                <p>For <span class="math inline">\(\phi_z\)</span> we
+                had;</p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial z} = - \frac{\sqrt{x^2+y^2}}{\rho^2}= -
+                \frac{\sin(\phi)}{\rho}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \phi_{zz}
+                &amp;= \frac{\partial}{\partial z} \left [ -
+                \frac{\sqrt{x^2+y^2}}{x^2+y^2+z^2} \right ]  \\
+                &amp;=  \frac{\partial}{\partial z} \left [ -
+                \sqrt{x^2+y^2} (x^2+y^2+z^2)^{-1} \right ] \\
+                &amp;= \sqrt{x^2+y^2}(x^2+y^2+z^2)^{-2} (2z) \\
+                &amp;= \frac{2z \sqrt{x^2+y^2}}{\rho^4} \\
+                \end{aligned}\]</span></p>
+                <p>So</p>
+                <p><span
+                class="math display">\[\phi_{xx}+\phi_{yy}+\phi_{zz}=
+                \frac{z}{\rho^2 \sqrt{x^2+y^2}}\]</span></p>
+                <p>We have;</p>
+                <p><span class="math display">\[x=\rho \sin(\phi)
+                \cos(\theta)\]</span></p>
+                <p><span class="math display">\[y=\rho \sin(\phi)
+                \sin(\theta)\]</span></p>
+                <p><span class="math display">\[z=\rho
+                \cos(\phi)\]</span></p>
+                <p><span class="math display">\[x^2+y^2 =\rho^2
+                \sin^2(\phi)\]</span></p>
+                <p><span class="math display">\[\sqrt{x^2+y^2} =\rho
+                \sin(\phi)\]</span></p>
+                <p><span
+                class="math display">\[\phi_{xx}+\phi_{yy}+\phi_{zz}=
+                \frac{z}{\rho^2 \sqrt{x^2+y^2}}= \frac{\rho \cos(\phi)}
+                {\rho^2 \times \rho
+                \sin(\phi)}=\frac{\cot(\phi)}{\rho^2}\]</span></p>
+                <p>So;</p>
+                <p><span
+                class="math display">\[\phi_{xx}+\phi_{yy}+\phi_{zz} =
+                \frac{\cot(\phi)}{\rho^2}\]</span></p>
+                <p>and earlier we calculated;</p>
+                <p><span
+                class="math display">\[\rho_{xx}+\rho_{yy}+\rho_{zz}=
+                \frac{2}{\rho}\]</span></p>
+                <p><span
+                class="math display">\[\theta_{xx}+\theta_{yy}+\theta_{zz}=0\]</span></p>
+                <p>and for the first derivatives we calculated
+                earlier;</p>
+                <p><span class="math display">\[\frac{\partial
+                \rho}{\partial x} = \frac{x}{\sqrt{x^2+y^2+z^2}} =
+                \frac{x}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \rho}{\partial y} =
+                \frac{y}{\sqrt{x^2+y^2+z^2}}=\frac{y}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \rho}{\partial
+                z}=\frac{z}{\sqrt{x^2+y^2+z^2}}=\frac{z}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial x}
+                =-\frac{y}{x^2+y^2}=-\frac{\sin(\theta)}{\rho
+                \sin(\phi)}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial
+                y}=\frac{x}{x^2+y^2}=\frac{\cos(\theta)}{\rho
+                \sin(\phi)}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \theta}{\partial z}=0\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial x}=\frac{zx}{\rho^2
+                \sqrt{x^2+y^2}}=\frac{\cos(\phi)\cos(\theta)}{\rho
+                }\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial y} = \frac{zy}{\rho^2 \sqrt{x^2+y^2}}
+                =\frac{\cos(\phi)\sin(\theta)}{\rho}\]</span></p>
+                <p><span class="math display">\[\frac{\partial
+                \phi}{\partial z} = - \frac{\sqrt{x^2+y^2}}{\rho^2}= -
+                \frac{\sin(\phi)}{\rho}\]</span></p>
+                <p>and for the Laplacian we had the expression:</p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{\partial^2 u}{\partial x^2}+\frac{\partial^2
+                u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2}
+                &amp;=   u_{\rho \rho}( \rho_x^2 + \rho_y^2+\rho_z^2) \\
+                &amp;+ u_{\theta \theta}
+                (\theta_x^2+\theta_y^2+\theta_z^2) \\
+                &amp;+ u_{\phi \phi} (\phi_x^2+ \phi_y^2+\phi_z^2) \\
+                &amp;+ u_{\rho} (\rho_{xx}+\rho_{yy}+\rho_{zz}) \\
+                &amp;+ u_{\theta} (\theta_{xx} + \theta_{yy} +
+                \theta_{zz}) \\
+                &amp;+ u_{\phi} (\phi_{xx} + \phi_{yy} + \phi_{zz}) \\
+                &amp;+  2 u_{\rho \theta} (\rho_x \theta_x + \rho_y
+                \theta_y + \rho_z \theta_z)   \\
+                &amp;+  2 u_{\rho \phi} (\rho_x \phi_x + \rho_y \phi_y +
+                \rho_z \phi_z) \\
+                &amp;+  2 u_{\theta \phi} (\theta_x \phi_x + \theta_y
+                \phi_y + \theta_z \phi_z)  \\
+                \end{aligned}\]</span></p>
+                <p>We can calculate now;</p>
+                <p><span
+                class="math display">\[\rho_x^2+\rho_y^2+\rho_z^2=\frac{x^2+y^2+z^2}{\rho^2}=1\]</span></p>
+                <p><span
+                class="math display">\[\theta_x^2+\theta_y^2+\theta_z^2=\frac{x^2+y^2}{(x^2+y^2)^2}=\frac{1}{x^2+y^2}=\frac{1}{\rho^2
+                \sin^2(\phi)}\]</span></p>
+                <p><span class="math display">\[\phi_x^2 + \phi_y^2 +
+                \phi_z^2 = \frac{z^2 x^2}{\rho^4 (x^2+y^2)} + \frac{z^2
+                y^2}{\rho^4 (x^2+y^2)} +
+                \frac{x^2+y^2}{\rho^4}=\frac{z^2(x^2+y^2)}{\rho^4
+                (x^2+y^2)}+\frac{x^2+y^2}{\rho^4}=\frac{z^2+x^2+y^2}{\rho^4}=\frac{\rho^2}{\rho^4}=\frac{1}{\rho^2}\]</span></p>
+                <p>Now we need to compute the cross terms.</p>
+                <p><span class="math display">\[\begin{aligned}
+                \rho_x \theta_x + \rho_y \theta_y + \rho_z \theta_z
+                &amp;=   \rho_x \theta_x + \rho_y \theta_y \\
+                &amp;= \frac{x}{\rho} \frac{(-y)}{(x^2+y^2)} +
+                \frac{y}{\rho}\frac{(x)}{(x^2+y^2)} \\
+                &amp;= 0 \\
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \rho_x \phi_x + \rho_y \phi_y + \rho_z \phi_z
+                &amp;=  \frac{x}{\rho}\frac{zx}{\rho^2 \sqrt{x^2+y^2}} +
+                \frac{y}{\rho} \frac{zy}{\rho^2 \sqrt{x^2+y^2}} +
+                \frac{z}{\rho} \frac{(-\sqrt{x^2+y^2})}{\rho^2} \\
+                &amp;= \frac{zx^2 + zy^2 }{\rho^3 \sqrt{x^2+y^2}} -
+                \frac{z(x^2+y^2)}{\rho^3 \sqrt{x^2+y^2}} \\
+                &amp;= 0 \\
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \theta_x \phi_x + \theta_y \phi_y + \theta_z \phi_z
+                &amp;=  \theta_x \phi_x + \theta_y \phi_y \\
+                &amp;= \frac{-y}{x^2+y^2} \frac{zx}{\rho^2
+                \sqrt{x^2+y^2}} + \frac{x}{x^2+y^2} \frac{zy}{\rho^2
+                \sqrt{x^2+y^2}} \\
+                &amp;= 0 \\
+                \end{aligned}\]</span></p>
+                <p>So the cross terms are all zero and;</p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{\partial^2 u}{\partial x^2}+\frac{\partial^2
+                u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2}
+                &amp;=   u_{\rho \rho}( \rho_x^2 + \rho_y^2+\rho_z^2) \\
+                &amp;+ u_{\theta \theta}
+                (\theta_x^2+\theta_y^2+\theta_z^2) \\
+                &amp;+ u_{\phi \phi} (\phi_x^2+ \phi_y^2+\phi_z^2) \\
+                &amp;+ u_{\rho} (\rho_{xx}+\rho_{yy}+\rho_{zz}) \\
+                &amp;+ u_{\theta} (\theta_{xx} + \theta_{yy} +
+                \theta_{zz}) \\
+                &amp;+ u_{\phi} (\phi_{xx} + \phi_{yy} + \phi_{zz}) \\
+                \end{aligned}\]</span></p>
+                <p>We calculated:</p>
+                <p><span
+                class="math display">\[\rho_x^2+\rho_y^2+\rho_z^2=1\]</span></p>
+                <p><span class="math display">\[\theta_x^2+\theta_y^2 +
+                \theta_z^2 = \frac{1}{\rho^2 \sin^2 (\phi)}\]</span></p>
+                <p><span
+                class="math display">\[\phi_x^2+\phi_y^2+\phi_z^2 =
+                \frac{1}{\rho^2}\]</span></p>
+                <p><span
+                class="math display">\[\rho_{xx}+\rho_{yy}+\rho_{zz}=\frac{2}{\rho}\]</span></p>
+                <p><span
+                class="math display">\[\theta_{xx}+\theta_{yy}+\theta_{zz}=0\]</span></p>
+                <p><span
+                class="math display">\[\phi_{xx}+\phi_{yy}+\phi_{zz}=\frac{\cot(\phi)}{\rho^2}\]</span></p>
+                <p>So we have for the Laplacian;</p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{\partial^2 u}{\partial x^2}+\frac{\partial^2
+                u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2}
+                &amp;=   u_{\rho \rho} + \frac{1}{\rho^2 \sin^2 (\phi)}
+                u_{\theta \theta} + \frac{1}{\rho^2} u_{\phi \phi} +
+                \frac{2}{\rho} u_{\rho} + \frac{\cot(\phi)}{\rho^2}
+                u_{\phi}  \\
+                \end{aligned}\]</span></p>
+                <p>Now I want to get this into the form;</p>
+                <p><span class="math display">\[\frac{\partial^2
+                u}{\partial x^2}+\frac{\partial^2 u}{\partial y^2} +
+                \frac{\partial^2 u}{\partial z^2} = \frac{1}{\rho^2}
+                \frac{\partial}{\partial \rho} (\rho^2 u_{\rho}) +
+                \frac{1}{\rho^2 \sin(\phi)} \frac{\partial}{\partial
+                \phi} \left [ \sin(\phi) u_{\phi} \right ] +
+                \frac{1}{\rho^2 \sin^2(\phi)} u_{\theta
+                \theta}\]</span></p>
+                <p>First;</p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{1}{\rho^2} \frac{\partial}{\partial \rho} (\rho^2
+                u_{\rho})
+                &amp;=   \frac{1}{\rho^2} \left [ \rho^2 u_{\rho
+                \rho}  + 2\rho u_{\rho} \right ] \\
+                &amp;= u_{\rho \rho} + \frac{2}{\rho} u_{\rho} \\
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{1}{\rho^2 \sin(\phi)} \frac{\partial}{\partial
+                \phi} \left [ \sin(\phi) u_{\phi} \right ]
+                &amp;=   \frac{1}{\rho^2 \sin(\phi)} \left [ \sin(\phi)
+                u_{\phi \phi} + \cos(\phi) u_{\phi} \right ] \\
+                &amp;= \frac{1}{\rho^2} u_{\phi \phi} +
+                \frac{\cot(\phi)}{\rho^2} u_{\phi} \\
+                \end{aligned}\]</span></p>
+                <p>Therefore;</p>
+                <p><span class="math display">\[\frac{\partial^2
+                u}{\partial x^2}+\frac{\partial^2 u}{\partial y^2} +
+                \frac{\partial^2 u}{\partial z^2} = \frac{1}{\rho^2}
+                \frac{\partial}{\partial \rho} (\rho^2 u_{\rho}) +
+                \frac{1}{\rho^2 \sin(\phi)} \frac{\partial}{\partial
+                \phi} \left [ \sin(\phi) u_{\phi} \right ] +
+                \frac{1}{\rho^2 \sin^2(\phi)} u_{\theta
+                \theta}\]</span></p>
+                <p>and</p>
+                <p><span class="math display">\[\frac{\partial^2
+                }{\partial x^2}+\frac{\partial^2 }{\partial y^2} +
+                \frac{\partial^2 }{\partial z^2} = \frac{1}{\rho^2}
+                \frac{\partial}{\partial \rho} \left (\rho^2
+                \frac{\partial}{\partial \rho} \right ) +
+                \frac{1}{\rho^2 \sin(\phi)} \frac{\partial}{\partial
+                \phi} \left ( \sin(\phi) \frac{\partial}{\partial \phi}
+                \right ) + \frac{1}{\rho^2 \sin^2(\phi)}
+                \frac{\partial^2}{\partial \theta^2}\]</span></p>
+                <p>This is equation 4.13 in Intro Quantum Mechanics by
+                Griffiths - the Laplacian in spherical coordinates.</p>
+                <h2 id="legendre-polynomials">Legendre Polynomials</h2>
+                <p>The Legendre differential equation is;</p>
+                <p><span
+                class="math display">\[(1-x^2)y&#39;&#39;-2xy&#39;+l(l+1)y=0\]</span></p>
+                <p>We assume a series solution for <span
+                class="math inline">\(y\)</span></p>
+                <p><span class="math display">\[y=\sum_{n=0}^{\infty}
+                a_n x^n\]</span></p>
+                <p><span
+                class="math display">\[y&#39;=\sum_{n=1}^{\infty} n a_n
+                x^{n-1}\]</span></p>
+                <p><span
+                class="math display">\[y&#39;&#39;=\sum_{n=2}^{\infty}(n-1)na_n
+                x^{n-2}=\sum_{n=0}^{\infty} (n+1)(n+2) a_{n+2}
+                x^n\]</span></p>
+                <p><span class="math display">\[x^2 y&#39;&#39; =
+                \sum_{n=2}^{\infty} n(n-1)a_n x^n\]</span></p>
+                <p><span class="math display">\[(1-x^2)y&#39;&#39;=
+                \sum_{n=0}^{\infty} (n+1)(n+2) a_{n+2} x^n -
+                \sum_{n=2}^{\infty} n(n-1)a_n x^n\]</span></p>
+                <p><span
+                class="math display">\[-2xy&#39;=-\sum_{n=1}^{\infty} 2n
+                a_n x^{n}\]</span></p>
+                <p><span
+                class="math display">\[l(l+1)y=\sum_{n=0}^{\infty}
+                l(l+1) a_n x^n\]</span></p>
+                <p>substituting these in to the Legendre differential
+                equation;</p>
+                <p><span class="math display">\[\sum_{n=0}^{\infty}
+                (n+1)(n+2) a_{n+2} x^n - \sum_{n=2}^{\infty} n(n-1)a_n
+                x^n -\sum_{n=1}^{\infty} 2n a_n x^{n} +
+                \sum_{n=0}^{\infty} l(l+1) a_n x^n=0\]</span></p>
+                <p>Setting the <span class="math inline">\(nth\)</span>
+                coefficient to zero gives;</p>
+                <p><span class="math display">\[(n+2)(n+1) a_{n+2} - n
+                (n-1) a_n -2n a_n + l(l+1)a_n = 0\]</span></p>
+                <p>so</p>
+                <p><span class="math display">\[(n+2)(n+1) a_{n+2} +
+                [l^2+l - n (n-1) -2n ]a_n = 0\]</span></p>
+                <p>and</p>
+                <p><span class="math display">\[(n+2)(n+1) a_{n+2} +
+                [l^2+l - n^2 +n -2n ]a_n = 0\]</span></p>
+                <p>therefore</p>
+                <p><span class="math display">\[(n+2)(n+1) a_{n+2} +
+                [l^2+l - n^2 -n ]a_n = 0\]</span></p>
+                <p>Looking at the <span
+                class="math inline">\(a_n\)</span> coefficient we
+                have;</p>
+                <p><span
+                class="math display">\[(l-n)(l+n+1)=(l-n)(l+n)+(l-n)=l^2-n^2+(l-n)\]</span></p>
+                <p>so</p>
+                <p><span class="math display">\[(n+2)(n+1) a_{n+2} +
+                (l-n)(l+n+1)a_n = 0\]</span></p>
+                <p><span
+                class="math display">\[a_{n+2}=-\frac{(l-n)(l+n+1)}{(n+2)(n+1)}a_n\]</span></p>
+                <p>The general solution of the Legendre differential
+                equation is then a sum of two series containing (as the
+                solution of a second order differential equation should)
+                two constants <span class="math inline">\(a_0\)</span>
+                and <span class="math inline">\(a_1\)</span> to be
+                determined by the given initial conditions. Given <span
+                class="math inline">\(a_0\)</span> we can determine
+                <span class="math inline">\(a_2, a_4, a_6,...\)</span>.
+                Given <span class="math inline">\(a_1\)</span> we can
+                determine <span class="math inline">\(a_3, a_5,
+                a_7,...\)</span>.</p>
+                <p>For any integer <span
+                class="math inline">\(l\)</span> one series terminates
+                giving a polynomial solution; the other series diverges
+                at <span class="math inline">\(x^2=1\)</span>. Negative
+                integers <span class="math inline">\(l\)</span> give the
+                solutions already obtained with positive integers <span
+                class="math inline">\(l\)</span>. For any integer <span
+                class="math inline">\(l\)</span> we can set the
+                coefficient (<span class="math inline">\(a_0\)</span> or
+                <span class="math inline">\(a_1\)</span>) of the
+                divergent series to zero and get a polynomial solution.
+                If the value of <span class="math inline">\(a_0\)</span>
+                or <span class="math inline">\(a_1\)</span> in each
+                polynomial is selected so that <span
+                class="math inline">\(y=1\)</span> when <span
+                class="math inline">\(x=1\)</span> the resulting
+                polynomials are called Legendre polynomials written
+                <span class="math inline">\(P_l(x)\)</span>.</p>
+                <h2 id="associated-legendre-functions">Associated
+                Legendre Functions</h2>
+                <p>The goal here is to prove that the solution of the
+                differential equation;</p>
+                <p><span
+                class="math display">\[(1-x^2)y&#39;&#39;-2xy&#39;+\left
+                [l(l+1) - \frac{m^2}{1-x^2} \right ]y=0\]</span></p>
+                <p>is the associated Legendre function;</p>
+                <p><span
+                class="math display">\[y(x)=P_l^m(x)=(1-x^2)^{m/2}
+                \frac{d^m}{dx^m} P_l(x)\]</span></p>
+                <p>where <span class="math inline">\(P_l(x)\)</span> is
+                the <span class="math inline">\(lth\)</span> Legendre
+                polynomial.</p>
+                <p>First substitute;</p>
+                <p><span class="math display">\[y=(1-x^2)^{m/2}
+                u\]</span></p>
+                <p>Let <span
+                class="math inline">\(\alpha=m/2\)</span></p>
+                <p><span class="math display">\[y(x)=(1-x^2)^{\alpha}
+                u(x)\]</span></p>
+                <p><span
+                class="math display">\[y&#39;=\alpha(1-x^2)^{\alpha-1}(-2x)
+                u +(1-x^2)^{\alpha} u&#39;=-2\alpha x
+                (1-x^2)^{\alpha-1}u+(1-x^2)^{\alpha}u&#39;\]</span></p>
+                <p><span class="math display">\[y&#39;&#39; =
+                \frac{d}{dx} \left [ -2\alpha x (1-x^2)^{\alpha-1}u
+                \right ] + \frac{d}{dx}
+                (1-x^2)^{\alpha}u&#39;\]</span></p>
+                <p>Focusing on the first term in in <span
+                class="math inline">\(y&#39;&#39;\)</span>;</p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{d}{dx} \left [ -2\alpha x (1-x^2)^{\alpha-1}u
+                \right ]
+                &amp;=  -2\alpha (1-x^2)^{\alpha-1} u-2\alpha x
+                (\alpha-1) (1-x^2)^{\alpha-2} (-2x) u - 2\alpha x
+                (1-x^2)^{\alpha-1} u&#39;\\
+                &amp;= -2\alpha (1-x^2)^{\alpha-1} u + 4\alpha
+                (\alpha-1)x^2 (1-x^2)^{\alpha-2} u - 2\alpha x
+                (1-x^2)^{\alpha-1} u&#39; \\
+                \end{aligned}\]</span></p>
+                <p>Now looking at the second term in <span
+                class="math inline">\(y&#39;&#39;\)</span>;</p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{d}{dx} (1-x^2)^{\alpha} u&#39;
+                &amp;= \alpha(1-x^2)^{\alpha-1} (-2x) u&#39; +
+                (1-x^2)^{\alpha} u&#39;&#39; \\
+                &amp;= -2\alpha x (1-x^2)^{\alpha-1} u&#39; +
+                (1-x^2)^{\alpha}u&#39;&#39; \\
+                \end{aligned}\]</span></p>
+                <p>Therefore combining these terms we get the following
+                expression for <span
+                class="math inline">\(y&#39;&#39;\)</span>;</p>
+                <p><span class="math display">\[\begin{aligned}
+                y&#39;&#39;
+                &amp;=  -2\alpha (1-x^2)^{\alpha-1} u + 4\alpha
+                (\alpha-1)x^2 (1-x^2)^{\alpha-2} u - 2\alpha x
+                (1-x^2)^{\alpha-1} u&#39;-2\alpha x (1-x^2)^{\alpha-1}
+                u&#39; + (1-x^2)^{\alpha}u&#39;&#39; \\
+                &amp;= -2\alpha (1-x^2)^{\alpha-1} u + 4\alpha
+                (\alpha-1)x^2 (1-x^2)^{\alpha-2} u - 4\alpha x
+                (1-x^2)^{\alpha-1} u&#39; + (1-x^2)^{\alpha}u&#39;&#39;
+                \\
+                \end{aligned}\]</span></p>
+                <p>Restating the results we have derived thus far;</p>
+                <p><span class="math display">\[y=(1-x^2)^{\alpha}
+                u\]</span></p>
+                <p><span class="math display">\[y&#39;=-2\alpha x
+                (1-x^2)^{\alpha-1}u+(1-x^2)^{\alpha}u&#39;\]</span></p>
+                <p><span class="math display">\[y&#39;&#39;=-2\alpha
+                (1-x^2)^{\alpha-1} u + 4\alpha (\alpha-1)x^2
+                (1-x^2)^{\alpha-2} u - 4\alpha x (1-x^2)^{\alpha-1}
+                u&#39; + (1-x^2)^{\alpha}u&#39;&#39;\]</span></p>
+                <p>We plug these in to the differential equation;</p>
+                <p><span
+                class="math display">\[(1-x^2)y&#39;&#39;-2xy&#39;+\left
+                [l(l+1) - \frac{m^2}{1-x^2} \right ]y=0\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                (1-x^2)y&#39;&#39;
+                &amp;=  -2\alpha (1-x^2)^{\alpha} u + 4\alpha
+                (\alpha-1)x^2 (1-x^2)^{\alpha-1} u - 4\alpha x
+                (1-x^2)^{\alpha} u&#39; + (1-x^2)^{\alpha+1}u&#39;&#39;
+                \\
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                -2xy&#39;
+                &amp;= 4\alpha x^2
+                (1-x^2)^{\alpha-1}u-2x(1-x^2)^{\alpha}u&#39;  \\
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                l(l+1) y
+                &amp;= l(l+1)(1-x^2)^{\alpha} u  \\
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                -\frac{m^2}{1-x^2} y
+                &amp;= -m^2(1-x^2)^{\alpha-1} u  \\
+                \end{aligned}\]</span></p>
+                <p>Combining these together we can rewrite the
+                differential equation as;</p>
+                <p><span class="math display">\[\begin{aligned}
+                -2\alpha (1-x^2)^{\alpha} u + 4\alpha (\alpha-1)x^2
+                (1-x^2)^{\alpha-1} u - 4\alpha x (1-x^2)^{\alpha} u&#39;
+                + (1-x^2)^{\alpha+1}u&#39;&#39; \\
+                +4\alpha x^2
+                (1-x^2)^{\alpha-1}u-2x(1-x^2)^{\alpha}u&#39; +
+                l(l+1)(1-x^2)^{\alpha} u -m^2(1-x^2)^{\alpha-1} u  \\ =0
+                \end{aligned}\]</span></p>
+                <p>We can factor out <span
+                class="math inline">\((1-x^2)^{\alpha-1}\)</span>;</p>
+                <p><span class="math display">\[(1-x^2)^{\alpha-1}
+                \Phi=0\]</span></p>
+                <p>where</p>
+                <p><span class="math display">\[\begin{aligned}
+                \Phi = \\ -2\alpha (1-x^2) u + 4\alpha (\alpha-1)x^2 u -
+                4\alpha x (1-x^2) u&#39; + (1-x^2)^{2}u&#39;&#39; \\
+                +4\alpha x^2 u-2x(1-x^2)u&#39; + l(l+1)(1-x^2) u -m^2 u
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \Phi = \\ [-2\alpha (1-x^2) + 4\alpha
+                (\alpha-1)x^2+4\alpha x^2+ l(l+1)(1-x^2)-m^2 ] u \\ +[-
+                4\alpha x (1-x^2) -2x(1-x^2)]u&#39; \\ +
+                (1-x^2)^{2}u&#39;&#39; \\
+                \end{aligned}\]</span></p>
+                <p>Looking at the coefficient of <span
+                class="math inline">\(u&#39;\)</span> for the
+                moment;</p>
+                <p><span class="math display">\[\begin{aligned}
+                - 4\alpha x (1-x^2) -2x(1-x^2) &amp;= -2x[2\alpha(1-x^2)
+                + (1-x^2)] \\
+                &amp;= -2x (2\alpha + 1)(1-x^2)
+                \end{aligned}\]</span></p>
+                <p>Now looking at the coefficient of <span
+                class="math inline">\(u\)</span> we have;</p>
+                <p><span class="math display">\[\begin{aligned}
+                &amp;-2\alpha (1-x^2) + 4\alpha (\alpha-1)x^2+4\alpha
+                x^2+ l(l+1)(1-x^2)-m^2\\&amp;=  -2\alpha (1-x^2)
+                +  (4\alpha^2-4\alpha)x^2+4\alpha x^2+
+                l(l+1)(1-x^2)-m^2  \\&amp;=-2\alpha (1-x^2) + 4\alpha^2
+                x^2-4\alpha x^2+4\alpha x^2+ l(l+1)(1-x^2)-m^2 \\&amp;=
+                -2\alpha (1-x^2) + 4\alpha^2 x^2+ l(l+1)(1-x^2)-m^2 \\
+                \end{aligned}\]</span></p>
+                <p>Recall <span
+                class="math inline">\(\alpha=m/2\)</span> so <span
+                class="math inline">\(2\alpha=m\)</span> and <span
+                class="math inline">\(4\alpha^2=m^2\)</span>
+                therefore</p>
+                <p>therefore the coefficient of <span
+                class="math inline">\(u\)</span> becomes;</p>
+                <p><span class="math display">\[\begin{aligned}
+                &amp;-2\alpha (1-x^2) + 4\alpha^2 x^2+
+                l(l+1)(1-x^2)-m^2\\&amp;= -m(1-x^2)+m^2 x^2 +
+                l(l+1)(1-x^2)-m^2   \\&amp;= -m+mx^2+m^2 x^2 +
+                l(l+1)(1-x^2)-m^2   \\&amp;= -m(m+1)+mx^2+m^2 x^2 +
+                l(l+1)(1-x^2) \\ &amp;= -m(m+1)+m(m+1)x^2 +
+                l(l+1)(1-x^2) \\ &amp;= [l(l+1) -m(m+1)](1-x^2)
+                \end{aligned}\]</span></p>
+                <p>Plugging these expressions for the coefficient of
+                <span class="math inline">\(u\)</span> and <span
+                class="math inline">\(u&#39;\)</span> into the previous
+                expression for <span class="math inline">\(\Phi\)</span>
+                we have;</p>
+                <p><span class="math display">\[\begin{aligned}
+                &amp;\Phi \\&amp;= [-2\alpha (1-x^2) + 4\alpha
+                (\alpha-1)x^2+4\alpha x^2+ l(l+1)(1-x^2)-m^2 ] u \\
+                &amp; +[- 4\alpha x (1-x^2) -2x(1-x^2)]u&#39; \\&amp; +
+                (1-x^2)^{2}u&#39;&#39; \\ &amp;= [l(l+1)
+                -m(m+1)](1-x^2)u-2x (2\alpha +
+                1)(1-x^2)u&#39;+(1-x^2)^{2}u&#39;&#39;
+                \end{aligned}\]</span></p>
+                <p>Recall the differential equation written in terms of
+                <span class="math inline">\(u\)</span> took the
+                form;</p>
+                <p><span
+                class="math display">\[(1-x^2)^{\alpha-1}\Phi=0\]</span></p>
+                <p>dividing by <span
+                class="math inline">\((1-x^2)^{\alpha-1}\)</span> we get
+                <span class="math inline">\(\Phi=0\)</span> and then we
+                can again divide by <span
+                class="math inline">\((1-x^2)\)</span> to get;</p>
+                <p><span class="math display">\[[l(l+1) -m(m+1)]u-2x
+                (2\alpha + 1)u&#39;+(1-x^2)u&#39;&#39;=0\]</span></p>
+                <p>but recall <span
+                class="math inline">\(2\alpha=m\)</span> so</p>
+                <p><span class="math display">\[[l(l+1) -m(m+1)]u-2x (m
+                + 1)u&#39;+(1-x^2)u&#39;&#39;=0\]</span></p>
+                <p>or rearranging;</p>
+                <p><span
+                class="math display">\[(1-x^2)u&#39;&#39;-2(m+1)xu&#39;+[l(l+1)
+                -m(m+1)]u=0\]</span></p>
+                <p>which is Equation 10.3 in Boas Ch 12.10</p>
+                <p>For <span class="math inline">\(m=0\)</span> this is
+                Legendre’s equation with solutions <span
+                class="math inline">\(P_l(x)\)</span>.</p>
+                <p>Differentiate 10.3 obtaining;</p>
+                <p><span class="math display">\[\frac{d}{dx} \left [
+                (1-x^2)u&#39;&#39;\right ] = -2x u&#39;&#39; +
+                (1-x^2)u&#39;&#39;&#39;\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{d}{dx} \left [ -2(m+1) xu&#39; \right ] &amp;=
+                -2(m+1)u&#39; -2(m+1)x u&#39;&#39; \\
+                &amp;= -2(m+1)[u&#39;+xu&#39;&#39;] \\
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{d}{dx} \left [ l(l+1)-m(m+1) \right ] u &amp;=
+                \left [ l(l+1)-m(m+1) \right ] u&#39;\\
+                \end{aligned}\]</span></p>
+                <p>so differentiating;</p>
+                <p><span
+                class="math display">\[(1-x^2)u&#39;&#39;-2(m+1)xu&#39;+[l(l+1)
+                -m(m+1)]u=0\]</span></p>
+                <p>we obtain</p>
+                <p><span class="math display">\[-2x u&#39;&#39; +
+                (1-x^2)u&#39;&#39;&#39;-2(m+1)u&#39;-2(m+1)xu&#39;&#39;+[
+                l(l+1)-m(m+1) ] u&#39;=0\]</span></p>
+                <p>combining <span
+                class="math inline">\(u&#39;&#39;\)</span> terms;</p>
+                <p><span class="math display">\[\begin{aligned}
+                &amp; (1-x^2)u&#39;&#39;&#39;+[-2x -2(m+1)x]u&#39;&#39;
+                -2(m+1)u&#39;+[ l(l+1)-m(m+1) ] u&#39; = 0 \\ &amp;
+                \implies (1-x^2)u&#39;&#39;&#39;+-2x[1
+                +(m+1)]u&#39;&#39; + [ -2(m+1)+l(l+1)-m(m+1)]u&#39; =
+                0\\ &amp; \implies
+                (1-x^2)u&#39;&#39;&#39;+-2x(m+2)u&#39;&#39; +
+                [l(l+1)+(-m-2)(m+1)]u&#39; = 0 \\ &amp; \implies
+                (1-x^2)u&#39;&#39;&#39;+-2(m+2)xu&#39;&#39; +
+                [l(l+1)-(m+1)(m+2)]u&#39; = 0 \\ &amp; \implies
+                (1-x^2)(u&#39;)&#39;&#39;+-2[(m+1)+1]x(u&#39;)&#39; +
+                [l(l+1)-(m+1)(m+2)]u&#39; = 0
+                \end{aligned}\]</span></p>
+                <p>But this is just 10.3 with <span
+                class="math inline">\(u&#39;\)</span> in place of <span
+                class="math inline">\(u\)</span> and <span
+                class="math inline">\((m+1)\)</span> in place of <span
+                class="math inline">\(m\)</span>.</p>
+                <p>In other words if <span
+                class="math inline">\(P_l(x)\)</span> is a solution of
+                (10.3) with <span class="math inline">\(m=0\)</span>,
+                then <span class="math inline">\(P_l&#39;(x)\)</span> is
+                a solution of (10.3) with <span
+                class="math inline">\(m=1\)</span>, <span
+                class="math inline">\(P_l&#39;&#39;(x)\)</span> is a
+                solution with <span class="math inline">\(m=2\)</span>
+                and in general for integral <span
+                class="math inline">\(m\)</span>, <span
+                class="math inline">\(0\leq m \leq l\)</span></p>
+                <p><span class="math display">\[\frac{d^m}{dx^m}
+                P_l(x)\]</span></p>
+                <p>is a solution of 10.3.</p>
+                <p>Then</p>
+                <p><span class="math display">\[u(x)=\frac{d^m}{dx^m}
+                P_l(x)\]</span></p>
+                <p>is a solution of 10.3 so;</p>
+                <p><span class="math display">\[y=(1-x^2)^{m/2}
+                \frac{d^m}{dx^m} P_l(x)\]</span></p>
+                <p>is a solution of 10.1.</p>
+                <p>The functions</p>
+                <p><span class="math display">\[y=(1-x^2)^{m/2}
+                \frac{d^m}{dx^m} P_l(x)\]</span></p>
+                <p>are called associated Legendre functions and are
+                denoted by;</p>
+                <p><span class="math display">\[P_l^m(x)=(1-x^2)^{m/2}
+                \frac{d^m}{dx^m} P_l(x)\]</span></p>
+                <h2 id="angular-equation">Angular Equation</h2>
+                <p><span class="math display">\[\sin(\theta)
+                \frac{d}{d\theta} \left ( \sin(\theta)
+                \frac{d\Theta}{d\theta} \right ) +
+                [l(l+1)\sin^2(\theta)-m^2]\Theta = 0\]</span></p>
+                <p>Let <span
+                class="math inline">\(x=\cos(\theta)\)</span> then</p>
+                <p><span
+                class="math display">\[\frac{dx}{d\theta}=-\sin(\theta)\]</span></p>
+                <p>Let <span
+                class="math inline">\(\Theta(\theta)=y(x)\)</span>
+                then</p>
+                <p><span
+                class="math display">\[\frac{d\Theta}{d\theta}=\frac{dy}{dx}\frac{dx}{d\theta}=-\sin(\theta)\frac{dy}{dx}\]</span></p>
+                <p>and</p>
+                <p><span
+                class="math display">\[\sin(\theta)\frac{d\Theta}{d\theta}=-\sin^2(\theta)\frac{dy}{dx}\]</span></p>
+                <p>Since <span
+                class="math inline">\(x=\cos(\theta)\)</span> we
+                have</p>
+                <p><span
+                class="math display">\[\sin^2(\theta)=1-\cos^2(\theta)=1-x^2\]</span></p>
+                <p>and</p>
+                <p><span
+                class="math display">\[\sin(\theta)\frac{d\Theta}{d\theta}=-\sin^2(\theta)\frac{dy}{dx}=-(1-x^2)\frac{dy}{dx}\]</span></p>
+                <p>taking the derivative wrt <span
+                class="math inline">\(\theta\)</span> we have</p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{d}{d\theta} \left (
+                \sin(\theta)\frac{d\Theta}{d\theta} \right ) &amp;=
+                \frac{d}{d\theta} \left [ -(1-x^2)\frac{dy}{dx} \right ]
+                \\
+                &amp;= -\left [ \frac{d}{d\theta} (1-x^2) \right ]
+                \frac{dy}{dx} -(1-x^2) \frac{d}{d\theta} \frac{dy}{dx}
+                \\
+                &amp;= -\left [ \frac{d}{dx} (1-x^2)
+                \frac{dx}{d\theta}\right ] \frac{dy}{dx} -(1-x^2)
+                \frac{d}{dx} \frac{dy}{dx} \frac{dx}{d\theta} \\
+                &amp;= -\left [ (-2x) (-\sin(\theta))\right ]
+                \frac{dy}{dx} -(1-x^2) \frac{d^2 y}{dx^2}
+                (-\sin(\theta)) \\
+                &amp;= -2x\sin(\theta) y&#39;(x) +(1-x^2)\sin(\theta)
+                y&#39;&#39;(x)
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \sin(\theta)\frac{d}{d\theta} \left (
+                \sin(\theta)\frac{d\Theta}{d\theta} \right ) &amp;=
+                -2x\sin^2(\theta) y&#39;(x) +(1-x^2)\sin^2(\theta)
+                y&#39;&#39;(x) \\
+                &amp;= -2x (1-x^2) y&#39;(x) +(1-x^2)^2 y&#39;&#39;(x)
+                \end{aligned}\]</span></p>
+                <p>Therefore the differential equation becomes;</p>
+                <p><span class="math display">\[\begin{aligned}
+                \sin(\theta)\frac{d}{d\theta} \left (
+                \sin(\theta)\frac{d\Theta}{d\theta} \right ) +
+                [l(l+1)\sin^2(\theta)-m^2]\Theta = 0 \\ \implies -2x
+                (1-x^2) y&#39;(x) +(1-x^2)^2 y&#39;&#39;(x) +
+                [l(l+1)(1-x^2) - m^2]y(x) = 0 \\ \implies
+                -2x y&#39;(x) +(1-x^2) y&#39;&#39;(x) + \left [l(l+1) -
+                \frac{m^2}{1-x^2} \right ]y(x) = 0 \\
+                \implies (1-x^2) y&#39;&#39;(x) -2x y&#39;(x) + \left
+                [l(l+1) - \frac{m^2}{1-x^2} \right ]y(x) = 0
+                \end{aligned}\]</span></p>
+                <p>This is the associated Legendre differential
+                equation.</p>
+                <p>The solution is the associated Legendre function</p>
+                <p><span class="math display">\[y=P_l^m(x)=(1-x^2)^{m/2}
+                \frac{d^m}{dx^m} P_l(x)\]</span></p>
+                <p>Recall <span
+                class="math inline">\(x=\cos(\theta)\)</span></p>
+                <p>Clearly we can multiply the solution by any constant
+                and we will still have a solution.</p>
+                <p>So <span
+                class="math inline">\(\Theta(\theta)=AP_l^m(\cos(\theta))\)</span>
+                (recall <span
+                class="math inline">\(\Theta(\theta)=y(x)\)</span>)</p>
+                <h2 id="laguerre-polynomials">Laguerre Polynomials</h2>
+                <p>The goal in this section is to show that the <span
+                class="math inline">\(nth\)</span> Laguerre polynomial
+                defined by;</p>
+                <p><span class="math display">\[y=L_n(x)=\sum_{m=0}^n
+                (-1)^m {n \choose m} \frac{x^m}{m!}\]</span></p>
+                <p>is the solution of the differential equation;</p>
+                <p><span
+                class="math display">\[xy&#39;&#39;+(1-x)y&#39;+ny=0\]</span></p>
+                <p>Taking derivatives of <span
+                class="math inline">\(L_n(x)\)</span> we have;</p>
+                <p><span class="math display">\[\begin{aligned}
+                y&#39; &amp;= \sum_{m=1}^n (-1)^m {n \choose m }
+                \frac{mx^{m-1}}{m!} \\
+                &amp;= \sum_{m=0}^{n-1} (-1)^{m+1} {n \choose m+1}
+                \frac{x^m}{m!} \\
+                \end{aligned}\]</span></p>
+                <p>and the second derivative of <span
+                class="math inline">\(L_n(x)\)</span> is;</p>
+                <p><span class="math display">\[\begin{aligned}
+                y&#39;&#39; &amp;= \sum_{m=1}^{n-1} (-1)^{m+1} {n
+                \choose m+1} \frac{m x^{m-1}}{m!} \\
+                &amp;= \sum_{m=0}^{n-2} (-1)^{m+2} {n \choose m+2}
+                \frac{x^m}{m!}  \\
+                &amp;= \sum_{m=0}^{n-2} (-1)^m {n \choose m+2}
+                \frac{x^m}{m!}
+                \end{aligned}\]</span></p>
+                <p>Now I compute each term in the differential
+                equation;</p>
+                <p><span
+                class="math display">\[xy&#39;&#39;+(1-x)y&#39;+ny=0\]</span></p>
+                <p>First we have for <span
+                class="math inline">\(xy&#39;&#39;\)</span>;</p>
+                <p><span class="math display">\[\begin{aligned}
+                xy&#39;&#39; &amp;= \sum_{m=0}^{n-2} (-1)^m {n \choose
+                m+2} \frac{x^{m+1}}{m!}\\
+                &amp;= \sum_{m=1}^{n-1} (-1)^{m-1} {n \choose m+1}
+                \frac{x^m}{(m-1)!} \\
+                &amp;= \sum_{m=1}^{n-1} (-1)^{m+1} {n \choose m+1}
+                \frac{x^m}{(m-1)!}
+                \end{aligned}\]</span></p>
+                <p>next <span
+                class="math inline">\((1-x)y&#39;\)</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                (1-x)y&#39; &amp;= \sum_{m=0}^{n-1} (-1)^{m+1} {n
+                \choose m+1} \frac{x^m}{m!} -\sum_{m=0}^{n-1} (-1)^{m+1}
+                {n \choose m+1} \frac{x^{m+1}}{m!}   \\
+                &amp;= \sum_{m=0}^{n-1} (-1)^{m+1} {n \choose m+1}
+                \frac{x^m}{m!} -\sum_{m=1}^{n} (-1)^{m} {n \choose m}
+                \frac{x^{m}}{(m-1)!}
+                \end{aligned}\]</span></p>
+                <p>Finally for <span class="math inline">\(ny\)</span>
+                we have;</p>
+                <p><span class="math display">\[\begin{aligned}
+                ny &amp;= n\sum_{m=0}^n (-1)^m {n \choose
+                m}\frac{x^m}{m!} \\
+                \end{aligned}\]</span></p>
+                <p>Combining these terms we get;</p>
+                <p><span class="math display">\[\begin{aligned}
+                &amp; xy&#39;&#39;+(1-x)y&#39;+ny  \\
+                &amp;= \sum_{m=1}^{n-1} (-1)^{m+1} {n \choose m+1}
+                \frac{x^m}{(m-1)!} + \sum_{m=0}^{n-1} (-1)^{m+1} {n
+                \choose m+1} \frac{x^m}{m!} -\sum_{m=1}^{n} (-1)^{m} {n
+                \choose m} \frac{x^{m}}{(m-1)!}  \\
+                &amp; + n\sum_{m=0}^n (-1)^m {n \choose m}\frac{x^m}{m!}
+                \\
+                \end{aligned}\]</span></p>
+                <p>We want to show this expression is equal to zero so
+                <span class="math inline">\(L_n(x)\)</span> is a
+                solution of the differential equation. To do this I will
+                simplify it into a sum from <span
+                class="math inline">\(m=1\)</span> to <span
+                class="math inline">\(m=n-1\)</span> with remainder
+                terms, show that the remainder terms equal zero and show
+                that the sum is equal to zero. To figure out the
+                remainder terms we have to evaluate the terms of some of
+                the sums for <span class="math inline">\(m=0\)</span>
+                and <span class="math inline">\(m=n\)</span>.</p>
+                <p>For the sum;</p>
+                <p><span class="math display">\[\sum_{m=0}^{n-1}
+                (-1)^{m+1} {n \choose m+1} \frac{x^m}{m!}\]</span></p>
+                <p>when <span class="math inline">\(m=0\)</span> since
+                <span class="math inline">\({n \choose 1}=n\)</span> we
+                get;</p>
+                <p><span class="math display">\[(-1)^{0+1} {n \choose
+                0+1} \frac{x^0}{0!} = -n\]</span></p>
+                <p>For the sum;</p>
+                <p><span class="math display">\[-\sum_{m=1}^{n} (-1)^{m}
+                {n \choose m} \frac{x^{m}}{(m-1)!}\]</span></p>
+                <p>when <span class="math inline">\(m=n\)</span> since
+                <span class="math inline">\({n \choose n}=1\)</span> we
+                get;</p>
+                <p><span class="math display">\[-(-1)^n {n \choose n}
+                \frac{x^n}{(n-1)!}=(-1)^{n+1}
+                \frac{x^n}{(n-1)!}\]</span></p>
+                <p>For the sum;</p>
+                <p><span class="math display">\[n\sum_{m=0}^n (-1)^m {n
+                \choose m}\frac{x^m}{m!}\]</span></p>
+                <p>when <span class="math inline">\(m=0\)</span> since
+                <span class="math inline">\({n \choose 0}=1\)</span> we
+                get;</p>
+                <p><span class="math display">\[n(-1)^0 {n \choose 0}
+                \frac{x^0}{0!}=n\]</span></p>
+                <p>and for this same sum;</p>
+                <p><span class="math display">\[n\sum_{m=0}^n (-1)^m {n
+                \choose m}\frac{x^m}{m!}\]</span></p>
+                <p>when <span class="math inline">\(m=n\)</span> we
+                get</p>
+                <p><span class="math display">\[n(-1)^n {n \choose n}
+                \frac{x^n}{n!}=n (-1)^n
+                \frac{x^n}{n!}=(-1)^n\frac{x^n}{(n-1)!}\]</span></p>
+                <p>Combining we have four remainder terms;</p>
+                <p><span class="math display">\[-n
+                +(-1)^{n+1}\frac{x^n}{(n-1)!} +n + (-1)^n
+                \frac{x^n}{(n-1)!}=0\]</span></p>
+                <p>so the remainder terms are zero and we are just left
+                with the sums from <span
+                class="math inline">\(m=1\)</span> to <span
+                class="math inline">\(m=n-1\)</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                &amp; xy&#39;&#39;+(1-x)y&#39;+ny  \\
+                &amp;= \sum_{m=1}^{n-1} (-1)^{m+1} {n \choose m+1}
+                \frac{x^m}{(m-1)!} + \sum_{m=1}^{n-1} (-1)^{m+1} {n
+                \choose m+1} \frac{x^m}{m!} -\sum_{m=1}^{n-1} (-1)^{m}
+                {n \choose m} \frac{x^{m}}{(m-1)!}  \\
+                &amp; + n\sum_{m=1}^{n-1} (-1)^m {n \choose
+                m}\frac{x^m}{m!} \\
+                &amp;= \sum_{m=1}^{n-1} (-1)^{m+1} {n \choose m+1} \left
+                [ \frac{1}{(m-1)!}+\frac{1}{m!} \right ] x^m +
+                \sum_{m=1}^{n-1} (-1)^m {n \choose m} \left [
+                \frac{n}{m!} - \frac{1}{(m-1)!} \right ] x^m
+                \end{aligned}\]</span></p>
+                <p>The coefficient of <span
+                class="math inline">\(x^m\)</span> in this sum is;</p>
+                <p><span class="math display">\[\begin{aligned}
+                &amp; C_m \\
+                &amp;= (-1)^{m+1} {n \choose m+1} \left [
+                \frac{1}{(m-1)!}+\frac{1}{m!} \right ] + (-1)^m {n
+                \choose m} \left [ \frac{n}{m!} - \frac{1}{(m-1)!}
+                \right ] \\
+                &amp;=  (-1)^{m+1} {n \choose m+1} \frac{1}{m!} (1+m) +
+                (-1)^m {n \choose m} \frac{1}{m!}(n-m)\\
+                &amp;= (-1)^m {n \choose m} \frac{1}{m!}(n-m) - (-1)^{m}
+                {n \choose m+1} \frac{1}{m!} (1+m) \\
+                &amp;= (-1)^m \frac{1}{m!} \left [ {n \choose m} (n-m) -
+                {n \choose m+1} (1+m) \right ]
+                \end{aligned}\]</span></p>
+                <p>We use a standard binomial coefficient identity - the
+                forward form of the Pascal recursion;</p>
+                <p><span class="math display">\[{n \choose m+1} =
+                \frac{(n-m)}{m+1} {n \choose m}\]</span></p>
+                <p>therefore;</p>
+                <p><span class="math display">\[\begin{aligned}
+                &amp; C_m \\
+                &amp;= (-1)^m \frac{1}{m!} \left [ {n \choose m} (n-m) -
+                {n \choose m+1} (1+m) \right ] \\
+                &amp;=  (-1)^m \frac{1}{m!} \left [ {n \choose m} (n-m)
+                - \frac{(n-m)}{m+1} {n \choose m} (1+m) \right ]\\
+                &amp;= (-1)^m \frac{1}{m!} \left [ {n \choose m} (n-m) -
+                (n-m) {n \choose m}  \right ] \\
+                &amp;= 0
+                \end{aligned}\]</span></p>
+                <p>Therefore <span
+                class="math inline">\(C_m=0\)</span>.</p>
+                <p>Therefore the entire sum and so we have;</p>
+                <p><span
+                class="math display">\[xy&#39;&#39;+(1-x)y&#39;+ny=0\]</span></p>
+                <p>where</p>
+                <p><span class="math display">\[y=L_n(x)=\sum_{m=0}^n
+                (-1)^m {n \choose m} \frac{x^m}{m!}\]</span></p>
+                <p>so a solution of this differential equation is indeed
+                the Laguerre polynomial.</p>
+                <h2 id="associated-laguerre-polynomials">Associated
+                Laguerre Polynomials</h2>
+                <p>The goal in this section is to show that a solution
+                of the differential equation;</p>
+                <p><span class="math display">\[xy&#39;&#39; +
+                (k+1-x)y&#39; + ny=0\]</span></p>
+                <p>is given by the associated Laguerre polynomial;</p>
+                <p><span class="math display">\[y(x)=L_n^k(x) = (-1)^k
+                \frac{d^k}{dx^k} L_{n+k}(x)\]</span></p>
+                <p>where <span class="math inline">\(L_{n+k}(x)\)</span>
+                is the <span class="math inline">\((n+k)th\)</span>
+                Laguerre polynomial.</p>
+                <p>The Laguerre polynomial <span
+                class="math inline">\(L_n(x)\)</span> satisfies;</p>
+                <p><span
+                class="math display">\[xy&#39;&#39;+(1-x)y&#39;+ny=0\]</span></p>
+                <p>Replace <span class="math inline">\(n\)</span> by
+                <span class="math inline">\(n+k\)</span> to get the
+                differential equation satisfied by the Laguerre
+                polynomial <span
+                class="math inline">\(L_{n+k}\)</span>;</p>
+                <p><span
+                class="math display">\[xL_{n+k}&#39;&#39;+(1-x)L_{n+k}&#39;+(n+k)L_{n+k}=0\]</span></p>
+                <p>Let <span
+                class="math inline">\(f(x)=L_{n+k}(x)\)</span> then;</p>
+                <p><span
+                class="math display">\[xf&#39;&#39;+(1-x)f&#39;+(n+k)f=0\]</span></p>
+                <p>We will differentiate this equation <span
+                class="math inline">\(k\)</span> times using the Leibniz
+                rule for differentiating products to prove our original
+                goal.</p>
+                <p>The Leibniz rule for differentiating products
+                states;</p>
+                <p><span class="math display">\[\frac{d^k}{dx^k} (f g) =
+                \sum_{m=0}^k {k \choose m} \left [ \frac{d^m}{dx^m} f
+                \right ] \left [ \frac{d^{k-m}}{dx^{k-m}} g\right
+                ]\]</span></p>
+                <p>Therefore;</p>
+                <p><span class="math display">\[\frac{d^k}{dx^k}
+                (xf&#39;&#39;) = \sum_{m=0}^k {k \choose m} \left [
+                \frac{d^m}{dx^m} x \right ] \left [
+                \frac{d^{k-m}}{dx^{k-m}} f&#39;&#39; \right
+                ]\]</span></p>
+                <p>Since for <span class="math inline">\(m \geq
+                2\)</span> we have;</p>
+                <p><span class="math display">\[\frac{d^m}{dx^m}
+                x=0\]</span></p>
+                <p><span class="math display">\[\frac{d^k}{dx^k}
+                (xf&#39;&#39;)= {k \choose 0} \left [ \frac{d^0}{dx^0} x
+                \right ] \left [ \frac{d^{k-0}}{dx^{k-0}}
+                f&#39;&#39;\right ]+ {k \choose 1} \left [ \frac{d}{dx}
+                x \right ] \left [ \frac{d^{k-1}}{dx^{k-1}}
+                f&#39;&#39;\right ]=x f^{(k+2)}+kf^{(k+1)}\]</span></p>
+                <p>Similarly;</p>
+                <p><span class="math display">\[\frac{d^k}{dx^k} (1-x)
+                f&#39; = \sum_{m=0}^k {k \choose m} \left [
+                \frac{d^m}{dx^m} (1-x) \right ] \left [
+                \frac{d^{k-m}}{dx^{k-m}} f&#39; \right ]\]</span></p>
+                <p>but for <span class="math inline">\(m\geq
+                2\)</span></p>
+                <p><span class="math display">\[\frac{d^m}{dx^m}
+                (1-x)=0\]</span></p>
+                <p>therefore;</p>
+                <p><span class="math display">\[\frac{d^k}{dx^k} (1-x)
+                f&#39; = {k \choose 0} \left [ \frac{d^0}{dx^0} (1-x)
+                \right ] \left [ \frac{d^{k-0}}{dx^{k-0}} f&#39; \right
+                ]+ {k \choose 1} \left [ \frac{d}{dx} (1-x) \right ]
+                \left [ \frac{d^{k-1}}{dx^{k-1}} f&#39; \right ] = (1-x)
+                f^{(k+1)} - k f^{(k)}\]</span></p>
+                <p>Summarising we have;</p>
+                <p><span class="math display">\[\frac{d^k}{dx^k}
+                (xf&#39;&#39;)= x f^{(k+2)}+kf^{(k+1)}\]</span></p>
+                <p><span class="math display">\[\frac{d^k}{dx^k} (1-x)
+                f&#39;=(1-x) f^{(k+1)} - k f^{(k)}\]</span></p>
+                <p>Therefore when we differentiate the equation;</p>
+                <p><span
+                class="math display">\[xf&#39;&#39;+(1-x)f&#39;+(n+k)f=0\]</span></p>
+                <p>satisfied by <span
+                class="math inline">\(f=L_{n+k}\)</span>, <span
+                class="math inline">\(k\)</span> times we get;</p>
+                <p><span class="math display">\[\frac{d^k}{dx^k}
+                (xf&#39;&#39;) + \frac{d^k}{dx^k} (1-x) f&#39; + (n+k)
+                f^{(k)}=0\]</span></p>
+                <p>or plugging in;</p>
+                <p><span class="math display">\[x
+                f^{(k+2)}+kf^{(k+1)}+(1-x) f^{(k+1)} - k f^{(k)} + (n+k)
+                f^{(k)}=0\]</span></p>
+                <p>simplifying;</p>
+                <p><span class="math display">\[x
+                (f^{(k)})&#39;&#39;+(k+1-x) (f^{(k)})&#39; +n
+                f^{(k)}=0\]</span></p>
+                <p>Recall <span class="math inline">\(f=L_{n+k}\)</span>
+                so</p>
+                <p><span class="math display">\[f^{(k)} (x)=
+                \frac{d^k}{dx^k} L_{n+k}(x)\]</span></p>
+                <p>If we multiply by <span
+                class="math inline">\((-1)^k\)</span> which is constant
+                wrt <span class="math inline">\(x\)</span> and let</p>
+                <p><span class="math display">\[y=(-1)^k f^{(k)}=(-1)^k
+                \frac{d^k}{dx^k} L_{n+k}\]</span></p>
+                <p>then we get;</p>
+                <p><span
+                class="math display">\[xy&#39;&#39;+(k+1-x)y&#39;+ny=0\]</span></p>
+                <p>where</p>
+                <p><span class="math display">\[y=(-1)^k
+                \frac{d^k}{dx^k} L_{n+k}=L_n^k(x)\]</span></p>
+                <p>Therefore a solution of the differential
+                equation;</p>
+                <p><span
+                class="math display">\[xy&#39;&#39;+(k+1-x)y&#39;+ny=0\]</span></p>
+                <p>is the associated Laguerre polynomial;</p>
+                <p><span class="math display">\[y=(-1)^k
+                \frac{d^k}{dx^k} L_{n+k}=L_n^k(x)\]</span></p>
+                <h2 id="radial-equation-for-hydrogen-atom">Radial
+                Equation for Hydrogen Atom</h2>
+                <p><span class="math display">\[\rho \frac{d^2
+                v}{d\rho^2} + 2(l+1-\rho) \frac{dv}{d\rho} + [\rho_0-
+                2(l+1)]v=0\]</span></p>
+                <p>Let <span class="math inline">\(x=2\rho\)</span> so
+                <span class="math inline">\(\rho=x/2\)</span></p>
+                <p><span
+                class="math display">\[\frac{dv}{d\rho}=\frac{dv}{dx}\frac{dx}{d\rho}=2\frac{dv}{dx}\]</span></p>
+                <p><span class="math display">\[\frac{d}{d\rho} =
+                \frac{dx}{d\rho} \frac{d}{dx} = 2
+                \frac{d}{dx}\]</span></p>
+                <p><span class="math display">\[\frac{d^2v}{d\rho^2} =
+                \frac{d}{d\rho} \left ( 2\frac{dv}{dx}\right ) = 2
+                \frac{d}{dx} \left ( 2 \frac{dv}{dx} \right ) = 4
+                \frac{d^2v}{dx^2}\]</span></p>
+                <p>Substitute these into the following equation;</p>
+                <p><span class="math display">\[\begin{aligned}
+                \rho \frac{d^2 v}{d\rho^2} + 2(l+1-\rho)
+                \frac{dv}{d\rho} + [\rho_0- 2(l+1)]v=0 \\
+                \implies \left (\frac{x}{2} \right ) \left ( 4
+                \frac{d^2v}{dx^2} \right ) + 2(l+1-x/2) \left [ 2
+                \frac{dv}{dx} \right ]+[\rho_0 - 2(l+1)] v=0\\
+                \implies  2x \frac{d^2v}{dx^2} + (4(l+1)-2x)
+                \frac{dv}{dx} + [\rho_0- 2(l+1)]v=0 \\ \implies  x
+                \frac{d^2v}{dx^2} + (2(l+1)-x) \frac{dv}{dx} +
+                \frac{1}{2}[\rho_0- 2(l+1)]v=0
+                  \\
+                \end{aligned}\]</span></p>
+                <p>So the equation;</p>
+                <p><span class="math display">\[\rho \frac{d^2
+                v}{d\rho^2} + 2(l+1-\rho) \frac{dv}{d\rho} + [\rho_0-
+                2(l+1)]v=0\]</span></p>
+                <p>can be written in terms of <span
+                class="math inline">\(x=2\rho\)</span> as;</p>
+                <p><span class="math display">\[x \frac{d^2v}{dx^2} +
+                (2(l+1)-x) \frac{dv}{dx} + \frac{1}{2}[\rho_0-
+                2(l+1)]v=0\]</span></p>
+                <p>Let <span class="math inline">\(k=2l+1\)</span> then
+                <span class="math inline">\(k+1 = 2(l+1)\)</span></p>
+                <p>Let <span
+                class="math inline">\(n&#39;=\frac{\rho_0-2(l+1)}{2}\)</span></p>
+                <p>then we can write the differential equation as;</p>
+                <p><span class="math display">\[x \frac{d^2v}{dx^2} +
+                (k+1-x) \frac{dv}{dx} + n&#39;v=0\]</span></p>
+                <p>This is the associated Laguerre differential
+                equation.</p>
+                <p>The solution is the associated Laguerre function
+                <span
+                class="math inline">\(v(x)=L_{n&#39;}^k(x)\)</span></p>
+                <p>Since <span class="math inline">\(\rho_0
+                =2n\)</span></p>
+                <p><span class="math display">\[n&#39; =
+                \frac{2n-2(l+1)}{2}=n-l-1\]</span></p>
+                <p>and <span class="math inline">\(k=2l+1\)</span></p>
+                <p>so the solution of the original differential equation
+                is</p>
+                <p><span
+                class="math display">\[v(\rho)=L_{n-l-1}^{2l+1}(2\rho)\]</span></p>
+                <h2 id="radial-equation">Radial Equation</h2>
+                <p><span
+                class="math display">\[-\frac{\hbar^2}{2m}\frac{d^2
+                u}{dr^2}+ \left [-\frac{e^2}{4\pi \epsilon_0}
+                \frac{1}{r} + \frac{\hbar^2}{2m} \frac{l(l+1)}{r^2}
+                \right ]u=Eu\]</span></p>
+                <p><span class="math display">\[\kappa
+                =\frac{\sqrt{-2mE}}{\hbar}\]</span></p>
+                <p><span class="math display">\[\kappa^2
+                =-\frac{2mE}{\hbar^2}\]</span></p>
+                <p><span
+                class="math display">\[\frac{\kappa^2}{E}=-\frac{2m}{\hbar^2}\]</span></p>
+                <p><span
+                class="math display">\[-\frac{\hbar^2}{2m}=\frac{E}{\kappa^2}\]</span></p>
+                <p><span class="math display">\[E=-\frac{\hbar^2
+                \kappa^2}{2m}\]</span></p>
+                <p><span
+                class="math display">\[\frac{1}{E}=-\frac{2m}{\hbar^2
+                \kappa^2}\]</span></p>
+                <p><span
+                class="math display">\[-\frac{\hbar^2}{2m}\frac{d^2
+                u}{dr^2}+ \left [-\frac{e^2}{4\pi \epsilon_0}
+                \frac{1}{r} + \frac{\hbar^2}{2m} \frac{l(l+1)}{r^2}
+                \right ]u=Eu\]</span></p>
+                <p><span
+                class="math display">\[\frac{E}{\kappa^2}\frac{d^2
+                u}{dr^2}+ \left [-\frac{e^2}{4\pi \epsilon_0}
+                \frac{1}{r} -\frac{E}{\kappa^2} \frac{l(l+1)}{r^2}
+                \right ]u=Eu\]</span></p>
+                <p>Multiply by;</p>
+                <p><span
+                class="math display">\[\frac{1}{E}=-\frac{2m}{\hbar^2
+                \kappa^2}\]</span></p>
+                <p><span
+                class="math display">\[\frac{1}{\kappa^2}\frac{d^2
+                u}{dr^2}+ \left [\left ( -\frac{2m}{\hbar^2 \kappa^2}
+                \right ) \left ( -\frac{e^2}{4\pi \epsilon_0}
+                \frac{1}{r} \right ) -\frac{1}{\kappa^2}
+                \frac{l(l+1)}{r^2} \right ]u=u\]</span></p>
+                <p><span
+                class="math display">\[\frac{1}{\kappa^2}\frac{d^2
+                u}{dr^2}= \left [1 - \left ( \frac{m e^2}{2 \pi
+                \epsilon_0 \hbar^2 \kappa } \frac{1}{\kappa r} \right
+                )  + \frac{l(l+1)}{(\kappa r)^2} \right ]u\]</span></p>
+                <p>Let</p>
+                <p><span class="math display">\[\rho = \kappa
+                r\]</span></p>
+                <p><span class="math display">\[\rho_0 =\frac{me^2}{2\pi
+                \epsilon_0 \hbar^2 \kappa}\]</span></p>
+                <p>then</p>
+                <p><span
+                class="math display">\[\frac{du}{dr}=\frac{du}{d\rho}\frac{d\rho}{dr}=\kappa
+                \frac{du}{d\rho}\]</span></p>
+                <p><span class="math display">\[\frac{d^2u}{dr^2} =
+                \frac{d}{dr} \left [ \kappa \frac{du}{d\rho} \right ]=
+                \kappa \left [ \frac{d^2 u}{d\rho^2} \frac{d\rho}{dr}
+                \right ] = \kappa^2 \frac{d^2 u}{d\rho^2}\]</span></p>
+                <p><span class="math display">\[\frac{d^2 u}{d\rho^2} =
+                \frac{1}{\kappa^2} \frac{d^2u} {dr^2}\]</span></p>
+                <p><span class="math display">\[\frac{d^2 u}{d\rho^2} =
+                \left [ 1 - \frac{\rho_0}{\rho} + \frac{l(l+1)}{\rho^2}
+                \right ] u\]</span></p>
+                <p><span
+                class="math display">\[u(\rho)=\rho^{l+1}e^{-\rho}v(\rho)\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{du}{d\rho} \\&amp;= (l+1)\rho^l e^{-\rho} v+
+                \rho^{l+1}(-e^{-\rho})v + \rho^{l+1}e^{-\rho}
+                \frac{dv}{d\rho}  \\
+                &amp;= \rho^l e^{-\rho} \left [ (l+1-\rho) v + \rho
+                \frac{dv}{d\rho} \right ]
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{d^2u}{d\rho^2}  \\&amp;= l\rho^{l-1}\rho^{-l}
+                \frac{du}{d\rho}-\frac{du}{d\rho} + \rho^l e^{-\rho}
+                \frac{d}{d\rho} \left [ (l+1-\rho) v + \rho
+                \frac{dv}{d\rho} \right ]  \\
+                &amp;= l\rho^{l-1}\rho^{-l}
+                \frac{du}{d\rho}-\frac{du}{d\rho} + \rho^l e^{-\rho}
+                \left [ (l+1) \frac{dv}{d\rho}-v-\rho\frac{dv}{d\rho}
+                +  \frac{dv}{d\rho} + \rho \frac{d^2 v }{d\rho^2} \right
+                ]\\ &amp;=  l\rho^{-1} \frac{du}{d\rho}-\frac{du}{d\rho}
+                + \rho^l e^{-\rho} \left [ (l+2-\rho)
+                \frac{dv}{d\rho}-v  + \rho \frac{d^2 v }{d\rho^2} \right
+                ]
+                \end{aligned}\]</span></p>
+                <p><span class="math display">\[\frac{du}{d\rho}=\rho^l
+                e^{-\rho} \left [ (l+1-\rho) v + \rho \frac{dv}{d\rho}
+                \right ]\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                \frac{d^2u}{d\rho^2}  \\ &amp;= \rho^l e^{-\rho} \left [
+                \frac{l(l+1)}{\rho}v-lv+l\frac{dv}{d\rho}+ (l+2-\rho)
+                \frac{dv}{d\rho}-v  + \rho \frac{d^2 v }{d\rho^2} \right
+                ] \\&amp; -\rho^l e^{-\rho} \left [ (l+1-\rho) v + \rho
+                \frac{dv}{d\rho} \right ] \\ &amp;= \rho^l e^{-\rho}
+                \left [ \frac{l(l+1)}{\rho} v -(l+1)v + (2l +2 - \rho)
+                \frac{dv}{d\rho} + \rho \frac{d^2 v}{d\rho^2} \right ]
+                \\&amp; -\rho^l e^{-\rho} \left [ (l+1-\rho) v + \rho
+                \frac{dv}{d\rho} \right ] \\&amp;= \rho^l e^{-\rho}
+                \left [  \frac{l(l+1)}{\rho} v -(2l + 2 -\rho) v + (2l+2
+                - 2 \rho) \frac{dv}{d\rho} +\rho \frac{d^2
+                v}{d\rho^2}\right ] \\&amp;= \rho^l e^{-\rho} \left \{
+                \left [ \frac{l(l+1)}{\rho}  -2l - 2 +\rho)  \right ]v +
+                2(l+1 -  \rho) \frac{dv}{d\rho} +\rho \frac{d^2
+                v}{d\rho^2}\right \}
+                \end{aligned}\]</span></p>
+                <p>Use;</p>
+                <p><span class="math display">\[u(\rho) =
+                \rho^{l+1}e^{-\rho} v\]</span></p>
+                <p><span class="math display">\[\frac{d^2 u}{d\rho^2} =
+                \left [ 1 - \frac{\rho_0}{\rho} + \frac{l(l+1)}{\rho^2}
+                \right ] u\]</span></p>
+                <p><span class="math display">\[\frac{d^2 u}{d\rho^2}
+                =\rho^l e^{-\rho} \left \{ \left [
+                \frac{l(l+1)}{\rho}  -2l - 2 +\rho)  \right ]v + 2(l+1
+                -  \rho) \frac{dv}{d\rho} +\rho \frac{d^2
+                v}{d\rho^2}\right \}\]</span></p>
+                <p><span class="math display">\[\begin{aligned}
+                &amp; \rho^l e^{-\rho} \left \{ \left [
+                \frac{l(l+1)}{\rho}  -2l - 2 +\rho)  \right ]v + 2(l+1
+                -  \rho) \frac{dv}{d\rho} +\rho \frac{d^2
+                v}{d\rho^2}\right \} = \left [ 1 - \frac{\rho_0}{\rho} +
+                \frac{l(l+1)}{\rho^2} \right ] \rho^{l+1} e^{-\rho}
+                v\\&amp; \implies \left [ \frac{l(l+1)}{\rho}  -2l - 2
+                +\rho)  \right ]v + 2(l+1 -  \rho) \frac{dv}{d\rho}
+                +\rho \frac{d^2 v}{d\rho^2} = \left [ 1 -
+                \frac{\rho_0}{\rho} + \frac{l(l+1)}{\rho^2} \right ]
+                \rho v \\&amp;\implies \left [ \frac{l(l+1)}{\rho}  -2l
+                - 2 +\rho)  \right ]v + 2(l+1 -  \rho) \frac{dv}{d\rho}
+                +\rho \frac{d^2 v}{d\rho^2} = \left [ \rho - \rho_0 +
+                \frac{l(l+1)}{\rho} \right ] v \\&amp;\implies \left
+                [   -2l - 2 +\rho)  \right ]v + 2(l+1 -  \rho)
+                \frac{dv}{d\rho} +\rho \frac{d^2 v}{d\rho^2} = \left [
+                \rho - \rho_0 +  \right ] v \\&amp;\implies   ( -2l - 2
+                +\rho_0) v + 2(l+1 -  \rho) \frac{dv}{d\rho} +\rho
+                \frac{d^2 v}{d\rho^2} = 0 \\&amp;\implies  \rho
+                \frac{d^2 v}{d\rho^2}+ 2(l+1 -  \rho) \frac{dv}{d\rho}+
+                [\rho_0 -2(l+1)] v  = 0
+                \end{aligned}\]</span></p>
+                <a class="back-to-top" href="#top">Back to top ↑</a>
+            </div>
+        </div>
+    </article>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        © 2026 Dale Matthews
+    </div>
+</footer>
+
+</body>
+</html>
