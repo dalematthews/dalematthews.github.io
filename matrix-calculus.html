@@ -223,6 +223,22 @@
             scroll-margin-top: 24px;
         }
 
+        .article-body h3.example-heading {
+            margin-top: 3.6rem;
+            padding-top: 1.6rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .example-label {
+            display: block;
+            margin-bottom: 0.55rem;
+            color: var(--accent);
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+        }
+
         .article-body h3 .math {
             display: block;
             overflow-x: auto;
@@ -713,7 +729,9 @@
                 <p><span class="math display">\[\frac{\partial
                 f(X)}{\partial X} = A^T\]</span></p>
                 <h2 id="examples">Examples</h2>
-                <h3 id="fracpartial-xtapartial-xat"><span
+                <h3 class="example-heading"
+                id="fracpartial-xtapartial-xat">
+                <span class="example-label">Example 1</span><span
                 class="math inline">\(\frac{\partial x^Ta}{\partial
                 x}=a^T\)</span></h3>
                 <p><span class="math display">\[\begin{aligned}
@@ -724,7 +742,9 @@
                 <p>Therefore</p>
                 <p><span class="math display">\[\frac{\partial
                 x^Ta}{\partial x}=a^T\]</span></p>
-                <h3 id="fracpartial-xtapartial-xat-1"><span
+                <h3 class="example-heading"
+                id="fracpartial-xtapartial-xat-1">
+                <span class="example-label">Example 2</span><span
                 class="math inline">\(\frac{\partial x^Ta}{\partial
                 x}=a^T\)</span></h3>
                 <p><span class="math display">\[f(x)=x^Ta\]</span></p>
@@ -733,8 +753,9 @@
                 \\&amp;= a^Th+o(h) \end{aligned}\]</span></p>
                 <p><span class="math display">\[\frac{\partial
                 x^Ta}{\partial x}=a^T\]</span></p>
-                <h3
-                id="fracpartial-x2-partial-xfracpartial-xtxpartial-x2xt"><span
+                <h3 class="example-heading"
+                id="fracpartial-x2-partial-xfracpartial-xtxpartial-x2xt">
+                <span class="example-label">Example 3</span><span
                 class="math inline">\(\frac{\partial \|x\|^2 }{\partial
                 x}=\frac{\partial x^Tx}{\partial x}=2x^T\)</span></h3>
                 <p><span class="math display">\[\begin{aligned}
@@ -749,8 +770,9 @@
                 <p><span class="math display">\[\frac{\partial \|x\|^2
                 }{\partial x}=\frac{\partial x^Tx}{\partial
                 x}=2x^T\]</span></p>
-                <h3
-                id="fracpartial-x2-partial-xfracpartial-xtxpartial-x2xt-1"><span
+                <h3 class="example-heading"
+                id="fracpartial-x2-partial-xfracpartial-xtxpartial-x2xt-1">
+                <span class="example-label">Example 4</span><span
                 class="math inline">\(\frac{\partial \|x\|^2 }{\partial
                 x}=\frac{\partial x^Tx}{\partial x}=2x^T\)</span></h3>
                 <p><span class="math display">\[f(x)=x^Tx\]</span></p>
@@ -763,7 +785,9 @@
                 <p><span class="math display">\[\frac{\partial \|x\|^2
                 }{\partial x}=\frac{\partial x^Tx}{\partial
                 x}=2x^T\]</span></p>
-                <h3 id="fracpartial-bt-axpartial-xbta"><span
+                <h3 class="example-heading"
+                id="fracpartial-bt-axpartial-xbta">
+                <span class="example-label">Example 5</span><span
                 class="math inline">\(\frac{\partial b^T Ax}{\partial
                 x}=b^TA\)</span></h3>
                 <p><span class="math display">\[\begin{aligned}
@@ -773,7 +797,9 @@
                 <p>Therefore</p>
                 <p><span class="math display">\[\frac{\partial b^T
                 Ax}{\partial x}=b^TA\]</span></p>
-                <h3 id="fracpartial-bt-axpartial-xbta-1"><span
+                <h3 class="example-heading"
+                id="fracpartial-bt-axpartial-xbta-1">
+                <span class="example-label">Example 6</span><span
                 class="math inline">\(\frac{\partial b^T Ax}{\partial
                 x}=b^TA\)</span></h3>
                 <p><span class="math display">\[f(x)=b^TAx\]</span></p>
@@ -784,7 +810,9 @@
                 <p>Therefore</p>
                 <p><span class="math display">\[\frac{\partial b^T
                 Ax}{\partial x}=b^TA\]</span></p>
-                <h3 id="fracpartial-axpartial-xa"><span
+                <h3 class="example-heading"
+                id="fracpartial-axpartial-xa">
+                <span class="example-label">Example 7</span><span
                 class="math inline">\(\frac{\partial Ax}{\partial
                 x}=A\)</span></h3>
                 <p><span class="math display">\[\begin{aligned}
@@ -793,7 +821,9 @@
                     \end{aligned}\]</span></p>
                 <p>Therefore <span class="math display">\[\frac{\partial
                 Ax}{\partial x}=A\]</span></p>
-                <h3 id="fracpartial-axpartial-xa-1"><span
+                <h3 class="example-heading"
+                id="fracpartial-axpartial-xa-1">
+                <span class="example-label">Example 8</span><span
                 class="math inline">\(\frac{\partial Ax}{\partial
                 x}=A\)</span></h3>
                 <p><span class="math display">\[f(x)=Ax\]</span></p>
@@ -801,7 +831,9 @@
                 class="math display">\[\begin{aligned}f(x+h)-f(x)&amp;=A(x+h)-Ax\\&amp;=Ah\\&amp;=Ah+o(h)\end{aligned}\]</span></p>
                 <p>Therefore <span class="math display">\[\frac{\partial
                 Ax}{\partial x}=A\]</span></p>
-                <h3 id="fracpartial-xtaxpartial-xxtaat"><span
+                <h3 class="example-heading"
+                id="fracpartial-xtaxpartial-xxtaat">
+                <span class="example-label">Example 9</span><span
                 class="math inline">\(\frac{\partial x^TAx}{\partial
                 x}=x^T(A+A^T)\)</span></h3>
                 <p><span class="math display">\[\begin{aligned}
@@ -820,7 +852,9 @@
                 <p>If <span class="math inline">\(A\)</span> is
                 symmetric then this reduces to <span
                 class="math inline">\(2x^TA\)</span>.</p>
-                <h3 id="fracpartial-xtaxpartial-xxtaat-1"><span
+                <h3 class="example-heading"
+                id="fracpartial-xtaxpartial-xxtaat-1">
+                <span class="example-label">Example 10</span><span
                 class="math inline">\(\frac{\partial x^TAx}{\partial
                 x}=x^T(A+A^T)\)</span></h3>
                 <p><span class="math display">\[f(x)=x^TAx\]</span></p>
@@ -833,7 +867,9 @@
                 <p>Therefore</p>
                 <p><span class="math display">\[\frac{\partial
                 x^TAx}{\partial x}=x^T(A+A^T)\]</span></p>
-                <h3 id="fracpartial-xtaxpartial-axxt"><span
+                <h3 class="example-heading"
+                id="fracpartial-xtaxpartial-axxt">
+                <span class="example-label">Example 11</span><span
                 class="math inline">\(\frac{\partial x^TAx}{\partial
                 A}=xx^T\)</span></h3>
                 <p>We have</p>
@@ -856,7 +892,9 @@
                 <p>Therefore</p>
                 <p><span class="math display">\[\frac{\partial
                 x^TAx}{\partial A}=xx^T\]</span></p>
-                <h3 id="fracpartial-xtaxpartial-axxt-1"><span
+                <h3 class="example-heading"
+                id="fracpartial-xtaxpartial-axxt-1">
+                <span class="example-label">Example 12</span><span
                 class="math inline">\(\frac{\partial x^TAx}{\partial
                 A}=xx^T\)</span></h3>
                 <p><span class="math display">\[f(A)=x^TAx\]</span></p>
@@ -865,7 +903,9 @@
                 <p>Therefore</p>
                 <p><span class="math display">\[\frac{\partial
                 x^TAx}{\partial A}=xx^T\]</span></p>
-                <h3 id="fracpartial-mathopmathrmtraxpartial-xa"><span
+                <h3 class="example-heading"
+                id="fracpartial-mathopmathrmtraxpartial-xa">
+                <span class="example-label">Example 13</span><span
                 class="math inline">\(\frac{\partial
                 \mathop{\mathrm{Tr}}(AX)}{\partial X}=A\)</span></h3>
                 <p><span class="math display">\[\begin{aligned}
@@ -877,7 +917,9 @@
                 <p>Therefore</p>
                 <p><span class="math display">\[\frac{\partial
                 \mathop{\mathrm{Tr}}(AX)}{\partial X}=A\]</span></p>
-                <h3 id="fracpartial-mathopmathrmtraxtpartial-xat"><span
+                <h3 class="example-heading"
+                id="fracpartial-mathopmathrmtraxtpartial-xat">
+                <span class="example-label">Example 14</span><span
                 class="math inline">\(\frac{\partial
                 \mathop{\mathrm{Tr}}(AX^T)}{\partial
                 X}=A^T\)</span></h3>
@@ -896,8 +938,9 @@
                     \end{aligned}\]</span></p>
                 <p>Therefore <span class="math display">\[\frac{\partial
                 \mathop{\mathrm{Tr}}(AX^T)}{\partial X}=A^T\]</span></p>
-                <h3
-                id="fracpartial-mathopmathrmtrxtaxpartial-xxtaat"><span
+                <h3 class="example-heading"
+                id="fracpartial-mathopmathrmtrxtaxpartial-xxtaat">
+                <span class="example-label">Example 15</span><span
                 class="math inline">\(\frac{\partial
                 \mathop{\mathrm{Tr}}(X^TAX)}{\partial
                 X}=X^T(A+A^T)\)</span></h3>
@@ -928,8 +971,9 @@
                 <p>Therefore <span class="math display">\[\frac{\partial
                 \mathop{\mathrm{Tr}}(X^TAX)}{\partial
                 X}=X^T(A+A^T)\]</span></p>
-                <h3
-                id="fracpartial-mathopmathrmtrx-1apartial-x-x-1ax-1"><span
+                <h3 class="example-heading"
+                id="fracpartial-mathopmathrmtrx-1apartial-x-x-1ax-1">
+                <span class="example-label">Example 16</span><span
                 class="math inline">\(\frac{\partial
                 \mathop{\mathrm{Tr}}(X^{-1}A)}{\partial
                 X}=-X^{-1}AX^{-1}\)</span></h3>
@@ -958,8 +1002,9 @@
                 <p><span class="math display">\[\frac{\partial
                 \mathop{\mathrm{Tr}}(X^{-1}A)}{\partial
                 X}=-X^{-1}AX^{-1}\]</span></p>
-                <h3
-                id="fracpartial-mathopmathrmtraxbxt-c-partial-x-bxt-c-a-bt-xt-at-ct"><span
+                <h3 class="example-heading"
+                id="fracpartial-mathopmathrmtraxbxt-c-partial-x-bxt-c-a-bt-xt-at-ct">
+                <span class="example-label">Example 17</span><span
                 class="math inline">\(\frac{\partial
                 \mathop{\mathrm{Tr}}(AXBX^T C) }{\partial X}= BX^T C A +
                 B^T X^T A^T C^T\)</span></h3>
@@ -996,8 +1041,9 @@
                 <p>Therefore <span class="math display">\[\frac{\partial
                 \mathop{\mathrm{Tr}}(AXBX^T C) }{\partial X}= BX^T C A +
                 B^T X^T A^T C^T\]</span></p>
-                <h3
-                id="fracpartial-xabtcxab-partial-x-axabtcct-cctxabatt"><span
+                <h3 class="example-heading"
+                id="fracpartial-xabtcxab-partial-x-axabtcct-cctxabatt">
+                <span class="example-label">Example 18</span><span
                 class="math inline">\(\frac{\partial (Xa+b)^TC(Xa+b)
                 }{\partial X} = a(Xa+b)^T(C+C^T) =
                 [(C+C^T)(Xa+b)a^T]^T\)</span></h3>
@@ -1024,8 +1070,9 @@
                     &amp;= a (Xa+b)^T (C+C^T) \\
                     &amp;= [(C+C^T) (Xa+b) a^T]^T
                 \end{aligned}\]</span></p>
-                <h3
-                id="fracpartial-bxbt-c-dxdpartial-xbt-c-dxddt-ct-bxbt"><span
+                <h3 class="example-heading"
+                id="fracpartial-bxbt-c-dxdpartial-xbt-c-dxddt-ct-bxbt">
+                <span class="example-label">Example 19</span><span
                 class="math inline">\(\frac{\partial (Bx+b)^T C
                 (Dx+d)}{\partial x}=[B^T C (Dx+d)+D^T C^T
                 (Bx+b)]^T\)</span></h3>
@@ -1066,8 +1113,9 @@
                 <p><span class="math display">\[\frac{\partial (Bx+b)^T
                 C (Dx+d)}{\partial x}=[B^T C (Dx+d)+D^T C^T
                 (Bx+b)]^T\]</span></p>
-                <h3
-                id="fracpartial-bt-xt-dxcpartial-xdtxbctdxcbttcbtxtdbctxtdt"><span
+                <h3 class="example-heading"
+                id="fracpartial-bt-xt-dxcpartial-xdtxbctdxcbttcbtxtdbctxtdt">
+                <span class="example-label">Example 20</span><span
                 class="math inline">\(\frac{\partial b^T X^T
                 DXc}{\partial
                 X}=[D^TXbc^T+DXcb^T]^T=cb^TX^TD+bc^TX^TD^T\)</span></h3>
