@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Counting Points in a Refined Dyadic Grid — Dale Matthews</title>
+    <meta
+        name="description"
+        content="A count of the finer dyadic grid points contained in an aligned half-open dyadic box."
+    >
+
+    <style>
+        :root {
+            --background: #ffffff;
+            --text: #1f2933;
+            --muted: #64748b;
+            --accent: #2563eb;
+            --border: #e2e8f0;
+            --section-background: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.04rem;
+            line-height: 1.72;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus-visible {
+            text-decoration: underline;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            padding: 8px 12px;
+            background: var(--text);
+            color: white;
+            transform: translateY(-160%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .site-header,
+        .article-header,
+        footer {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        .site-header {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .site-header-inner {
+            width: min(900px, calc(100% - 40px));
+            min-height: 68px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .site-name {
+            color: var(--text);
+            font-weight: 650;
+            letter-spacing: -0.015em;
+        }
+
+        .site-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        main {
+            width: min(780px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 78px 0 100px;
+        }
+
+        .article-header {
+            margin-bottom: 52px;
+        }
+
+        .kicker {
+            margin: 0 0 12px;
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.11em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2 {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        h1 {
+            max-width: 720px;
+            margin: 0;
+            font-size: clamp(2.4rem, 7vw, 4.15rem);
+            line-height: 1.04;
+            letter-spacing: -0.045em;
+        }
+
+        .summary {
+            max-width: 680px;
+            margin: 22px 0 14px;
+            color: var(--muted);
+            font-size: 1.12rem;
+            line-height: 1.6;
+        }
+
+        .byline {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
+        .article-body p {
+            margin: 0 0 1.15rem;
+        }
+
+        .proposition {
+            margin-bottom: 2.5rem;
+            padding: 1.35rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--section-background);
+        }
+
+        .proposition p {
+            margin: 0;
+        }
+
+        h2 {
+            margin: 0 0 1.4rem;
+            padding-top: 1.6rem;
+            border-top: 1px solid var(--border);
+            font-size: clamp(1.55rem, 3vw, 2rem);
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+
+        .math.display {
+            display: block;
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0.25rem 0 0.55rem;
+        }
+
+        mjx-container[display="true"] {
+            margin: 1.15rem 0 !important;
+            text-align: left !important;
+        }
+
+        .end-proof {
+            white-space: nowrap;
+        }
+
+        .back-to-notes {
+            display: inline-block;
+            margin-top: 50px;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            padding: 30px 0 50px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-inner {
+            width: min(900px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 1rem;
+            }
+
+            .site-header-inner {
+                min-height: 60px;
+            }
+
+            main {
+                padding: 54px 0 72px;
+            }
+
+            .article-header {
+                margin-bottom: 40px;
+            }
+
+            .proposition {
+                padding: 1.15rem 1.2rem;
+            }
+        }
+
+        @media print {
+            .site-header,
+            .back-to-notes,
+            footer {
+                display: none;
+            }
+
+            main {
+                width: 100%;
+                padding: 0;
+            }
+        }
+    </style>
+
+    <script>
+        window.MathJax = {
+            chtml: {
+                displayAlign: "left"
+            }
+        };
+    </script>
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+    ></script>
+</head>
+
+<body>
+
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-name" href="index.html">Dale Matthews</a>
+        <nav class="site-nav" aria-label="Primary navigation">
+            <a href="index.html">About</a>
+            <a href="notes.html">Notes</a>
+        </nav>
+    </div>
+</header>
+
+<main id="content">
+    <article>
+        <header class="article-header">
+            <p class="kicker">Measure theory</p>
+            <h1>Counting Points in a Refined Dyadic Grid</h1>
+            <p class="summary">
+                The number of fine-grid points inside an aligned half-open
+                dyadic box follows from the ratio of the two side lengths.
+            </p>
+            <p class="byline">Dale Matthews</p>
+        </header>
+
+        <div class="article-body">
+            <div class="proposition">
+                <p>
+                    <strong>Proposition.</strong> Let
+                    <span class="math inline">\(k,n,r\)</span> be positive
+                    integers with <span class="math inline">\(n&gt;r\)</span>.
+                    For each positive integer
+                    <span class="math inline">\(m\)</span>, let
+                    <span class="math inline">\(P_m\)</span> be the points of
+                    <span class="math inline">\(\mathbb{R}^k\)</span> whose
+                    coordinates are integral multiples of
+                    <span class="math inline">\(2^{-m}\)</span>. Let
+                    <span class="math inline">\(Q\)</span> be an aligned,
+                    half-open dyadic box of side length
+                    <span class="math inline">\(2^{-r}\)</span>; that is,
+                    for some <span class="math inline">\(a\in P_r\)</span>,
+                    let
+                    <span class="math inline">\(Q=\prod_{j=1}^k
+                    [a_j,a_j+2^{-r})\)</span>. Then
+                    <span class="math inline">\(P_n\)</span> has exactly
+                    <span class="math inline">\(2^{(n-r)k}\)</span> points
+                    in <span class="math inline">\(Q\)</span>.
+                </p>
+            </div>
+
+            <h2>Proof</h2>
+
+            <p>
+                Since <span class="math inline">\(n&gt;r\)</span>, a dyadic
+                box of side length
+                <span class="math inline">\(2^{-n}\)</span> is smaller than
+                one of side length
+                <span class="math inline">\(2^{-r}\)</span>. The ratio of
+                their side lengths is
+            </p>
+
+            <p><span class="math display">\[
+                \frac{2^{-r}}{2^{-n}}=2^{n-r}.
+            \]</span></p>
+
+            <p>
+                Thus there are
+                <span class="math inline">\(2^{n-r}\)</span> fine dyadic
+                boxes along each of the
+                <span class="math inline">\(k\)</span> coordinate
+                directions, and hence there are
+            </p>
+
+            <p><span class="math display">\[
+                \left(2^{n-r}\right)^k=2^{(n-r)k}
+            \]</span></p>
+
+            <p>
+                dyadic boxes of side length
+                <span class="math inline">\(2^{-n}\)</span> inside
+                <span class="math inline">\(Q\)</span>. Each such half-open
+                box contributes one point of
+                <span class="math inline">\(P_n\)</span> lying in
+                <span class="math inline">\(Q\)</span>, namely its corner.
+                Therefore <span class="math inline">\(P_n\)</span> has
+                exactly <span class="math inline">\(2^{(n-r)k}\)</span>
+                points in <span class="math inline">\(Q\)</span>.
+                <span class="end-proof">\(\square\)</span>
+            </p>
+
+            <a class="back-to-notes" href="measure-theory.html">← Back to measure theory</a>
+        </div>
+    </article>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        © 2026 Dale Matthews
+    </div>
+</footer>
+
+</body>
+</html>
