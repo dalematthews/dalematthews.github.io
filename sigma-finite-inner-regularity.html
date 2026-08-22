@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>σ-finite Measure and Inner Regularity — Dale Matthews</title>
+    <meta
+        name="description"
+        content="A proof that measurable sets of σ-finite measure are inner regular under the hypotheses of the Riesz representation theorem."
+    >
+
+    <style>
+        :root {
+            --background: #ffffff;
+            --text: #1f2933;
+            --muted: #64748b;
+            --accent: #2563eb;
+            --border: #e2e8f0;
+            --section-background: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.04rem;
+            line-height: 1.72;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus-visible {
+            text-decoration: underline;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            padding: 8px 12px;
+            background: var(--text);
+            color: white;
+            transform: translateY(-160%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .site-header,
+        .article-header,
+        footer {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        .site-header {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .site-header-inner {
+            width: min(900px, calc(100% - 40px));
+            min-height: 68px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .site-name {
+            color: var(--text);
+            font-weight: 650;
+            letter-spacing: -0.015em;
+        }
+
+        .site-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        main {
+            width: min(780px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 78px 0 100px;
+        }
+
+        .article-header {
+            margin-bottom: 52px;
+        }
+
+        .kicker {
+            margin: 0 0 12px;
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.11em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2 {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        h1 {
+            max-width: 720px;
+            margin: 0;
+            font-size: clamp(2.4rem, 7vw, 4.15rem);
+            line-height: 1.04;
+            letter-spacing: -0.045em;
+        }
+
+        .summary {
+            max-width: 680px;
+            margin: 22px 0 14px;
+            color: var(--muted);
+            font-size: 1.12rem;
+            line-height: 1.6;
+        }
+
+        .byline {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
+        .article-body p {
+            margin: 0 0 1.15rem;
+        }
+
+        .proposition {
+            margin-bottom: 2.5rem;
+            padding: 1.35rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--section-background);
+        }
+
+        .proposition p {
+            margin: 0;
+        }
+
+        h2 {
+            margin: 0 0 1.4rem;
+            padding-top: 1.6rem;
+            border-top: 1px solid var(--border);
+            font-size: clamp(1.55rem, 3vw, 2rem);
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+
+        .math.display {
+            display: block;
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0.25rem 0 0.55rem;
+        }
+
+        mjx-container[display="true"] {
+            margin: 1.15rem 0 !important;
+            text-align: left !important;
+        }
+
+        .end-proof {
+            white-space: nowrap;
+        }
+
+        .back-to-notes {
+            display: inline-block;
+            margin-top: 50px;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            padding: 30px 0 50px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-inner {
+            width: min(900px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 1rem;
+            }
+
+            .site-header-inner {
+                min-height: 60px;
+            }
+
+            main {
+                padding: 54px 0 72px;
+            }
+
+            .article-header {
+                margin-bottom: 40px;
+            }
+
+            .proposition {
+                padding: 1.15rem 1.2rem;
+            }
+        }
+
+        @media print {
+            .site-header,
+            .back-to-notes,
+            footer {
+                display: none;
+            }
+
+            main {
+                width: 100%;
+                padding: 0;
+            }
+        }
+    </style>
+
+    <script>
+        window.MathJax = {
+            chtml: {
+                displayAlign: "left"
+            }
+        };
+    </script>
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+    ></script>
+</head>
+
+<body>
+
+<a class="skip-link" href="#content">Skip to content</a>
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-name" href="index.html">Dale Matthews</a>
+        <nav class="site-nav" aria-label="Primary navigation">
+            <a href="index.html">About</a>
+            <a href="notes.html">Notes</a>
+        </nav>
+    </div>
+</header>
+
+<main id="content">
+    <article>
+        <header class="article-header">
+            <p class="kicker">Measure theory</p>
+            <h1>σ-finite Measure and Inner Regularity</h1>
+            <p class="summary">
+                A proof that σ-finiteness extends inner regularity from
+                finite-measure sets.
+            </p>
+            <p class="byline">Dale Matthews</p>
+        </header>
+
+        <div class="article-body">
+            <div class="proposition">
+                <p>
+                    <strong>Proposition.</strong> Suppose that every measurable
+                    set of finite measure is inner regular. If a measurable set
+                    <span class="math inline">\(E\)</span> has
+                    <span class="math inline">\(\sigma\)</span>-finite
+                    measure, then <span class="math inline">\(E\)</span> is
+                    inner regular.
+                </p>
+            </div>
+
+            <h2>Proof</h2>
+
+            <p>
+                If <span class="math inline">\(E\)</span> is measurable and
+                <span class="math inline">\(\mu(E)&lt;\infty\)</span>, then
+                <span class="math inline">\(E\)</span> is inner regular by the
+                finite-measure case. Hence
+            </p>
+
+            <p><span class="math display">\[
+                \mu(E)=\sup\{\mu(K):K\subset E,\ K\text{ compact}\}.
+            \]</span></p>
+
+            <p>
+                If <span class="math inline">\(\mu(E)=\infty\)</span> and
+                <span class="math inline">\(E\)</span> is
+                <span class="math inline">\(\sigma\)</span>-finite, then
+                <span class="math inline">\(E\)</span> can be written as
+            </p>
+
+            <p><span class="math display">\[
+                E=\bigcup_{n=1}^{\infty}E_n,
+            \]</span></p>
+
+            <p>
+                where <span class="math inline">\(\mu(E_n)&lt;\infty\)</span>
+                for each <span class="math inline">\(n\)</span>, and the sets
+                <span class="math inline">\(E_n\)</span> are pairwise
+                disjoint.
+            </p>
+
+            <p>
+                Let <span class="math inline">\(\varepsilon&gt;0\)</span>.
+                Since each <span class="math inline">\(E_n\)</span> is inner
+                regular, there exists a compact set
+                <span class="math inline">\(K_n\subset E_n\)</span> such that
+            </p>
+
+            <p><span class="math display">\[
+                \mu(K_n)\leq\mu(E_n)
+                &lt;\mu(K_n)+\frac{\varepsilon}{2^n}.
+            \]</span></p>
+
+            <p>Then</p>
+
+            <p><span class="math display">\[
+                \begin{aligned}
+                    \mu(E)
+                    &amp;=\sum_{n=1}^{\infty}\mu(E_n) \\
+                    &amp;\leq\sum_{n=1}^{\infty}
+                        \left(\mu(K_n)+\frac{\varepsilon}{2^n}\right) \\
+                    &amp;=\sum_{n=1}^{\infty}\mu(K_n)+\varepsilon.
+                \end{aligned}
+            \]</span></p>
+
+            <p>
+                Since <span class="math inline">\(\mu(E)=\infty\)</span>,
+            </p>
+
+            <p><span class="math display">\[
+                \sum_{n=1}^{\infty}\mu(K_n)=\infty.
+            \]</span></p>
+
+            <p>
+                Since <span class="math inline">\(K_n\subset E_n\)</span>
+                and the sets <span class="math inline">\(E_n\)</span> are
+                disjoint, the sets <span class="math inline">\(K_n\)</span>
+                are also disjoint. Therefore
+            </p>
+
+            <p><span class="math display">\[
+                \mu\left(\bigcup_{n=1}^{\infty}K_n\right)
+                =\sum_{n=1}^{\infty}\mu(K_n)=\infty.
+            \]</span></p>
+
+            <p>Let</p>
+
+            <p><span class="math display">\[
+                \Phi_N=\bigcup_{n=1}^{N}K_n.
+            \]</span></p>
+
+            <p>
+                Each <span class="math inline">\(\Phi_N\)</span> is compact,
+                and
+            </p>
+
+            <p><span class="math display">\[
+                \mu(\Phi_N)\longrightarrow\infty
+                \quad\text{as}\quad N\longrightarrow\infty.
+            \]</span></p>
+
+            <p>Hence</p>
+
+            <p><span class="math display">\[
+                \sup\{\mu(K):K\subset E,\ K\text{ compact}\}
+                =\infty=\mu(E).
+            \]</span></p>
+
+            <p>
+                Therefore <span class="math inline">\(E\)</span> is inner
+                regular. <span class="end-proof">\(\square\)</span>
+            </p>
+
+            <a class="back-to-notes" href="notes.html">← Back to notes</a>
+        </div>
+    </article>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        © 2026 Dale Matthews
+    </div>
+</footer>
+
+</body>
+</html>
