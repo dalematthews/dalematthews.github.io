@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inadmissibility of the Graybill–Deal Estimator — Dale Matthews</title>
+    <meta
+        name="description"
+        content="Two proofs of inadmissibility of the Graybill–Deal estimator for every pair of sample sizes n₁,n₂ ≥ 2."
+    >
+
+    <style>
+        :root {
+            --background: #ffffff;
+            --text: #1f2933;
+            --muted: #64748b;
+            --accent: #2563eb;
+            --border: #e2e8f0;
+            --section-background: #f8fafc;
+            --notice-background: #eff6ff;
+            --notice-border: #bfdbfe;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.04rem;
+            line-height: 1.72;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus-visible {
+            text-decoration: underline;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            padding: 8px 12px;
+            background: var(--text);
+            color: #ffffff;
+            transform: translateY(-160%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .site-header,
+        .article-header,
+        footer,
+        #TOC,
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        .site-header {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .site-header-inner {
+            width: min(1160px, calc(100% - 40px));
+            min-height: 68px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .site-name {
+            color: var(--text);
+            font-weight: 650;
+            letter-spacing: -0.015em;
+        }
+
+        .site-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        main {
+            width: min(1160px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 78px 0 100px;
+        }
+
+        .article-header {
+            max-width: 820px;
+            margin: 0 auto 62px;
+        }
+
+        .kicker {
+            margin: 0 0 12px;
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.11em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2.35rem, 7vw, 4.1rem);
+            line-height: 1.04;
+            letter-spacing: -0.045em;
+        }
+
+        .summary {
+            max-width: 740px;
+            margin: 22px 0 14px;
+            color: var(--muted);
+            font-size: 1.12rem;
+            line-height: 1.6;
+        }
+
+        .byline {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
+        .research-note {
+            margin-top: 28px;
+            padding: 18px 20px;
+            border: 1px solid var(--notice-border);
+            border-radius: 10px;
+            background: var(--notice-background);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 0.96rem;
+            line-height: 1.62;
+        }
+
+        .research-note p {
+            margin: 0;
+        }
+
+        .research-note p + p {
+            margin-top: 10px;
+        }
+
+        .article-layout {
+            display: grid;
+            grid-template-columns: 240px minmax(0, 820px);
+            justify-content: center;
+            gap: 72px;
+            align-items: start;
+        }
+
+        #TOC {
+            position: sticky;
+            top: 28px;
+            max-height: calc(100vh - 56px);
+            overflow-y: auto;
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--section-background);
+            font-size: 0.82rem;
+            line-height: 1.42;
+        }
+
+        #TOC::before {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text);
+            content: "On this page";
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
+        #TOC ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #TOC ul ul {
+            margin-top: 7px;
+            padding-left: 13px;
+            border-left: 1px solid var(--border);
+        }
+
+        #TOC li + li {
+            margin-top: 8px;
+        }
+
+        #TOC a {
+            color: var(--muted);
+        }
+
+        #TOC a:hover,
+        #TOC a:focus-visible {
+            color: var(--accent);
+        }
+
+        .article-body {
+            min-width: 0;
+            counter-reset: proof;
+        }
+
+        .article-body > section.level2 {
+            counter-increment: proof;
+        }
+
+        .article-body > section.level2 + section.level2 {
+            margin-top: 7rem;
+            padding-top: 4.5rem;
+            border-top: 3px solid var(--text);
+        }
+
+        .article-body > section.level2 > h2 {
+            margin: 0 0 2rem;
+            font-size: clamp(1.9rem, 4vw, 2.65rem);
+            line-height: 1.12;
+            letter-spacing: -0.035em;
+            scroll-margin-top: 24px;
+        }
+
+        .article-body > section.level2 > h2::before {
+            display: block;
+            margin-bottom: 0.7rem;
+            color: var(--accent);
+            content: "Proof " counter(proof);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .article-body h3 {
+            margin: 4.5rem 0 1.4rem;
+            padding-top: 1.6rem;
+            border-top: 1px solid var(--border);
+            font-size: clamp(1.5rem, 3vw, 1.95rem);
+            line-height: 1.22;
+            letter-spacing: -0.025em;
+            scroll-margin-top: 24px;
+        }
+
+        .article-body h4 {
+            margin: 2.8rem 0 1.1rem;
+            font-size: 1.17rem;
+            line-height: 1.4;
+            letter-spacing: -0.012em;
+            scroll-margin-top: 24px;
+        }
+
+        .article-body p {
+            margin: 0 0 1.15rem;
+        }
+
+        .article-body ul,
+        .article-body ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.55rem;
+        }
+
+        .article-body li + li {
+            margin-top: 0.55rem;
+        }
+
+        .article-body blockquote {
+            margin: 1.6rem 0;
+            padding: 1rem 1.2rem;
+            border-left: 4px solid var(--accent);
+            background: var(--section-background);
+            color: #334155;
+        }
+
+        .article-body blockquote > :last-child {
+            margin-bottom: 0;
+        }
+
+        .article-body hr {
+            height: 1px;
+            margin: 3.2rem 0;
+            border: 0;
+            background: var(--border);
+        }
+
+        .article-body table {
+            display: block;
+            width: max-content;
+            max-width: 100%;
+            margin: 1.7rem 0;
+            overflow-x: auto;
+            border-collapse: collapse;
+            font-size: 0.93rem;
+            line-height: 1.5;
+        }
+
+        .article-body th,
+        .article-body td {
+            min-width: 150px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .article-body th {
+            background: var(--section-background);
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+            font-weight: 650;
+        }
+
+        .article-body code {
+            padding: 0.12em 0.35em;
+            border-radius: 4px;
+            background: var(--section-background);
+            font-size: 0.88em;
+        }
+
+        .article-body pre {
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--section-background);
+            line-height: 1.5;
+        }
+
+        .article-body pre code {
+            padding: 0;
+            background: transparent;
+        }
+
+        .math.display {
+            display: block;
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0.25rem 0 0.55rem;
+        }
+
+        mjx-container[display="true"] {
+            margin: 1.15rem 0 !important;
+            text-align: left !important;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            margin-top: 4.5rem;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-inner {
+            width: min(1160px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 30px 0 50px;
+        }
+
+        @media (max-width: 920px) {
+            .article-layout {
+                grid-template-columns: minmax(0, 820px);
+                gap: 42px;
+            }
+
+            #TOC {
+                position: static;
+                max-height: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .site-header-inner {
+                min-height: 62px;
+            }
+
+            main {
+                padding: 54px 0 72px;
+            }
+
+            .article-header {
+                margin-bottom: 42px;
+            }
+
+            .research-note,
+            #TOC {
+                padding: 15px;
+            }
+
+            .article-body > section.level2 + section.level2 {
+                margin-top: 5.2rem;
+                padding-top: 3.5rem;
+            }
+
+            .article-body h3 {
+                margin-top: 3.6rem;
+            }
+        }
+
+        @media print {
+            .site-header,
+            #TOC,
+            .back-to-top,
+            footer {
+                display: none;
+            }
+
+            main {
+                width: 100%;
+                padding: 0;
+            }
+
+            .article-layout {
+                display: block;
+            }
+
+            .article-body > section.level2 + section.level2 {
+                break-before: page;
+            }
+
+            a {
+                color: inherit;
+            }
+        }
+    </style>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [["\\(", "\\)"]],
+                displayMath: [["\\[", "\\]"]],
+                processEscapes: true,
+                tags: "ams"
+            },
+            chtml: {
+                displayAlign: "left"
+            }
+        };
+    </script>
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+    ></script>
+</head>
+
+<body id="top">
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="site-name" href="index.html">Dale Matthews</a>
+        <nav class="site-nav" aria-label="Site navigation">
+            <a href="index.html">About</a>
+        </nav>
+    </div>
+</header>
+
+<main id="main-content">
+    <header class="article-header">
+        <p class="kicker">Statistics · Research draft</p>
+        <h1>Inadmissibility of the Graybill–Deal Estimator</h1>
+        <p class="summary">
+            Two proofs covering every pair of sample sizes
+            <span class="math inline">\(n_1,n_2\geq2\)</span>: a
+            limiting-Bayes complete-class argument and an elementary local
+            construction.
+        </p>
+        <p class="byline">Dale Matthews · August 2026</p>
+
+        <aside class="research-note" aria-label="Provenance and status">
+            <p>
+                <strong>Provenance.</strong> These proofs were generated using
+                OpenAI GPT-5.6 Sol at ultra reasoning effort during a research
+                project directed by Dale Matthews. The proof text below is
+                reproduced from the source files without mathematical editing.
+            </p>
+            <p>
+                They are presented as research drafts and should be checked
+                independently. The original Markdown, formalization material,
+                and verification code are available in the
+                <a href="https://github.com/dalematthews/graybill-deal-inadmissibility">project repository</a>.
+            </p>
+        </aside>
+    </header>
+
+    <div class="article-layout">
+        <nav id="TOC" aria-label="Table of contents">
+<ul>
+<li><a href="#graybilldeal-inadmissibility-for-every-pair-of-sample-sizes" id="toc-graybilldeal-inadmissibility-for-every-pair-of-sample-sizes">Graybill–Deal inadmissibility for every pair of sample sizes</a>
+<ul>
+<li><a href="#a-detailed-readers-edition-of-the-limiting-bayes-proof" id="toc-a-detailed-readers-edition-of-the-limiting-bayes-proof">A detailed reader’s edition of the limiting-Bayes proof</a></li>
+<li><a href="#how-to-read-and-verify-the-proof" id="toc-how-to-read-and-verify-the-proof">How to read and verify the proof</a></li>
+<li><a href="#reduction-to-estimating-a-variance-ratio" id="toc-reduction-to-estimating-a-variance-ratio">1. Reduction to estimating a variance ratio</a></li>
+<li><a href="#exact-density-of-the-reduced-experiment" id="toc-exact-density-of-the-reduced-experiment">2. Exact density of the reduced experiment</a></li>
+<li><a href="#what-admissibility-would-imply" id="toc-what-admissibility-would-imply">3. What admissibility would imply</a></li>
+<li><a href="#consequences-of-star-on-the-boundary-q0" id="toc-consequences-of-star-on-the-boundary-q0">4. Consequences of <span class="math inline">\((\star)\)</span> on the boundary <span class="math inline">\(q=0\)</span></a></li>
+<li><a href="#unequal-sample-sizes" id="toc-unequal-sample-sizes">5. Unequal sample sizes</a></li>
+<li><a href="#equal-sample-sizes" id="toc-equal-sample-sizes">6. Equal sample sizes</a></li>
+<li><a href="#conclusion" id="toc-conclusion">7. Conclusion</a></li>
+<li><a href="#suggested-verification-order" id="toc-suggested-verification-order">8. Suggested verification order</a></li>
+<li><a href="#status-and-scope" id="toc-status-and-scope">9. Status and scope</a></li>
+</ul></li>
+<li><a href="#an-elementary-local-proof-of-graybilldeal-inadmissibility" id="toc-an-elementary-local-proof-of-graybilldeal-inadmissibility">An elementary local proof of Graybill–Deal inadmissibility</a>
+<ul>
+<li><a href="#theorem-1" id="toc-theorem-1">Theorem</a></li>
+<li><a href="#exact-reduction" id="toc-exact-reduction">1. Exact reduction</a></li>
+<li><a href="#the-two-differential-certificates" id="toc-the-two-differential-certificates">2. The two differential certificates</a></li>
+<li><a href="#from-the-certificate-to-a-dominating-estimator" id="toc-from-the-certificate-to-a-dominating-estimator">3. From the certificate to a dominating estimator</a></li>
+<li><a href="#five-minute-verification-of-the-certificates" id="toc-five-minute-verification-of-the-certificates">4. Five-minute verification of the certificates</a></li>
+<li><a href="#verification-of-the-reduced-density" id="toc-verification-of-the-reduced-density">5. Verification of the reduced density</a></li>
+<li><a href="#gap-checklist" id="toc-gap-checklist">6. Gap checklist</a></li>
+<li><a href="#relation-to-prior-relative-admissibility" id="toc-relation-to-prior-relative-admissibility">7. Relation to prior relative admissibility</a></li>
+</ul></li>
+</ul>
+        </nav>
+
+        <article class="article-body">
+<section id="graybilldeal-inadmissibility-for-every-pair-of-sample-sizes" class="level2">
+<h2>Graybill–Deal inadmissibility for every pair of sample sizes</h2>
+<section id="a-detailed-readers-edition-of-the-limiting-bayes-proof" class="level3">
+<h3>A detailed reader’s edition of the limiting-Bayes proof</h3>
+<section id="theorem" class="level4">
+<h4>Theorem</h4>
+<p>Consider two independent normal samples</p>
+<p><span class="math display">\[
+X_{ij}\sim N(\mu,\sigma_i^2),
+\qquad i=1,2,\quad j=1,\ldots,n_i,
+\]</span></p>
+<p>with a common unknown mean <span class="math inline">\(\mu\)</span>, arbitrary unknown positive variances, and <span class="math inline">\(n_1,n_2\ge2\)</span>. Let <span class="math inline">\(S_i^2\)</span> be the usual unbiased sample variances. Under squared-error loss, the Graybill–Deal estimator</p>
+<p><span class="math display">\[
+\delta_{\mathrm{GD}}
+=
+\frac{(n_1/S_1^2)\bar X_1+(n_2/S_2^2)\bar X_2}
+     {n_1/S_1^2+n_2/S_2^2}
+\]</span></p>
+<p>is inadmissible for every fixed pair <span class="math inline">\((n_1,n_2)\)</span>.</p>
+<p>Here “dominates” means that another estimator has no greater risk for every <span class="math inline">\((\mu,\sigma_1^2,\sigma_2^2)\)</span> and strictly smaller risk for at least one such parameter point. An estimator is inadmissible precisely when a dominator exists.</p>
+<p>The proof is nonconstructive: it proves that a dominating estimator exists for each fixed pair of sample sizes, but it does not give a formula for that estimator.</p>
+<p>The one genuinely deep input is <a href="https://link.springer.com/book/10.1007/b98854">Lehmann–Casella, <em>Theory of Point Estimation</em>, Chapter 5, Section 7, Theorem 7.15</a> (often referenced as Theorem 5.7.15; printed page 382). Everything else is derived in the three companion modules listed below.</p>
+<p>The logical implication chain is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\delta_{\mathrm{GD}}\text{ admissible}
+&amp;\Longrightarrow r\text{ admissible in the reduced experiment}\\
+&amp;\Longrightarrow
+\text{finite-prior Bayes approximants exist}\\
+&amp;\Longrightarrow
+\text{a probability }\nu\text{ satisfies }(\star)\\
+&amp;\Longrightarrow\text{a derivative contradiction}.
+\end{aligned}
+\]</span></p>
+<p>We prove the last implication for both unequal and equal sample sizes, so the first assertion must be false.</p>
+</section>
+</section>
+<section id="how-to-read-and-verify-the-proof" class="level3">
+<h3>How to read and verify the proof</h3>
+<p>The proof has three modules.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Module</th>
+<th>What it establishes</th>
+<th>Main tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/dalematthews/graybill-deal-inadmissibility/blob/main/universal/reader_density_bridge">Raw-sample and density bridge</a></td>
+<td>Reduction from the raw normal samples to a one-parameter experiment and derivation of its exact density</td>
+<td>Normal sample theory, Gamma densities, a Jacobian, the Gamma integral</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dalematthews/graybill-deal-inadmissibility/blob/main/universal/reader_limiting_bayes_bridge.md">Limiting-Bayes bridge</a></td>
+<td>Admissibility would force a probability <span class="math inline">\(\nu\)</span> satisfying the posterior-mean identity <span class="math inline">\((\star)\)</span> below</td>
+<td>Lehmann–Casella 5.7.15, Bayes’ formula, weak convergence, continuity</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dalematthews/graybill-deal-inadmissibility/blob/main/universal/reader_ode_moments.md">ODE, moments, and contradictions</a></td>
+<td>No probability <span class="math inline">\(\nu\)</span> can satisfy <span class="math inline">\((\star)\)</span>, for unequal or equal sample sizes</td>
+<td>An elementary ODE, differentiation of a transform, quotient rules</td>
+</tr>
+</tbody>
+</table>
+<p>Every custom algebraic identity is expanded in those modules. Each also contains copy-pastable WolframAlpha queries. The present file gives the continuous logical spine, so that it is clear exactly how the modules fit together.</p>
+<hr />
+</section>
+<section id="reduction-to-estimating-a-variance-ratio" class="level3">
+<h3>1. Reduction to estimating a variance ratio</h3>
+<p>Put</p>
+<p><span class="math display">\[
+v_i=\frac{\sigma_i^2}{n_i},\qquad
+\tau=v_1+v_2,\qquad
+\theta=\frac{v_1}{\tau}.
+\]</span></p>
+<p>Then <span class="math inline">\(\tau&gt;0\)</span>, <span class="math inline">\(0&lt;\theta&lt;1\)</span>, and conversely</p>
+<p><span class="math display">\[
+\sigma_1^2=n_1\tau\theta,\qquad
+\sigma_2^2=n_2\tau(1-\theta).
+\]</span></p>
+<p>To check one-to-one explicitly, consider the map</p>
+<p><span class="math display">\[
+T:(0,\infty)^2\longrightarrow(0,\infty)\times(0,1),\qquad
+T(\sigma_1^2,\sigma_2^2)=(\tau,\theta).
+\]</span></p>
+<p>By definition, <span class="math inline">\(T\)</span> is one-to-one if</p>
+<p><span class="math display">\[
+T(\sigma_1^2,\sigma_2^2)
+=T(\widetilde\sigma_1^2,\widetilde\sigma_2^2)
+\]</span></p>
+<p>implies</p>
+<p><span class="math display">\[
+(\sigma_1^2,\sigma_2^2)
+=(\widetilde\sigma_1^2,\widetilde\sigma_2^2).
+\]</span></p>
+<p>Suppose the two variance pairs have the same image <span class="math inline">\((\tau,\theta)\)</span>. Applying the inverse formulas above to each pair gives</p>
+<p><span class="math display">\[
+\sigma_1^2=n_1\tau\theta=\widetilde\sigma_1^2,
+\qquad
+\sigma_2^2=n_2\tau(1-\theta)=\widetilde\sigma_2^2.
+\]</span></p>
+<p>Thus the two variance pairs are equal, which proves directly from the definition that <span class="math inline">\(T\)</span> is one-to-one. Moreover, every <span class="math inline">\((\tau,\theta)\in(0,\infty)\times(0,1)\)</span> produces a positive variance pair through the inverse formulas, so <span class="math inline">\(T\)</span> is in fact a bijective reparametrization.</p>
+<p>Define</p>
+<p><span class="math display">\[
+D=\bar X_2-\bar X_1,\qquad
+Y_i=\frac{S_i^2}{n_i},\qquad
+r=\frac{Y_1}{Y_1+Y_2},\qquad
+q=\frac{D^2}{Y_1+Y_2}.
+\]</span></p>
+<p>The commonly used definition of the two-sample Graybill–Deal estimator is the inverse-estimated-variance weighted average</p>
+<p><span class="math display">\[
+\delta_{\mathrm{GD}}
+=
+\frac{(n_1/S_1^2)\bar X_1+(n_2/S_2^2)\bar X_2}
+     {n_1/S_1^2+n_2/S_2^2}.
+\]</span></p>
+<p>Indeed, the variance of <span class="math inline">\(\bar X_i\)</span> is <span class="math inline">\(\operatorname{Var}(\bar X_i)=\sigma_i^2/n_i\)</span>, which is estimated by <span class="math inline">\(S_i^2/n_i=Y_i\)</span>. Thus <span class="math inline">\(n_i/S_i^2=Y_i^{-1}\)</span> is the corresponding estimated precision, and the definition can be written</p>
+<p><span class="math display">\[
+\delta_{\mathrm{GD}}
+=
+\frac{Y_1^{-1}\bar X_1+Y_2^{-1}\bar X_2}
+     {Y_1^{-1}+Y_2^{-1}}.
+\]</span></p>
+<p>The coefficient of <span class="math inline">\(\bar X_2\)</span> in this weighted average is</p>
+<p><span class="math display">\[
+\frac{Y_2^{-1}}{Y_1^{-1}+Y_2^{-1}}
+=\frac{Y_1}{Y_1+Y_2}=r,
+\]</span></p>
+<p>while the coefficient of <span class="math inline">\(\bar X_1\)</span> is</p>
+<p><span class="math display">\[
+\frac{Y_1^{-1}}{Y_1^{-1}+Y_2^{-1}}
+=\frac{Y_2}{Y_1+Y_2}=1-r.
+\]</span></p>
+<p>Consequently,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\delta_{\mathrm{GD}}
+&amp;=(1-r)\bar X_1+r\bar X_2\\
+&amp;=\bar X_1+r(\bar X_2-\bar X_1)\\
+&amp;=\bar X_1+rD.
+\end{aligned}
+\]</span></p>
+<p>The known-variance oracle is</p>
+<p><span class="math display">\[
+M=\bar X_1+\theta D.
+\]</span></p>
+<p>If <span class="math inline">\(E=M-\mu\)</span>, elementary bivariate-normal calculations give</p>
+<p><span class="math display">\[
+E\perp(D,S_1^2,S_2^2),\qquad
+E[E]=0,\qquad
+\operatorname{Var}(E)=\tau\theta(1-\theta).
+\]</span></p>
+<p>For the variance calculation, first use</p>
+<p><span class="math display">\[
+E=M-\mu
+=(1-\theta)(\bar X_1-\mu)+\theta(\bar X_2-\mu).
+\]</span></p>
+<p>The two sample means are independent, with variances <span class="math inline">\(v_1\)</span> and <span class="math inline">\(v_2\)</span>. Therefore</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{Var}(E)
+&amp;=(1-\theta)^2v_1+\theta^2v_2\\
+&amp;=(1-\theta)^2\tau\theta
+  +\theta^2\tau(1-\theta)\\
+&amp;=\tau\theta(1-\theta)\{(1-\theta)+\theta\}\\
+&amp;=\tau\theta(1-\theta).
+\end{aligned}
+\]</span></p>
+<p>For any measurable weight <span class="math inline">\(\phi(r,q)\)</span> of finite risk,</p>
+<p><span class="math display">\[
+\bar X_1+D\phi-\mu
+=E+D(\phi-\theta).
+\]</span></p>
+<p>The cross term vanishes after squaring and taking expectations, so</p>
+<p><span class="math display">\[
+R_{\mu,\tau,\theta}(\bar X_1+D\phi)
+=
+\tau\theta(1-\theta)
++
+\tau E_\theta\!\left[
+\frac{D^2}{\tau}\{\phi(r,q)-\theta\}^2
+\right].
+\tag{1}
+\]</span></p>
+<p>Since <span class="math inline">\(D/\sqrt\tau\sim N(0,1)\)</span>, the rule</p>
+<p><span class="math display">\[
+Q_\theta(C)
+=
+E_\theta\!\left[
+\frac{D^2}{\tau}\mathbf 1_{\{(r,q)\in C\}}
+\right]
+\tag{2}
+\]</span></p>
+<p>defines a probability measure. Equation (1) becomes</p>
+<p><span class="math display">\[
+R_{\mu,\tau,\theta}(\bar X_1+D\phi)
+=
+\tau\theta(1-\theta)
++
+\tau\int(\phi-\theta)^2\,dQ_\theta.
+\tag{3}
+\]</span></p>
+<p>Therefore it is sufficient to show that the reduced rule</p>
+<p><span class="math display">\[
+\phi_0(r,q)=r
+\]</span></p>
+<p>is inadmissible for estimating <span class="math inline">\(\theta\)</span> under squared loss when <span class="math inline">\((r,q)\sim Q_\theta\)</span>. Any reduced dominator <span class="math inline">\(\phi\)</span> lifts to the full-model dominator <span class="math inline">\(\bar X_1+D\phi\)</span> through (3).</p>
+<p>All independence and risk calculations in this section are expanded in Sections 1–7 of <code>reader_density_bridge.md</code>.</p>
+<hr />
+</section>
+<section id="exact-density-of-the-reduced-experiment" class="level3">
+<h3>2. Exact density of the reduced experiment</h3>
+<p>Set</p>
+<p><span class="math display">\[
+a=\frac{n_1-1}{2},\qquad
+b=\frac{n_2-1}{2},\qquad
+h=a+b,\qquad
+p=h+\frac32.
+\]</span></p>
+<p>After dividing the scale variables by <span class="math inline">\(\tau\)</span>,</p>
+<p><span class="math display">\[
+G_1=\frac{Y_1}{\tau}
+\sim\operatorname{Gamma}\left(a,\text{ scale }\frac{\theta}{a}\right),
+\]</span></p>
+<p><span class="math display">\[
+G_2=\frac{Y_2}{\tau}
+\sim\operatorname{Gamma}\left(b,\text{ scale }\frac{1-\theta}{b}\right),
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+W=\frac{D^2}{\tau}\sim\chi_1^2.
+\]</span></p>
+<p>These three variables are independent. Weighting their joint law by <span class="math inline">\(W\)</span>, as in the definition of <span class="math inline">\(Q_\theta\)</span>, changes the <span class="math inline">\(\chi_1^2\)</span> density into the <span class="math inline">\(\chi_3^2\)</span> density.</p>
+<p>Use</p>
+<p><span class="math display">\[
+G_1=rt,\qquad
+G_2=(1-r)t,\qquad
+W=qt.
+\]</span></p>
+<p>The absolute Jacobian is <span class="math inline">\(t^2\)</span>. Integrating out <span class="math inline">\(t\)</span> with</p>
+<p><span class="math display">\[
+\int_0^\infty t^{p-1}e^{-At}\,dt=\frac{\Gamma(p)}{A^p}
+\]</span></p>
+<p>gives the exact density</p>
+<p><span class="math display">\[
+\boxed{
+f_\theta^Q(r,q)
+=
+C_{a,b}r^{a-1}(1-r)^{b-1}q^{1/2}
+\frac{\theta^{b+3/2}(1-\theta)^{a+3/2}}
+     {B_\theta(r,q)^p}
+}
+\tag{4}
+\]</span></p>
+<p>on <span class="math inline">\(0&lt;r&lt;1\)</span>, <span class="math inline">\(q&gt;0\)</span>, where</p>
+<p><span class="math display">\[
+C_{a,b}
+=
+\frac{2^p a^a b^b\Gamma(p)}
+{\sqrt{2\pi}\Gamma(a)\Gamma(b)}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+B_\theta(r,q)
+=
+2ar(1-\theta)+2b(1-r)\theta+q\theta(1-\theta).
+\tag{5}
+\]</span></p>
+<p>The density is strictly positive for every observation and every <span class="math inline">\(0&lt;\theta&lt;1\)</span>. Its full derivation, including the crossed powers of <span class="math inline">\(\theta\)</span>, is in Sections 8–13 of <code>reader_density_bridge.md</code>.</p>
+<hr />
+</section>
+<section id="what-admissibility-would-imply" class="level3">
+<h3>3. What admissibility would imply</h3>
+<p>Suppose, for contradiction, that the reduced rule <span class="math inline">\(r\)</span> were admissible. Apply Lehmann–Casella Theorem 5.7.15 with</p>
+<p><span class="math display">\[
+\mathcal X=(0,1)\times(0,\infty),\qquad
+\Theta=(0,1),\qquad
+L(\theta,d)=(d-\theta)^2.
+\]</span></p>
+<p>The theorem’s assumptions hold:</p>
+<ol type="1">
+<li>Lebesgue measure on <span class="math inline">\(\mathcal X\)</span> is sigma-finite.</li>
+<li>Equation (4) is a density relative to that measure and is everywhere positive.</li>
+<li>Squared loss is continuous and strictly convex in <span class="math inline">\(d\)</span>.</li>
+<li><span class="math inline">\((d-\theta)^2\to\infty\)</span> as <span class="math inline">\(|d|\to\infty\)</span>.</li>
+</ol>
+<p>Moreover, <span class="math inline">\(r\)</span> has finite reduced risk because <span class="math inline">\(0&lt;r,\theta&lt;1\)</span> implies <span class="math inline">\((r-\theta)^2\le1\)</span>.</p>
+<p>Consequently, there are finite-support priors <span class="math inline">\(\pi_j\)</span> whose Bayes rules <span class="math inline">\(A_j(r,q)\)</span> converge to <span class="math inline">\(r\)</span> for Lebesgue-almost every <span class="math inline">\((r,q)\)</span>.</p>
+<p>Under squared loss, a Bayes action is the posterior mean. Factoring (4) inside Bayes’ formula gives</p>
+<p><span class="math display">\[
+A_j(r,q)
+=
+\frac{\int\theta w(\theta)B_\theta(r,q)^{-p}\,\pi_j(d\theta)}
+     {\int w(\theta)B_\theta(r,q)^{-p}\,\pi_j(d\theta)},
+\tag{6}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+w(\theta)=\theta^{b+3/2}(1-\theta)^{a+3/2}.
+\]</span></p>
+<p>Define the reweighted probability</p>
+<p><span class="math display">\[
+\nu_j(d\theta)
+=
+\frac{w(\theta)\pi_j(d\theta)}
+     {\int w\,d\pi_j}.
+\tag{7}
+\]</span></p>
+<p>Regarding <span class="math inline">\(\nu_j\)</span> as probabilities on the compact interval <span class="math inline">\([0,1]\)</span>, pass to a weakly convergent subsequence</p>
+<p><span class="math display">\[
+\nu_j\Rightarrow\nu.
+\]</span></p>
+<p>For fixed <span class="math inline">\(0&lt;r&lt;1\)</span> and <span class="math inline">\(q\ge0\)</span>,</p>
+<p><span class="math display">\[
+B_\theta(r,q)
+\ge
+\min\{2ar,2b(1-r)\}&gt;0.
+\]</span></p>
+<p>Thus <span class="math inline">\(B_\theta^{-p}\)</span> and <span class="math inline">\(\theta B_\theta^{-p}\)</span> are bounded continuous functions of <span class="math inline">\(\theta\in[0,1]\)</span>. Weak convergence passes both integrals in (6) to the limit, and the limiting denominator is positive. Hence</p>
+<p><span class="math display">\[
+A_j(r,q)\longrightarrow
+A_\nu(r,q)
+:=
+\frac{\int\theta B_\theta(r,q)^{-p}\,\nu(d\theta)}
+     {\int B_\theta(r,q)^{-p}\,\nu(d\theta)}.
+\tag{8}
+\]</span></p>
+<p>On the full-measure set supplied by Lehmann–Casella, the same sequence converges to <span class="math inline">\(r\)</span>. Therefore <span class="math inline">\(A_\nu(r,q)=r\)</span> almost everywhere. Both sides are continuous in <span class="math inline">\((r,q)\)</span>, so equality holds everywhere for <span class="math inline">\(q&gt;0\)</span>. Continuity as <span class="math inline">\(q\downarrow0\)</span> then gives</p>
+<p><span class="math display">\[
+\boxed{
+A_\nu(r,q)=r
+\quad\text{for every }0&lt;r&lt;1,\ q\ge0.
+}
+\tag{$\star$}
+\]</span></p>
+<p>Possible endpoint atoms of <span class="math inline">\(\nu\)</span> cause no problem because</p>
+<p><span class="math display">\[
+B_0(r,q)=2ar&gt;0,\qquad
+B_1(r,q)=2b(1-r)&gt;0.
+\]</span></p>
+<p>Every step in this compactness argument, including the distinction between sample-space almost-everywhere convergence and parameter-space weak convergence, is expanded in <code>reader_limiting_bayes_bridge.md</code>.</p>
+<hr />
+</section>
+<section id="consequences-of-star-on-the-boundary-q0" class="level3">
+<h3>4. Consequences of <span class="math inline">\((\star)\)</span> on the boundary <span class="math inline">\(q=0\)</span></h3>
+<p>Put</p>
+<p><span class="math display">\[
+\lambda=p-1=h+\frac12
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+u_\theta(r)
+=ar(1-\theta)+b(1-r)\theta,
+\]</span></p>
+<p>so that <span class="math inline">\(B_\theta(r,0)=2u_\theta(r)\)</span>. Define</p>
+<p><span class="math display">\[
+I(r)=E_\nu[u_\theta(r)^{-p}],
+\qquad
+F(r)=E_\nu[u_\theta(r)^{-\lambda}].
+\]</span></p>
+<p>The identity <span class="math inline">\(A_\nu(r,0)=r\)</span> gives</p>
+<p><span class="math display">\[
+E_\nu[\theta u_\theta(r)^{-p}]=rI(r).
+\]</span></p>
+<p>Since</p>
+<p><span class="math display">\[
+u_\theta(r)=ar(1-\theta)+b(1-r)\theta,
+\]</span></p>
+<p>we obtain</p>
+<p><span class="math display">\[
+F(r)=hr(1-r)I(r).
+\tag{9}
+\]</span></p>
+<p>Also</p>
+<p><span class="math display">\[
+\frac{\partial u_\theta(r)}{\partial r}=a-h\theta,
+\]</span></p>
+<p>and therefore</p>
+<p><span class="math display">\[
+F&#39;(r)=-\lambda(a-hr)I(r).
+\tag{10}
+\]</span></p>
+<p>Dividing (10) by (9),</p>
+<p><span class="math display">\[
+\frac{F&#39;(r)}{F(r)}
+=-\lambda
+\left\{\frac{a}{hr}-\frac{b}{h(1-r)}\right\}.
+\]</span></p>
+<p>Solving this elementary ODE gives</p>
+<p><span class="math display">\[
+F(r)
+=C r^{-\lambda a/h}(1-r)^{-\lambda b/h}.
+\tag{11}
+\]</span></p>
+<p>Now define</p>
+<p><span class="math display">\[
+r_0=\frac{b}{h},\qquad
+c=\frac{ab}{h},\qquad
+Z=a-h\theta.
+\]</span></p>
+<p>At <span class="math inline">\(r=r_0\)</span>, <span class="math inline">\(u_\theta(r_0)=c\)</span> independently of <span class="math inline">\(\theta\)</span>. Put <span class="math inline">\(r=r_0+ct\)</span> and divide (11) by its value at <span class="math inline">\(r_0\)</span>. This yields</p>
+<p><span class="math display">\[
+\boxed{
+E_\nu[(1+tZ)^{-\lambda}]
+=(1+at)^{-\lambda a/h}(1-bt)^{-\lambda b/h}.
+}
+\tag{12}
+\]</span></p>
+<p>The identity holds for</p>
+<p><span class="math display">\[
+-\frac1a&lt;t&lt;\frac1b,
+\]</span></p>
+<p>which is exactly the condition <span class="math inline">\(0&lt;r_0+ct&lt;1\)</span>. This interval also keeps <span class="math inline">\(1+tZ&gt;0\)</span> for every <span class="math inline">\(Z\in[-b,a]\)</span>.</p>
+<p>The derivation of (9)–(12), including differentiation under the integral sign, is in Parts I–II of <code>reader_ode_moments.md</code>.</p>
+<hr />
+</section>
+<section id="unequal-sample-sizes" class="level3">
+<h3>5. Unequal sample sizes</h3>
+<p>Assume <span class="math inline">\(a\ne b\)</span>, equivalently <span class="math inline">\(n_1\ne n_2\)</span>. Differentiating (12) three times at zero gives</p>
+<p><span class="math display">\[
+E[Z]=a-b,
+\tag{13}
+\]</span></p>
+<p><span class="math display">\[
+E[Z^2]
+=
+\frac{a^2-ab+b^2+\lambda(a-b)^2}{\lambda+1},
+\tag{14}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+E[Z^3]
+=
+\frac{(a-b)
+\{2(a^2+b^2)+3\lambda(a^2-ab+b^2)
+                  +\lambda^2(a-b)^2\}}
+     {(\lambda+1)(\lambda+2)}.
+\tag{15}
+\]</span></p>
+<p>Because</p>
+<p><span class="math display">\[
+\theta=\frac{a-Z}{h},\qquad
+\theta-r_0=\frac{a-b-Z}{h},\qquad
+1-\theta=\frac{b+Z}{h},
+\]</span></p>
+<p>substitution of (13)–(15) gives</p>
+<p><span class="math display">\[
+\boxed{
+E_\nu[(\theta-r_0)\theta(1-\theta)]
+=
+\frac{2ab(a-b)(2h+1)}
+{h^3(2h+3)(2h+5)}.
+}
+\tag{16}
+\]</span></p>
+<p>At <span class="math inline">\((r,q)=(r_0,0)\)</span>, equation (5) has the constant value</p>
+<p><span class="math display">\[
+B_\theta(r_0,0)=\frac{2ab}{h}=2c.
+\]</span></p>
+<p>Differentiating the quotient (8) from the right in <span class="math inline">\(q\)</span> gives</p>
+<p><span class="math display">\[
+\partial_{q+}A_\nu(r_0,0)
+=
+-\frac{p}{2c}
+E_\nu[(\theta-r_0)\theta(1-\theta)].
+\]</span></p>
+<p>Using (16),</p>
+<p><span class="math display">\[
+\boxed{
+\partial_{q+}A_\nu(r_0,0)
+=
+-\frac{(a-b)(2h+1)}
+       {2h^2(2h+5)}
+\ne0.
+}
+\tag{17}
+\]</span></p>
+<p>But <span class="math inline">\((\star)\)</span> says <span class="math inline">\(A_\nu(r_0,q)=r_0\)</span>, a constant function of <span class="math inline">\(q\)</span>, whose right derivative must be zero. This is a contradiction.</p>
+<p>Parts III–V of <code>reader_ode_moments.md</code> derive every line of (13)–(17), including the polynomial expansion behind (16).</p>
+<hr />
+</section>
+<section id="equal-sample-sizes" class="level3">
+<h3>6. Equal sample sizes</h3>
+<p>It remains to consider <span class="math inline">\(a=b\)</span>, equivalently <span class="math inline">\(n_1=n_2\)</span>. The derivative in (17) then vanishes by symmetry.</p>
+<p>Put</p>
+<p><span class="math display">\[
+Y=1-2\theta.
+\]</span></p>
+<p>The transform (12) becomes</p>
+<p><span class="math display">\[
+E_\nu[(1+sY)^{-\lambda}]
+=(1-s^2)^{-\lambda/2}.
+\tag{18}
+\]</span></p>
+<p>Comparing the coefficients of <span class="math inline">\(s^2\)</span> and <span class="math inline">\(s^4\)</span>, with <span class="math inline">\(p=\lambda+1\)</span>, gives</p>
+<p><span class="math display">\[
+E[Y^2]=\frac1p,\qquad
+E[Y^4]=\frac3{p(p+2)}.
+\tag{19}
+\]</span></p>
+<p>In these centered coordinates,</p>
+<p><span class="math display">\[
+B_\theta(r,q)
+=
+a+2a\left(r-\frac12\right)Y
++\frac q4(1-Y^2).
+\tag{20}
+\]</span></p>
+<p>Differentiate the numerator and denominator in (8), first in <span class="math inline">\(r\)</span> and then from the right in <span class="math inline">\(q\)</span>, at <span class="math inline">\((r,q)=(1/2,0)\)</span>. Substitution of (19) gives</p>
+<p><span class="math display">\[
+\boxed{
+\partial_{q+}\partial_r A_\nu(1/2,0)
+=
+\frac{p-1}{4a(p+2)}&gt;0.
+}
+\tag{21}
+\]</span></p>
+<p>But <span class="math inline">\((\star)\)</span> says <span class="math inline">\(A_\nu(r,q)=r\)</span>. Its derivative in <span class="math inline">\(r\)</span> is identically <span class="math inline">\(1\)</span>, whose derivative in <span class="math inline">\(q\)</span> is zero. Equation (21) is the required contradiction.</p>
+<p>Part VI of <code>reader_ode_moments.md</code> derives (18)–(21), including every quotient-rule term and the two moment substitutions.</p>
+<hr />
+</section>
+<section id="conclusion" class="level3">
+<h3>7. Conclusion</h3>
+<p>For every <span class="math inline">\(n_1,n_2\ge2\)</span>, exactly one of the following holds:</p>
+<ol type="1">
+<li><span class="math inline">\(n_1\ne n_2\)</span>, in which case (17) contradicts <span class="math inline">\((\star)\)</span>;</li>
+<li><span class="math inline">\(n_1=n_2\)</span>, in which case (21) contradicts <span class="math inline">\((\star)\)</span>.</li>
+</ol>
+<p>Therefore the reduced rule <span class="math inline">\(r\)</span> cannot be admissible. By the definition of inadmissibility, there exists a reduced rule <span class="math inline">\(\phi\)</span> whose squared risk is no larger for every <span class="math inline">\(\theta\in(0,1)\)</span> and strictly smaller for at least one <span class="math inline">\(\theta\)</span>. Equation (3) lifts it to the estimator</p>
+<p><span class="math display">\[
+\delta_\phi=\bar X_1+D\phi(r,q),
+\]</span></p>
+<p>which dominates Graybill–Deal for all <span class="math inline">\(\mu\in\mathbb R\)</span> and all positive variance pairs, with strict improvement somewhere. Hence Graybill–Deal is inadmissible.</p>
+<p>The estimator <span class="math inline">\(\phi\)</span> may depend on the fixed pair <span class="math inline">\((n_1,n_2)\)</span>; the theorem does not assert that the same rule works simultaneously for every choice of sample sizes.</p>
+<hr />
+</section>
+<section id="suggested-verification-order" class="level3">
+<h3>8. Suggested verification order</h3>
+<ol type="1">
+<li>Verify the ordinary Graybill–Deal algebra and the oracle decomposition.</li>
+<li>Verify the Gamma laws, the <span class="math inline">\(t^2\)</span> Jacobian, and density (4).</li>
+<li>Read Lehmann–Casella Theorem 5.7.15 and compare its hypotheses with Section 3.</li>
+<li>Verify the reweighting (7) and the two weak limits in (8).</li>
+<li>Verify the ODE (9)–(11).</li>
+<li>Use WolframAlpha to differentiate transform (12) three times and check (13)–(16).</li>
+<li>Verify the one quotient derivative leading to (17).</li>
+<li>On the diagonal, compare the <span class="math inline">\(s^2,s^4\)</span> coefficients in (18) and check the quotient-rule calculation yielding (21).</li>
+</ol>
+<p>The consolidated symbolic checker <code>verify_graybill_deal_universal_reader.py</code> verifies the density Jacobian and exponents, the unequal obstruction (16)–(17), the equal obstruction (19)–(21), and the special constants. It deliberately does not attempt to verify the Lehmann–Casella theorem.</p>
+</section>
+<section id="status-and-scope" class="level3">
+<h3>9. Status and scope</h3>
+<p>The proof has been reconstructed independently in its probability, decision-theory, and analytic parts and checked symbolically. Because the conclusion is unusually strong and potentially resolves a longstanding question, independent review by a specialist in statistical decision theory remains prudent.</p>
+<p>The theorem concerns:</p>
+<ul>
+<li>exactly two independent normal populations;</li>
+<li>a common unknown mean;</li>
+<li>arbitrary positive population variances;</li>
+<li>ordinary squared-error loss;</li>
+<li>fixed sample sizes <span class="math inline">\(n_1,n_2\ge2\)</span>.</li>
+</ul>
+<p>It does not cover sample size <span class="math inline">\(1\)</span>, where the usual unbiased sample variance is unavailable.</p>
+</section>
+</section>
+<section id="an-elementary-local-proof-of-graybilldeal-inadmissibility" class="level2">
+<h2>An elementary local proof of Graybill–Deal inadmissibility</h2>
+<section id="theorem-1" class="level3">
+<h3>Theorem</h3>
+<p>Let two independent normal samples have a common unknown mean <span class="math inline">\(\mu\)</span>, positive unknown variances <span class="math inline">\(\sigma_1^2,\sigma_2^2\)</span>, and sample sizes <span class="math inline">\(n_1,n_2\ge 2\)</span>. Under ordinary squared-error loss, the Graybill–Deal estimator is inadmissible.</p>
+<p>The proof uses only normal regression, chi-square densities, elementary differentiation, uniform continuity on a compact set, and integration by parts. In particular, it uses no complete-class or limiting-Bayes theorem.</p>
+<p>Throughout, <span class="math display">\[
+S_i^2=\frac1{n_i-1}\sum_{j=1}^{n_i}(X_{ij}-\bar X_i)^2
+\]</span> is the usual unbiased sample variance.</p>
+</section>
+<section id="exact-reduction" class="level3">
+<h3>1. Exact reduction</h3>
+<p>Put <span class="math display">\[
+a=\frac{n_1-1}{2},\qquad b=\frac{n_2-1}{2},\qquad
+h=a+b,\qquad p=h+\frac32,
+\]</span> and <span class="math display">\[
+v_i=\frac{\sigma_i^2}{n_i},\qquad
+\tau=v_1+v_2,\qquad
+\theta=\frac{v_1}{\tau}\in(0,1).
+\]</span> Let <span class="math display">\[
+D=\bar X_2-\bar X_1,\qquad
+Y_i=\frac{S_i^2}{n_i},\qquad
+r=\frac{Y_1}{Y_1+Y_2},\qquad
+q=\frac{D^2}{Y_1+Y_2}.
+\]</span> The usual inverse-estimated-variance estimator is <span class="math display">\[
+\frac{(n_1/S_1^2)\bar X_1+(n_2/S_2^2)\bar X_2}
+      {n_1/S_1^2+n_2/S_2^2},
+\]</span> so the Graybill–Deal estimator is <span class="math display">\[
+\delta_{\rm GD}=\bar X_1+rD.
+\]</span></p>
+<p>For any measurable real-valued <span class="math inline">\(\phi(r,q)\)</span>, write <span class="math display">\[
+\delta_\phi=\bar X_1+D\phi(r,q).
+\]</span> The normal variable <span class="math display">\[
+E=\bar X_1+\theta D-\mu
+\]</span> is independent of <span class="math inline">\((D,Y_1,Y_2)\)</span>, has mean zero, and has variance <span class="math inline">\(\tau\theta(1-\theta)\)</span>. Consequently, <span class="math display">\[
+R_{\mu,\tau,\theta}(\delta_\phi)
+=\tau\theta(1-\theta)
++\tau E_\theta\!\left[
+       D_0^2\{\phi(r,q)-\theta\}^2
+    \right],
+\qquad D_0=\frac D{\sqrt\tau}.                                      \tag{1}
+\]</span></p>
+<p>Define the probability law <span class="math display">\[
+Q_\theta(A)=E_\theta\!\left[D_0^2
+        1_{\{(r,q)\in A\}}\right].
+\]</span> It has total mass one because <span class="math inline">\(E_\theta[D_0^2]=1\)</span>. A direct gamma change of variables gives <span class="math display">\[
+dQ_\theta(r,q)
+=C_{a,b}\,
+   \theta^{\,b+3/2}(1-\theta)^{a+3/2}
+   B_\theta(r,q)^{-p}w(r,q)\,dr\,dq,                                \tag{2}
+\]</span> on <span class="math inline">\((0,1)\times(0,\infty)\)</span>, where <span class="math inline">\(C_{a,b}&gt;0\)</span> is independent of <span class="math inline">\(\theta,r,q\)</span>, and <span class="math display">\[
+\begin{split}
+B_\theta(r,q)
+   &amp;=2ar(1-\theta)+2b(1-r)\theta+q\theta(1-\theta),\\
+w(r,q)&amp;=r^{a-1}(1-r)^{b-1}q^{1/2}.                                 \tag{3}
+\end{split}
+\]</span> The short verification of (2) is given in Section 5 below.</p>
+</section>
+<section id="the-two-differential-certificates" class="level3">
+<h3>2. The two differential certificates</h3>
+<p>Define the first-variation kernel <span class="math display">\[
+K_\theta(r,q)=(r-\theta)B_\theta(r,q)^{-p}.                         \tag{4}
+\]</span> At each pivot used below, <span class="math inline">\(B_\theta\)</span> is bounded away from zero uniformly in <span class="math inline">\(0\le\theta\le1\)</span>. Thus <span class="math inline">\(K_\theta\)</span> extends smoothly to a two-sided neighborhood of <span class="math inline">\(q=0\)</span>, so the displayed boundary derivatives are ordinary derivatives rather than a distributional convention.</p>
+<section id="unequal-sample-sizes-1" class="level4">
+<h4>Unequal sample sizes</h4>
+<p>Suppose <span class="math inline">\(a\ne b\)</span>, and put <span class="math display">\[
+r_0=\frac bh,\qquad c=\frac{2ab}{h},\qquad \Delta=a-b.
+\]</span> The zero-order term in the following display means scalar multiplication. Define <span class="math display">\[
+L_u=\operatorname{sgn}(\Delta)\left[
+-\frac{p(p-1)h^2}{ab}
++\frac{(p+1)h\Delta}{ab}\,\partial_r
++\partial_r^2
+-\frac{2(p+1)h^3}{ab}\,\partial_q
+\right].                                                          \tag{5}
+\]</span> Then, for every <span class="math inline">\(0\le\theta\le1\)</span>, <span class="math display">\[
+\boxed{\quad
+(L_uK_\theta)(r_0,0)
+=-c^{-p}\frac{(p-1)h|\Delta|}{ab}&lt;0.
+\quad}                                                            \tag{6}
+\]</span></p>
+</section>
+<section id="equal-sample-sizes-1" class="level4">
+<h4>Equal sample sizes</h4>
+<p>Suppose <span class="math inline">\(a=b\)</span>, and put <span class="math display">\[
+d=p^2+p+1.
+\]</span> Define <span class="math display">\[
+L_e=\partial_r+
+       \frac{4a(p+2)}d\,\partial_r\partial_q
+       -\frac1{4d}\,\partial_r^3.                                  \tag{7}
+\]</span> Then, for every <span class="math inline">\(0\le\theta\le1\)</span>, <span class="math display">\[
+\boxed{\quad
+(L_eK_\theta)(1/2,0)
+=-a^{-p}\frac{p-1}{d}&lt;0.
+\quad}                                                            \tag{8}
+\]</span></p>
+<p>Equations (6) and (8) are the whole algebraic core of the proof. Their direct polynomial verification is in Section 4.</p>
+</section>
+</section>
+<section id="from-the-certificate-to-a-dominating-estimator" class="level3">
+<h3>3. From the certificate to a dominating estimator</h3>
+<p>Use <span class="math inline">\(L=L_u\)</span> and <span class="math inline">\(r_*=r_0\)</span> in the unequal case, and use <span class="math inline">\(L=L_e\)</span> and <span class="math inline">\(r_*=1/2\)</span> in the equal case. Equations (6) and (8) say that, for some <span class="math inline">\(\kappa&gt;0\)</span>, <span class="math display">\[
+(LK_\theta)(r_*,0)=-\kappa
+\qquad(0\le\theta\le1).                                           \tag{9}
+\]</span></p>
+<p>Choose <span class="math display">\[
+0&lt;\delta_0&lt;\frac12\min(r_*,1-r_*).
+\]</span> If <span class="math inline">\(|r-r_*|\le\delta_0\)</span>, <span class="math inline">\(q\ge0\)</span>, and <span class="math inline">\(0\le\theta\le1\)</span>, then <span class="math display">\[
+\begin{split}
+B_\theta(r,q)
+&amp;\ge \min\{2ar,\,2b(1-r)\}\\
+&amp;\ge
+\min\{2a(r_*-\delta_0),\,2b(1-r_*-\delta_0)\}&gt;0.
+\end{split}
+\]</span> Thus <span class="math inline">\(LK_\theta(r,q)\)</span> is jointly continuous on the compact one-sided tube <span class="math display">\[
+[0,1]\times[r_*-\delta_0,r_*+\delta_0]\times[0,\delta_0].
+\]</span> Since its value at <span class="math inline">\((r_*,0)\)</span> is the same negative constant <span class="math inline">\(-\kappa\)</span> for every <span class="math inline">\(\theta\)</span>, uniform continuity gives a <span class="math inline">\(0&lt;\delta\le\delta_0\)</span> such that <span class="math display">\[
+LK_\theta(r,q)\le-\frac{\kappa}{2}
+\quad\text{whenever}\quad
+|r-r_*|&lt;\delta,\qquad 0\le q&lt;\delta,\qquad 0\le\theta\le1.          \tag{10}
+\]</span> Now choose an open rectangle <span class="math inline">\(U\)</span> whose closure lies inside <span class="math display">\[
+(r_*-\delta,r_*+\delta)\times(0,\delta).
+\]</span> Thus <span class="math inline">\(U\)</span> is close to the boundary point but is wholly inside <span class="math inline">\(q&gt;0\)</span>. No quantitative lower bound on <span class="math inline">\(\delta\)</span> is needed: for each fixed pair of known sample sizes, <span class="math inline">\(\delta\)</span> and <span class="math inline">\(U\)</span> are chosen once and do not vary with <span class="math inline">\(\theta\)</span> or any other unknown parameter.</p>
+<p>Choose <span class="math inline">\(r_c,q_c,\alpha,\beta\)</span> so that <span class="math display">\[
+\{(r,q):|r-r_c|\le\alpha,\ |q-q_c|\le\beta\}\subset U.
+\]</span> With <span class="math inline">\(x_+=\max(x,0)\)</span>, define the explicit nonnegative bump <span class="math display">\[
+\rho(r,q)=
+\left[1-\left(\frac{r-r_c}{\alpha}\right)^2\right]_+^4
+\left[1-\left(\frac{q-q_c}{\beta}\right)^2\right]_+^4.
+\]</span> It is nonzero, compactly supported in <span class="math inline">\(U\)</span>, and <span class="math inline">\(C^3\)</span>, which is all that is needed because <span class="math inline">\(L\)</span> has order at most three. Each factor and its first three derivatives match zero at the endpoints of its support. Thus its zero extension is <span class="math inline">\(C^3\)</span>, <span class="math inline">\(\operatorname{supp}(L^*\rho)\subseteq\operatorname{supp}\rho\Subset U\)</span>, and the repeated integrations by parts below are classical.</p>
+<p>Let <span class="math inline">\(L^*\)</span> denote the formal adjoint of <span class="math inline">\(L\)</span> with respect to Lebesgue measure, and set <span class="math display">\[
+H(r,q)=\frac{L^*\rho(r,q)}{w(r,q)},                                \tag{11}
+\]</span> with <span class="math inline">\(H=0\)</span> off <span class="math inline">\(U\)</span>. Since <span class="math inline">\(w\)</span> is smooth and strictly positive on <span class="math inline">\(\overline U\)</span>, the function <span class="math inline">\(H\)</span> is bounded and compactly supported. The choices of <span class="math inline">\(U,\rho\)</span>, and <span class="math inline">\(H\)</span> depend only on the known sample sizes <span class="math inline">\((n_1,n_2)\)</span>, not on <span class="math inline">\(\mu,\sigma_1^2,\sigma_2^2\)</span>. Explicitly, a term <span class="math inline">\(c_{ij}\partial_r^i\partial_q^j\)</span> in <span class="math inline">\(L\)</span> becomes <span class="math inline">\((-1)^{i+j}c_{ij}\partial_r^i\partial_q^j\)</span> in <span class="math inline">\(L^*\)</span>. Integration by parts has no boundary terms and gives, uniformly in <span class="math inline">\(0\le\theta\le1\)</span>, <span class="math display">\[
+\begin{split}
+I_\theta
+&amp;:=\int H(r,q)K_\theta(r,q)w(r,q)\,dr\,dq\\
+&amp;=\int \rho(r,q)(LK_\theta)(r,q)\,dr\,dq\\
+&amp;\le-\frac{\kappa}{2}\int\rho(r,q)\,dr\,dq
+=:-\gamma&lt;0.                                                      \tag{12}
+\end{split}
+\]</span></p>
+<p>Also set <span class="math display">\[
+J_\theta=\int H(r,q)^2B_\theta(r,q)^{-p}
+                 w(r,q)\,dr\,dq.                                  \tag{13}
+\]</span> The set <span class="math inline">\(\operatorname{supp}H\times[0,1]\)</span> is compact and <span class="math inline">\(B_\theta&gt;0\)</span> there. Moreover, (12) implies <span class="math inline">\(H\not\equiv0\)</span>. Hence <span class="math display">\[
+M:=\sup_{0\le\theta\le1}J_\theta
+\quad\text{satisfies}\quad 0&lt;M&lt;\infty.                             \tag{14}
+\]</span></p>
+<p>Now take <span class="math display">\[
+\phi_\varepsilon(r,q)=r+\varepsilon H(r,q),\qquad
+\delta_\varepsilon=\bar X_1+D\phi_\varepsilon(r,q).
+\]</span> Using (1)–(4), for <span class="math inline">\(0&lt;\theta&lt;1\)</span>, <span class="math display">\[
+\begin{split}
+&amp;R_{\mu,\tau,\theta}(\delta_\varepsilon)
+  -R_{\mu,\tau,\theta}(\delta_{\rm GD})\\
+&amp;\quad=
+\tau C_{a,b}\theta^{b+3/2}(1-\theta)^{a+3/2}
+\{2\varepsilon I_\theta+\varepsilon^2J_\theta\}\\
+&amp;\quad\le
+\tau C_{a,b}\theta^{b+3/2}(1-\theta)^{a+3/2}
+\{-2\varepsilon\gamma+\varepsilon^2M\}.                            \tag{15}
+\end{split}
+\]</span> Every factor outside the braces is positive. Since the correction is compactly supported away from <span class="math inline">\(r=0,1\)</span>, put <span class="math display">\[
+d_0=\operatorname{dist}\!\left(
+       \operatorname{proj}_r(\operatorname{supp}H),\{0,1\}\right)&gt;0.
+\]</span> Choose once and for all <span class="math display">\[
+0&lt;\varepsilon&lt;
+\min\!\left\{
+   \frac{\gamma}{M},
+   \frac{d_0}{2\lVert H\rVert_\infty}
+\right\}.                                                        \tag{16}
+\]</span> Any such <span class="math inline">\(\varepsilon\)</span> depends only on the known sample sizes and the fixed bump, not on <span class="math inline">\(\mu,\tau,\theta\)</span>. The first bound makes the braces in (15) smaller than <span class="math inline">\(-\varepsilon\gamma\)</span>, giving strict risk improvement throughout the parameter space. The second ensures <span class="math display">\[
+0\le r+\varepsilon H(r,q)\le1
+\]</span> everywhere. Hence <span class="math inline">\(\delta_\varepsilon\)</span> has finite risk and can even be kept as a convex combination of the two sample means. It is also unbiased: conditional on <span class="math inline">\((Y_1,Y_2)\)</span>, the function <span class="math inline">\(\phi_\varepsilon(r,q)\)</span> depends on <span class="math inline">\(D\)</span> only through <span class="math inline">\(D^2\)</span>, so <span class="math inline">\(D\phi_\varepsilon(r,q)\)</span> is odd in the centered normal variable <span class="math inline">\(D\)</span>. Thus <span class="math inline">\(E[D\phi_\varepsilon(r,q)]=0\)</span> and <span class="math inline">\(E[\delta_\varepsilon]=\mu\)</span>. This proves the theorem. <span class="math inline">\(\square\)</span></p>
+</section>
+<section id="five-minute-verification-of-the-certificates" class="level3">
+<h3>4. Five-minute verification of the certificates</h3>
+<p>Because <span class="math inline">\(B_\theta\)</span> is affine in <span class="math inline">\(r\)</span> and <span class="math inline">\(q\)</span>, if <span class="math display">\[
+x=r-\theta,\qquad A=\partial_rB_\theta,\qquad Q=\partial_qB_\theta
+                  =\theta(1-\theta),
+\]</span> then <span class="math display">\[
+\begin{split}
+K_r&amp;=B^{-p}-pxAB^{-p-1},\\
+K_{rr}&amp;=-2pAB^{-p-1}+p(p+1)xA^2B^{-p-2},\\
+K_q&amp;=-pxQB^{-p-1},\\
+K_{rq}&amp;=-pQB^{-p-1}+p(p+1)xAQB^{-p-2},\\
+K_{rrr}&amp;=3p(p+1)A^2B^{-p-2}
+          -p(p+1)(p+2)xA^3B^{-p-3}.                                \tag{17}
+\end{split}
+\]</span></p>
+<p>For the unequal case, evaluate at <span class="math inline">\((r_0,0)\)</span> and retain <span class="math inline">\(x=r_0-\theta\)</span>. Then <span class="math display">\[
+B=c,\qquad
+A=2(\Delta+hx),\qquad
+Q=\frac{ab}{h^2}-\frac{\Delta x}{h}-x^2.                           \tag{18}
+\]</span> Substitution of (17)–(18) into the operator inside the square brackets in (5) cancels the coefficients of <span class="math inline">\(x,x^2,x^3\)</span> and leaves <span class="math display">\[
+-c^{-p}\frac{(p-1)h\Delta}{ab}.
+\]</span> Multiplication by <span class="math inline">\(\operatorname{sgn}(\Delta)\)</span> proves (6).</p>
+<p>For the equal case, put <span class="math inline">\(x=1/2-\theta\)</span>. At <span class="math inline">\((1/2,0)\)</span>, <span class="math display">\[
+B=a,\qquad A=4ax,\qquad Q=\frac14-x^2.
+\]</span> Equation (17) becomes <span class="math display">\[
+\begin{split}
+a^pK_r&amp;=1-4px^2,\\
+a^pK_{rq}
+&amp;=\frac{p}{4a}\{
+       -1+4(p+2)x^2-16(p+1)x^4
+     \},\\
+a^pK_{rrr}
+&amp;=48p(p+1)x^2-64p(p+1)(p+2)x^4.                                  \tag{19}
+\end{split}
+\]</span> Inserting (19) into (7) cancels the <span class="math inline">\(x^2\)</span> and <span class="math inline">\(x^4\)</span> terms. The constant is <span class="math display">\[
+1-\frac{p(p+2)}{p^2+p+1}
+=-\frac{p-1}{p^2+p+1},
+\]</span> which proves (8).</p>
+<p>The cancellations above do not use the statistical relation <span class="math inline">\(p=h+3/2\)</span>. If the corresponding <span class="math inline">\(p\)</span>-dependent operators are used, both identities hold for arbitrary real <span class="math inline">\(p\)</span>, with the displayed negative signs whenever <span class="math inline">\(p&gt;1\)</span>. The normal problem simply specializes to <span class="math inline">\(p=h+3/2\ge5/2\)</span>.</p>
+<p>Two small-sample checks are especially transparent: <span class="math display">\[
+\begin{array}{ll}
+(n_1,n_2)=(2,3):&amp;
+(27+6\partial_r-\partial_r^2+54\partial_q)
+K_\theta(2/3,0)=-81/8,\\[4pt]
+(n_1,n_2)=(2,2):&amp;
+\left(\partial_r+\frac{12}{13}\partial_r\partial_q
+-\frac1{39}\partial_r^3\right)
+K_\theta(1/2,0)=-\dfrac{8\sqrt2}{13}.
+\end{array}                                                       \tag{20}
+\]</span></p>
+</section>
+<section id="verification-of-the-reduced-density" class="level3">
+<h3>5. Verification of the reduced density</h3>
+<p>Since <span class="math inline">\(2a=n_1-1\)</span> and <span class="math inline">\(2b=n_2-1\)</span>, <span class="math display">\[
+\frac{Y_1}{v_1}\sim\frac{\chi^2_{2a}}{2a},\qquad
+\frac{Y_2}{v_2}\sim\frac{\chi^2_{2b}}{2b},\qquad
+D_0^2\sim\chi^2_1,
+\]</span> independently. Put <span class="math display">\[
+G_i=\frac{Y_i}{\tau},\qquad Z=D_0^2.
+\]</span> Weighting by <span class="math inline">\(D_0^2=Z\)</span>, as in the definition of <span class="math inline">\(Q_\theta\)</span>, makes the joint density of <span class="math inline">\((G_1,G_2,Z)\)</span>, apart from a constant independent of <span class="math inline">\(\theta\)</span>, equal to <span class="math display">\[
+\theta^{-a}(1-\theta)^{-b}
+G_1^{a-1}G_2^{b-1}Z^{1/2}
+\exp\!\left\{
+-\frac{aG_1}{\theta}
+-\frac{bG_2}{1-\theta}
+-\frac Z2
+\right\}.                                                        \tag{21}
+\]</span> Use <span class="math display">\[
+G_1=sr,\qquad G_2=s(1-r),\qquad Z=sq.
+\]</span> The Jacobian is <span class="math inline">\(s^2\)</span>, and the power of <span class="math inline">\(s\)</span> in (21) is <span class="math display">\[
+s^{a-1+b-1+1/2+2}=s^{p-1}.
+\]</span> The exponential rate is <span class="math display">\[
+\frac{ar}{\theta}+\frac{b(1-r)}{1-\theta}+\frac q2
+=\frac{B_\theta(r,q)}{2\theta(1-\theta)}.
+\]</span> Integrating <span class="math inline">\(s\)</span> over <span class="math inline">\((0,\infty)\)</span> gives <span class="math display">\[
+\Gamma(p)
+\left\{\frac{2\theta(1-\theta)}{B_\theta(r,q)}\right\}^{p}.
+\]</span> Combining this with the factor <span class="math inline">\(\theta^{-a}(1-\theta)^{-b}\)</span> yields <span class="math display">\[
+\theta^{p-a}(1-\theta)^{p-b}
+=\theta^{b+3/2}(1-\theta)^{a+3/2},
+\]</span> which is exactly (2). If desired, its normalizing constant is <span class="math display">\[
+C_{a,b}=
+\frac{2^p a^a b^b\Gamma(p)}
+      {\sqrt{2\pi}\,\Gamma(a)\Gamma(b)}.
+\]</span></p>
+</section>
+<section id="gap-checklist" class="level3">
+<h3>6. Gap checklist</h3>
+<ol type="1">
+<li><p><strong>All variance pairs are covered.</strong> Positive <span class="math inline">\((v_1,v_2)\)</span> are in one-to-one correspondence with <span class="math inline">\(\tau&gt;0\)</span> and <span class="math inline">\(0&lt;\theta&lt;1\)</span>; explicitly, <span class="math inline">\(\sigma_1^2=n_1\tau\theta\)</span> and <span class="math inline">\(\sigma_2^2=n_2\tau(1-\theta)\)</span>.</p></li>
+<li><p><strong>The apparent endpoint problem is harmless.</strong> The endpoints <span class="math inline">\(0,1\)</span> are used only to obtain uniform bounds for the factored kernels <span class="math inline">\(I_\theta,J_\theta\)</span>. In the actual parameter space, <span class="math inline">\(0&lt;\theta&lt;1\)</span>, and the common factor <span class="math inline">\(\theta^{b+3/2}(1-\theta)^{a+3/2}\)</span> in (15) is strictly positive.</p></li>
+<li><p><strong>The boundary jet produces an interior correction.</strong> Uniform continuity is first applied in a one-sided neighborhood <span class="math inline">\(q\ge0\)</span>; the bump itself is then supported in a smaller rectangle whose closure lies in <span class="math inline">\(q&gt;0\)</span>.</p></li>
+<li><p><strong>There are no integration-by-parts boundary terms.</strong> The function <span class="math inline">\(\rho\)</span> has compact support strictly inside the observation space.</p></li>
+<li><p><strong>Division by <span class="math inline">\(w\)</span> is safe.</strong> On <span class="math inline">\(\operatorname{supp}\rho\)</span>, the variables <span class="math inline">\(r,1-r,q\)</span> are bounded away from zero, so <span class="math inline">\(w\)</span> and <span class="math inline">\(w^{-1}\)</span> are smooth and bounded.</p></li>
+<li><p><strong>One <span class="math inline">\(\varepsilon\)</span> works for all variance ratios.</strong> The negative bound in (12) and the positive bound in (14) are uniform on the compact interval <span class="math inline">\(0\le\theta\le1\)</span>.</p></li>
+<li><p><strong>The estimator is legitimate.</strong> The function <span class="math inline">\(H\)</span> is parameter-free, bounded, measurable, and compactly supported. The resulting estimator has finite risk, and the second restriction in (16) keeps its random weight in <span class="math inline">\([0,1]\)</span>. The quantities <span class="math inline">\(r,q\)</span> may be defined arbitrarily on the null event <span class="math inline">\(Y_1+Y_2=0\)</span>.</p></li>
+<li><p><strong>Strict domination is obtained.</strong> Equation (15) is strictly negative for every <span class="math inline">\(\mu\)</span>, every <span class="math inline">\(\tau&gt;0\)</span>, and every <span class="math inline">\(0&lt;\theta&lt;1\)</span>, which is stronger than the single strict inequality required for inadmissibility.</p></li>
+</ol>
+</section>
+<section id="relation-to-prior-relative-admissibility" class="level3">
+<h3>7. Relation to prior relative admissibility</h3>
+<p>For equal sample sizes, Duanmu, Roy, and Schrittesser proved that Graybill–Deal is admissible within the restricted class <span class="math display">\[
+\mathcal C_1=
+\left\{
+\bar X_1+D\widehat\phi(S_1^2,S_2^2):
+\widehat\phi:(0,\infty)^2\longrightarrow[0,1]
+\right\}.
+\]</span> See <a href="https://arxiv.org/abs/2112.14257">Duanmu–Roy–Schrittesser (2021 preprint), Corollary 5.3</a>. There is no contradiction. The estimator constructed here is unbiased and its weight can be kept in <span class="math inline">\([0,1]\)</span>, but its coefficient depends genuinely on <span class="math inline">\(D^2\)</span> through <span class="math display">\[
+q=\frac{D^2}{Y_1+Y_2}.
+\]</span> Indeed, <span class="math inline">\(H\not\equiv0\)</span> by (12), while <span class="math inline">\(H\)</span> has compact <span class="math inline">\(q\)</span>-support, so this dependence cannot reduce to a function of the sample variances alone. The rule therefore lies outside <span class="math inline">\(\mathcal C_1\)</span>. In the equal-sample problem, this explains why incorporating the observed mean contrast is essential for this domination mechanism.</p>
+<p>The proof is qualitative and claims no useful numerical lower bound on the improvement. For this constructed rule, no positive raw-risk gap is uniform over all variance ratios because the common factor in (15) tends to zero as <span class="math inline">\(\theta\)</span> approaches either endpoint. This does not affect strict inadmissibility at every actual parameter point <span class="math inline">\(0&lt;\theta&lt;1\)</span>.</p>
+</section>
+</section>
+
+            <a class="back-to-top" href="#top">Back to top</a>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-inner">Dale Matthews</div>
+</footer>
+</body>
+</html>
