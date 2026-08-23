@@ -522,9 +522,8 @@
             </p>
             <p>
                 They are presented as research drafts and should be checked
-                independently. The original Markdown, formalization material,
-                and verification code are available in the
-                <a href="https://github.com/dalematthews/graybill-deal-inadmissibility">project repository</a>.
+                independently. Both proofs and all of their mathematical text
+                are included directly in this standalone page.
             </p>
         </aside>
     </header>
@@ -532,23 +531,10 @@
     <div class="article-layout">
         <nav id="TOC" aria-label="Table of contents">
 <ul>
-<li><a href="#graybilldeal-inadmissibility-for-every-pair-of-sample-sizes" id="toc-graybilldeal-inadmissibility-for-every-pair-of-sample-sizes">Graybill–Deal inadmissibility for every pair of sample sizes</a>
-<ul>
-<li><a href="#a-detailed-readers-edition-of-the-limiting-bayes-proof" id="toc-a-detailed-readers-edition-of-the-limiting-bayes-proof">A detailed reader’s edition of the limiting-Bayes proof</a></li>
-<li><a href="#how-to-read-and-verify-the-proof" id="toc-how-to-read-and-verify-the-proof">How to read and verify the proof</a></li>
-<li><a href="#reduction-to-estimating-a-variance-ratio" id="toc-reduction-to-estimating-a-variance-ratio">1. Reduction to estimating a variance ratio</a></li>
-<li><a href="#exact-density-of-the-reduced-experiment" id="toc-exact-density-of-the-reduced-experiment">2. Exact density of the reduced experiment</a></li>
-<li><a href="#what-admissibility-would-imply" id="toc-what-admissibility-would-imply">3. What admissibility would imply</a></li>
-<li><a href="#consequences-of-star-on-the-boundary-q0" id="toc-consequences-of-star-on-the-boundary-q0">4. Consequences of <span class="math inline">\((\star)\)</span> on the boundary <span class="math inline">\(q=0\)</span></a></li>
-<li><a href="#unequal-sample-sizes" id="toc-unequal-sample-sizes">5. Unequal sample sizes</a></li>
-<li><a href="#equal-sample-sizes" id="toc-equal-sample-sizes">6. Equal sample sizes</a></li>
-<li><a href="#conclusion" id="toc-conclusion">7. Conclusion</a></li>
-<li><a href="#suggested-verification-order" id="toc-suggested-verification-order">8. Suggested verification order</a></li>
-<li><a href="#status-and-scope" id="toc-status-and-scope">9. Status and scope</a></li>
-</ul></li>
+<li><a href="#graybilldeal-is-inadmissible-for-every-pair-of-sample-sizes" id="toc-graybilldeal-is-inadmissible-for-every-pair-of-sample-sizes">Graybill–Deal is inadmissible for every pair of sample sizes</a></li>
 <li><a href="#an-elementary-local-proof-of-graybilldeal-inadmissibility" id="toc-an-elementary-local-proof-of-graybilldeal-inadmissibility">An elementary local proof of Graybill–Deal inadmissibility</a>
 <ul>
-<li><a href="#theorem-1" id="toc-theorem-1">Theorem</a></li>
+<li><a href="#theorem" id="toc-theorem">Theorem</a></li>
 <li><a href="#exact-reduction" id="toc-exact-reduction">1. Exact reduction</a></li>
 <li><a href="#the-two-differential-certificates" id="toc-the-two-differential-certificates">2. The two differential certificates</a></li>
 <li><a href="#from-the-certificate-to-a-dominating-estimator" id="toc-from-the-certificate-to-a-dominating-estimator">3. From the certificate to a dominating estimator</a></li>
@@ -561,580 +547,78 @@
         </nav>
 
         <article class="article-body">
-<section id="graybilldeal-inadmissibility-for-every-pair-of-sample-sizes" class="level2">
-<h2>Graybill–Deal inadmissibility for every pair of sample sizes</h2>
-<section id="a-detailed-readers-edition-of-the-limiting-bayes-proof" class="level3">
-<h3>A detailed reader’s edition of the limiting-Bayes proof</h3>
-<section id="theorem" class="level4">
-<h4>Theorem</h4>
-<p>Consider two independent normal samples</p>
+<section id="graybilldeal-is-inadmissible-for-every-pair-of-sample-sizes" class="level2">
+<h2>Graybill–Deal is inadmissible for every pair of sample sizes</h2>
+<p>Let <span class="math inline">\(n_1,n_2\ge 2\)</span>, put</p>
 <p><span class="math display">\[
-X_{ij}\sim N(\mu,\sigma_i^2),
-\qquad i=1,2,\quad j=1,\ldots,n_i,
+a=\frac{n_1-1}{2},\qquad b=\frac{n_2-1}{2},\qquad
+h=a+b,\qquad p=h+\frac32,
 \]</span></p>
-<p>with a common unknown mean <span class="math inline">\(\mu\)</span>, arbitrary unknown positive variances, and <span class="math inline">\(n_1,n_2\ge2\)</span>. Let <span class="math inline">\(S_i^2\)</span> be the usual unbiased sample variances. Under squared-error loss, the Graybill–Deal estimator</p>
+<p>and write <span class="math inline">\(v_i=\sigma_i^2/n_i\)</span>, <span class="math inline">\(\tau=v_1+v_2\)</span>, and <span class="math inline">\(\theta=v_1/\tau\)</span>. With</p>
 <p><span class="math display">\[
-\delta_{\mathrm{GD}}
-=
-\frac{(n_1/S_1^2)\bar X_1+(n_2/S_2^2)\bar X_2}
-     {n_1/S_1^2+n_2/S_2^2}
+D=\bar X_2-\bar X_1,\quad Y_i=\frac{S_i^2}{n_i},\quad
+r=\frac{Y_1}{Y_1+Y_2},\quad q=\frac{D^2}{Y_1+Y_2},
 \]</span></p>
-<p>is inadmissible for every fixed pair <span class="math inline">\((n_1,n_2)\)</span>.</p>
-<p>Here “dominates” means that another estimator has no greater risk for every <span class="math inline">\((\mu,\sigma_1^2,\sigma_2^2)\)</span> and strictly smaller risk for at least one such parameter point. An estimator is inadmissible precisely when a dominator exists.</p>
-<p>The proof is nonconstructive: it proves that a dominating estimator exists for each fixed pair of sample sizes, but it does not give a formula for that estimator.</p>
-<p>The one genuinely deep input is <a href="https://link.springer.com/book/10.1007/b98854">Lehmann–Casella, <em>Theory of Point Estimation</em>, Chapter 5, Section 7, Theorem 7.15</a> (often referenced as Theorem 5.7.15; printed page 382). Everything else is derived in the three companion modules listed below.</p>
-<p>The logical implication chain is</p>
+<p>Graybill–Deal is <span class="math inline">\(\bar X_1+rD\)</span>. Gaussian regression gives</p>
 <p><span class="math display">\[
-\begin{aligned}
-\delta_{\mathrm{GD}}\text{ admissible}
-&amp;\Longrightarrow r\text{ admissible in the reduced experiment}\\
-&amp;\Longrightarrow
-\text{finite-prior Bayes approximants exist}\\
-&amp;\Longrightarrow
-\text{a probability }\nu\text{ satisfies }(\star)\\
-&amp;\Longrightarrow\text{a derivative contradiction}.
-\end{aligned}
-\]</span></p>
-<p>We prove the last implication for both unequal and equal sample sizes, so the first assertion must be false.</p>
-</section>
-</section>
-<section id="how-to-read-and-verify-the-proof" class="level3">
-<h3>How to read and verify the proof</h3>
-<p>The proof has three modules.</p>
-<table>
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr>
-<th>Module</th>
-<th>What it establishes</th>
-<th>Main tools</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://github.com/dalematthews/graybill-deal-inadmissibility/blob/main/universal/reader_density_bridge">Raw-sample and density bridge</a></td>
-<td>Reduction from the raw normal samples to a one-parameter experiment and derivation of its exact density</td>
-<td>Normal sample theory, Gamma densities, a Jacobian, the Gamma integral</td>
-</tr>
-<tr>
-<td><a href="https://github.com/dalematthews/graybill-deal-inadmissibility/blob/main/universal/reader_limiting_bayes_bridge.md">Limiting-Bayes bridge</a></td>
-<td>Admissibility would force a probability <span class="math inline">\(\nu\)</span> satisfying the posterior-mean identity <span class="math inline">\((\star)\)</span> below</td>
-<td>Lehmann–Casella 5.7.15, Bayes’ formula, weak convergence, continuity</td>
-</tr>
-<tr>
-<td><a href="https://github.com/dalematthews/graybill-deal-inadmissibility/blob/main/universal/reader_ode_moments.md">ODE, moments, and contradictions</a></td>
-<td>No probability <span class="math inline">\(\nu\)</span> can satisfy <span class="math inline">\((\star)\)</span>, for unequal or equal sample sizes</td>
-<td>An elementary ODE, differentiation of a transform, quotient rules</td>
-</tr>
-</tbody>
-</table>
-<p>Every custom algebraic identity is expanded in those modules. Each also contains copy-pastable WolframAlpha queries. The present file gives the continuous logical spine, so that it is clear exactly how the modules fit together.</p>
-<hr />
-</section>
-<section id="reduction-to-estimating-a-variance-ratio" class="level3">
-<h3>1. Reduction to estimating a variance ratio</h3>
-<p>Put</p>
-<p><span class="math display">\[
-v_i=\frac{\sigma_i^2}{n_i},\qquad
-\tau=v_1+v_2,\qquad
-\theta=\frac{v_1}{\tau}.
-\]</span></p>
-<p>Then <span class="math inline">\(\tau&gt;0\)</span>, <span class="math inline">\(0&lt;\theta&lt;1\)</span>, and conversely</p>
-<p><span class="math display">\[
-\sigma_1^2=n_1\tau\theta,\qquad
-\sigma_2^2=n_2\tau(1-\theta).
-\]</span></p>
-<p>To check one-to-one explicitly, consider the map</p>
-<p><span class="math display">\[
-T:(0,\infty)^2\longrightarrow(0,\infty)\times(0,1),\qquad
-T(\sigma_1^2,\sigma_2^2)=(\tau,\theta).
-\]</span></p>
-<p>By definition, <span class="math inline">\(T\)</span> is one-to-one if</p>
-<p><span class="math display">\[
-T(\sigma_1^2,\sigma_2^2)
-=T(\widetilde\sigma_1^2,\widetilde\sigma_2^2)
-\]</span></p>
-<p>implies</p>
-<p><span class="math display">\[
-(\sigma_1^2,\sigma_2^2)
-=(\widetilde\sigma_1^2,\widetilde\sigma_2^2).
-\]</span></p>
-<p>Suppose the two variance pairs have the same image <span class="math inline">\((\tau,\theta)\)</span>. Applying the inverse formulas above to each pair gives</p>
-<p><span class="math display">\[
-\sigma_1^2=n_1\tau\theta=\widetilde\sigma_1^2,
-\qquad
-\sigma_2^2=n_2\tau(1-\theta)=\widetilde\sigma_2^2.
-\]</span></p>
-<p>Thus the two variance pairs are equal, which proves directly from the definition that <span class="math inline">\(T\)</span> is one-to-one. Moreover, every <span class="math inline">\((\tau,\theta)\in(0,\infty)\times(0,1)\)</span> produces a positive variance pair through the inverse formulas, so <span class="math inline">\(T\)</span> is in fact a bijective reparametrization.</p>
-<p>Define</p>
-<p><span class="math display">\[
-D=\bar X_2-\bar X_1,\qquad
-Y_i=\frac{S_i^2}{n_i},\qquad
-r=\frac{Y_1}{Y_1+Y_2},\qquad
-q=\frac{D^2}{Y_1+Y_2}.
-\]</span></p>
-<p>The commonly used definition of the two-sample Graybill–Deal estimator is the inverse-estimated-variance weighted average</p>
-<p><span class="math display">\[
-\delta_{\mathrm{GD}}
-=
-\frac{(n_1/S_1^2)\bar X_1+(n_2/S_2^2)\bar X_2}
-     {n_1/S_1^2+n_2/S_2^2}.
-\]</span></p>
-<p>Indeed, the variance of <span class="math inline">\(\bar X_i\)</span> is <span class="math inline">\(\operatorname{Var}(\bar X_i)=\sigma_i^2/n_i\)</span>, which is estimated by <span class="math inline">\(S_i^2/n_i=Y_i\)</span>. Thus <span class="math inline">\(n_i/S_i^2=Y_i^{-1}\)</span> is the corresponding estimated precision, and the definition can be written</p>
-<p><span class="math display">\[
-\delta_{\mathrm{GD}}
-=
-\frac{Y_1^{-1}\bar X_1+Y_2^{-1}\bar X_2}
-     {Y_1^{-1}+Y_2^{-1}}.
-\]</span></p>
-<p>The coefficient of <span class="math inline">\(\bar X_2\)</span> in this weighted average is</p>
-<p><span class="math display">\[
-\frac{Y_2^{-1}}{Y_1^{-1}+Y_2^{-1}}
-=\frac{Y_1}{Y_1+Y_2}=r,
-\]</span></p>
-<p>while the coefficient of <span class="math inline">\(\bar X_1\)</span> is</p>
-<p><span class="math display">\[
-\frac{Y_1^{-1}}{Y_1^{-1}+Y_2^{-1}}
-=\frac{Y_2}{Y_1+Y_2}=1-r.
-\]</span></p>
-<p>Consequently,</p>
-<p><span class="math display">\[
-\begin{aligned}
-\delta_{\mathrm{GD}}
-&amp;=(1-r)\bar X_1+r\bar X_2\\
-&amp;=\bar X_1+r(\bar X_2-\bar X_1)\\
-&amp;=\bar X_1+rD.
-\end{aligned}
-\]</span></p>
-<p>The known-variance oracle is</p>
-<p><span class="math display">\[
-M=\bar X_1+\theta D.
-\]</span></p>
-<p>If <span class="math inline">\(E=M-\mu\)</span>, elementary bivariate-normal calculations give</p>
-<p><span class="math display">\[
-E\perp(D,S_1^2,S_2^2),\qquad
-E[E]=0,\qquad
-\operatorname{Var}(E)=\tau\theta(1-\theta).
-\]</span></p>
-<p>For the variance calculation, first use</p>
-<p><span class="math display">\[
-E=M-\mu
-=(1-\theta)(\bar X_1-\mu)+\theta(\bar X_2-\mu).
-\]</span></p>
-<p>The two sample means are independent, with variances <span class="math inline">\(v_1\)</span> and <span class="math inline">\(v_2\)</span>. Therefore</p>
-<p><span class="math display">\[
-\begin{aligned}
-\operatorname{Var}(E)
-&amp;=(1-\theta)^2v_1+\theta^2v_2\\
-&amp;=(1-\theta)^2\tau\theta
-  +\theta^2\tau(1-\theta)\\
-&amp;=\tau\theta(1-\theta)\{(1-\theta)+\theta\}\\
-&amp;=\tau\theta(1-\theta).
-\end{aligned}
-\]</span></p>
-<p>For any measurable weight <span class="math inline">\(\phi(r,q)\)</span> of finite risk,</p>
-<p><span class="math display">\[
-\bar X_1+D\phi-\mu
-=E+D(\phi-\theta).
-\]</span></p>
-<p>The cross term vanishes after squaring and taking expectations, so</p>
-<p><span class="math display">\[
-R_{\mu,\tau,\theta}(\bar X_1+D\phi)
-=
-\tau\theta(1-\theta)
-+
-\tau E_\theta\!\left[
-\frac{D^2}{\tau}\{\phi(r,q)-\theta\}^2
-\right].
+R(\bar X_1+D\phi)=\tau\theta(1-\theta)
++\tau E_\theta\!\left[D_0^2\{\phi(r,q)-\theta\}^2\right],
+\qquad D_0=D/\sqrt{\tau}.
 \tag{1}
 \]</span></p>
-<p>Since <span class="math inline">\(D/\sqrt\tau\sim N(0,1)\)</span>, the rule</p>
+<p>Thus it is enough to show that <span class="math inline">\(r\)</span> is inadmissible, among real-valued actions, for estimating <span class="math inline">\(\theta\)</span> under squared loss in the probability experiment <span class="math inline">\(Q_\theta(A)=E_\theta[D_0^2 1_{\{(r,q)\in A\}}]\)</span>. Its everywhere-positive density is</p>
 <p><span class="math display">\[
-Q_\theta(C)
-=
-E_\theta\!\left[
-\frac{D^2}{\tau}\mathbf 1_{\{(r,q)\in C\}}
-\right]
+f_\theta(r,q)=C_{a,b}r^{a-1}(1-r)^{b-1}q^{1/2}
+\frac{\theta^{\,b+3/2}(1-\theta)^{a+3/2}}
+{\{2ar(1-\theta)+2b(1-r)\theta+q\theta(1-\theta)\}^{p}}.
 \tag{2}
 \]</span></p>
-<p>defines a probability measure. Equation (1) becomes</p>
+<p>Here <span class="math inline">\(C_{a,b}&gt;0\)</span> is independent of <span class="math inline">\(r,q,\theta\)</span>.</p>
+<p>Suppose <span class="math inline">\(r\)</span> were admissible. The <a href="https://link.springer.com/book/10.1007/b98854">limiting-Bayes complete-class theorem (Lehmann–Casella, Theorem 5.7.15)</a>, followed by reweighting the approximating priors by <span class="math inline">\(\theta^{b+3/2}(1-\theta)^{a+3/2}\)</span> and taking a weak limit on <span class="math inline">\([0,1]\)</span>, would give a probability <span class="math inline">\(\nu\)</span> such that</p>
 <p><span class="math display">\[
-R_{\mu,\tau,\theta}(\bar X_1+D\phi)
-=
-\tau\theta(1-\theta)
-+
-\tau\int(\phi-\theta)^2\,dQ_\theta.
+A_\nu(r,q):=
+\frac{\int\theta B_\theta(r,q)^{-p}\,\nu(d\theta)}
+     {\int B_\theta(r,q)^{-p}\,\nu(d\theta)}=r,
+\quad
+B_\theta=2ar(1-\theta)+2b(1-r)\theta+q\theta(1-\theta).
 \tag{3}
 \]</span></p>
-<p>Therefore it is sufficient to show that the reduced rule</p>
-<p><span class="math display">\[
-\phi_0(r,q)=r
-\]</span></p>
-<p>is inadmissible for estimating <span class="math inline">\(\theta\)</span> under squared loss when <span class="math inline">\((r,q)\sim Q_\theta\)</span>. Any reduced dominator <span class="math inline">\(\phi\)</span> lifts to the full-model dominator <span class="math inline">\(\bar X_1+D\phi\)</span> through (3).</p>
-<p>All independence and risk calculations in this section are expanded in Sections 1–7 of <code>reader_density_bridge.md</code>.</p>
-<hr />
-</section>
-<section id="exact-density-of-the-reduced-experiment" class="level3">
-<h3>2. Exact density of the reduced experiment</h3>
+<p>Endpoint atoms cause no problem: <span class="math inline">\(B_0=2ar\)</span> and <span class="math inline">\(B_1=2b(1-r)\)</span>. Almost-everywhere equality extends to every <span class="math inline">\(0&lt;r&lt;1,\ q\ge0\)</span> by continuity.</p>
 <p>Set</p>
 <p><span class="math display">\[
-a=\frac{n_1-1}{2},\qquad
-b=\frac{n_2-1}{2},\qquad
-h=a+b,\qquad
-p=h+\frac32.
+r_0=\frac bh,\qquad c=\frac{ab}{h},\qquad
+Z=a-h\theta,\qquad \lambda=p-1=h+\frac12 .
 \]</span></p>
-<p>After dividing the scale variables by <span class="math inline">\(\tau\)</span>,</p>
+<p>The equation <span class="math inline">\(A_\nu(r,0)=r\)</span>, integrated as a first-order ODE, is equivalent near <span class="math inline">\(t=0\)</span> to</p>
 <p><span class="math display">\[
-G_1=\frac{Y_1}{\tau}
-\sim\operatorname{Gamma}\left(a,\text{ scale }\frac{\theta}{a}\right),
-\]</span></p>
-<p><span class="math display">\[
-G_2=\frac{Y_2}{\tau}
-\sim\operatorname{Gamma}\left(b,\text{ scale }\frac{1-\theta}{b}\right),
-\]</span></p>
-<p>and</p>
-<p><span class="math display">\[
-W=\frac{D^2}{\tau}\sim\chi_1^2.
-\]</span></p>
-<p>These three variables are independent. Weighting their joint law by <span class="math inline">\(W\)</span>, as in the definition of <span class="math inline">\(Q_\theta\)</span>, changes the <span class="math inline">\(\chi_1^2\)</span> density into the <span class="math inline">\(\chi_3^2\)</span> density.</p>
-<p>Use</p>
-<p><span class="math display">\[
-G_1=rt,\qquad
-G_2=(1-r)t,\qquad
-W=qt.
-\]</span></p>
-<p>The absolute Jacobian is <span class="math inline">\(t^2\)</span>. Integrating out <span class="math inline">\(t\)</span> with</p>
-<p><span class="math display">\[
-\int_0^\infty t^{p-1}e^{-At}\,dt=\frac{\Gamma(p)}{A^p}
-\]</span></p>
-<p>gives the exact density</p>
-<p><span class="math display">\[
-\boxed{
-f_\theta^Q(r,q)
-=
-C_{a,b}r^{a-1}(1-r)^{b-1}q^{1/2}
-\frac{\theta^{b+3/2}(1-\theta)^{a+3/2}}
-     {B_\theta(r,q)^p}
-}
+E_\nu(1+tZ)^{-\lambda}
+=(1+at)^{-\lambda a/h}(1-bt)^{-\lambda b/h}.
 \tag{4}
 \]</span></p>
-<p>on <span class="math inline">\(0&lt;r&lt;1\)</span>, <span class="math inline">\(q&gt;0\)</span>, where</p>
+<p>Taking the first three derivatives at zero gives, after one simplification,</p>
 <p><span class="math display">\[
-C_{a,b}
-=
-\frac{2^p a^a b^b\Gamma(p)}
-{\sqrt{2\pi}\Gamma(a)\Gamma(b)}
-\]</span></p>
-<p>and</p>
-<p><span class="math display">\[
-B_\theta(r,q)
-=
-2ar(1-\theta)+2b(1-r)\theta+q\theta(1-\theta).
+E_\nu[(\theta-r_0)\theta(1-\theta)]
+=\frac{2ab(a-b)(2h+1)}
+{h^3(2h+3)(2h+5)}.
 \tag{5}
 \]</span></p>
-<p>The density is strictly positive for every observation and every <span class="math inline">\(0&lt;\theta&lt;1\)</span>. Its full derivation, including the crossed powers of <span class="math inline">\(\theta\)</span>, is in Sections 8–13 of <code>reader_density_bridge.md</code>.</p>
-<hr />
-</section>
-<section id="what-admissibility-would-imply" class="level3">
-<h3>3. What admissibility would imply</h3>
-<p>Suppose, for contradiction, that the reduced rule <span class="math inline">\(r\)</span> were admissible. Apply Lehmann–Casella Theorem 5.7.15 with</p>
+<p>On the other hand, taking the right derivative in <span class="math inline">\(q\)</span> at <span class="math inline">\((r_0,0)\)</span> gives</p>
 <p><span class="math display">\[
-\mathcal X=(0,1)\times(0,\infty),\qquad
-\Theta=(0,1),\qquad
-L(\theta,d)=(d-\theta)^2.
-\]</span></p>
-<p>The theorem’s assumptions hold:</p>
-<ol type="1">
-<li>Lebesgue measure on <span class="math inline">\(\mathcal X\)</span> is sigma-finite.</li>
-<li>Equation (4) is a density relative to that measure and is everywhere positive.</li>
-<li>Squared loss is continuous and strictly convex in <span class="math inline">\(d\)</span>.</li>
-<li><span class="math inline">\((d-\theta)^2\to\infty\)</span> as <span class="math inline">\(|d|\to\infty\)</span>.</li>
-</ol>
-<p>Moreover, <span class="math inline">\(r\)</span> has finite reduced risk because <span class="math inline">\(0&lt;r,\theta&lt;1\)</span> implies <span class="math inline">\((r-\theta)^2\le1\)</span>.</p>
-<p>Consequently, there are finite-support priors <span class="math inline">\(\pi_j\)</span> whose Bayes rules <span class="math inline">\(A_j(r,q)\)</span> converge to <span class="math inline">\(r\)</span> for Lebesgue-almost every <span class="math inline">\((r,q)\)</span>.</p>
-<p>Under squared loss, a Bayes action is the posterior mean. Factoring (4) inside Bayes’ formula gives</p>
-<p><span class="math display">\[
-A_j(r,q)
-=
-\frac{\int\theta w(\theta)B_\theta(r,q)^{-p}\,\pi_j(d\theta)}
-     {\int w(\theta)B_\theta(r,q)^{-p}\,\pi_j(d\theta)},
+\partial_q A_\nu(r_0,0)
+=-\frac{p}{2c}E_\nu[(\theta-r_0)\theta(1-\theta)]
+=-\frac{(a-b)(2h+1)}{2h^2(2h+5)}.
 \tag{6}
 \]</span></p>
-<p>where</p>
+<p>This contradicts (3) whenever <span class="math inline">\(a\ne b\)</span>, hence whenever <span class="math inline">\(n_1\ne n_2\)</span>. If <span class="math inline">\(a=b\)</span>, the derivative in (6) vanishes, but the next mixed derivative, using the second and fourth derivatives of (4), is</p>
 <p><span class="math display">\[
-w(\theta)=\theta^{b+3/2}(1-\theta)^{a+3/2}.
+\left.\partial_q\partial_r A_\nu(r,q)\right|_{(1/2,0)}
+=\frac{p-1}{4a(p+2)}&gt;0,
 \]</span></p>
-<p>Define the reweighted probability</p>
-<p><span class="math display">\[
-\nu_j(d\theta)
-=
-\frac{w(\theta)\pi_j(d\theta)}
-     {\int w\,d\pi_j}.
-\tag{7}
-\]</span></p>
-<p>Regarding <span class="math inline">\(\nu_j\)</span> as probabilities on the compact interval <span class="math inline">\([0,1]\)</span>, pass to a weakly convergent subsequence</p>
-<p><span class="math display">\[
-\nu_j\Rightarrow\nu.
-\]</span></p>
-<p>For fixed <span class="math inline">\(0&lt;r&lt;1\)</span> and <span class="math inline">\(q\ge0\)</span>,</p>
-<p><span class="math display">\[
-B_\theta(r,q)
-\ge
-\min\{2ar,2b(1-r)\}&gt;0.
-\]</span></p>
-<p>Thus <span class="math inline">\(B_\theta^{-p}\)</span> and <span class="math inline">\(\theta B_\theta^{-p}\)</span> are bounded continuous functions of <span class="math inline">\(\theta\in[0,1]\)</span>. Weak convergence passes both integrals in (6) to the limit, and the limiting denominator is positive. Hence</p>
-<p><span class="math display">\[
-A_j(r,q)\longrightarrow
-A_\nu(r,q)
-:=
-\frac{\int\theta B_\theta(r,q)^{-p}\,\nu(d\theta)}
-     {\int B_\theta(r,q)^{-p}\,\nu(d\theta)}.
-\tag{8}
-\]</span></p>
-<p>On the full-measure set supplied by Lehmann–Casella, the same sequence converges to <span class="math inline">\(r\)</span>. Therefore <span class="math inline">\(A_\nu(r,q)=r\)</span> almost everywhere. Both sides are continuous in <span class="math inline">\((r,q)\)</span>, so equality holds everywhere for <span class="math inline">\(q&gt;0\)</span>. Continuity as <span class="math inline">\(q\downarrow0\)</span> then gives</p>
-<p><span class="math display">\[
-\boxed{
-A_\nu(r,q)=r
-\quad\text{for every }0&lt;r&lt;1,\ q\ge0.
-}
-\tag{$\star$}
-\]</span></p>
-<p>Possible endpoint atoms of <span class="math inline">\(\nu\)</span> cause no problem because</p>
-<p><span class="math display">\[
-B_0(r,q)=2ar&gt;0,\qquad
-B_1(r,q)=2b(1-r)&gt;0.
-\]</span></p>
-<p>Every step in this compactness argument, including the distinction between sample-space almost-everywhere convergence and parameter-space weak convergence, is expanded in <code>reader_limiting_bayes_bridge.md</code>.</p>
-<hr />
-</section>
-<section id="consequences-of-star-on-the-boundary-q0" class="level3">
-<h3>4. Consequences of <span class="math inline">\((\star)\)</span> on the boundary <span class="math inline">\(q=0\)</span></h3>
-<p>Put</p>
-<p><span class="math display">\[
-\lambda=p-1=h+\frac12
-\]</span></p>
-<p>and</p>
-<p><span class="math display">\[
-u_\theta(r)
-=ar(1-\theta)+b(1-r)\theta,
-\]</span></p>
-<p>so that <span class="math inline">\(B_\theta(r,0)=2u_\theta(r)\)</span>. Define</p>
-<p><span class="math display">\[
-I(r)=E_\nu[u_\theta(r)^{-p}],
-\qquad
-F(r)=E_\nu[u_\theta(r)^{-\lambda}].
-\]</span></p>
-<p>The identity <span class="math inline">\(A_\nu(r,0)=r\)</span> gives</p>
-<p><span class="math display">\[
-E_\nu[\theta u_\theta(r)^{-p}]=rI(r).
-\]</span></p>
-<p>Since</p>
-<p><span class="math display">\[
-u_\theta(r)=ar(1-\theta)+b(1-r)\theta,
-\]</span></p>
-<p>we obtain</p>
-<p><span class="math display">\[
-F(r)=hr(1-r)I(r).
-\tag{9}
-\]</span></p>
-<p>Also</p>
-<p><span class="math display">\[
-\frac{\partial u_\theta(r)}{\partial r}=a-h\theta,
-\]</span></p>
-<p>and therefore</p>
-<p><span class="math display">\[
-F&#39;(r)=-\lambda(a-hr)I(r).
-\tag{10}
-\]</span></p>
-<p>Dividing (10) by (9),</p>
-<p><span class="math display">\[
-\frac{F&#39;(r)}{F(r)}
-=-\lambda
-\left\{\frac{a}{hr}-\frac{b}{h(1-r)}\right\}.
-\]</span></p>
-<p>Solving this elementary ODE gives</p>
-<p><span class="math display">\[
-F(r)
-=C r^{-\lambda a/h}(1-r)^{-\lambda b/h}.
-\tag{11}
-\]</span></p>
-<p>Now define</p>
-<p><span class="math display">\[
-r_0=\frac{b}{h},\qquad
-c=\frac{ab}{h},\qquad
-Z=a-h\theta.
-\]</span></p>
-<p>At <span class="math inline">\(r=r_0\)</span>, <span class="math inline">\(u_\theta(r_0)=c\)</span> independently of <span class="math inline">\(\theta\)</span>. Put <span class="math inline">\(r=r_0+ct\)</span> and divide (11) by its value at <span class="math inline">\(r_0\)</span>. This yields</p>
-<p><span class="math display">\[
-\boxed{
-E_\nu[(1+tZ)^{-\lambda}]
-=(1+at)^{-\lambda a/h}(1-bt)^{-\lambda b/h}.
-}
-\tag{12}
-\]</span></p>
-<p>The identity holds for</p>
-<p><span class="math display">\[
--\frac1a&lt;t&lt;\frac1b,
-\]</span></p>
-<p>which is exactly the condition <span class="math inline">\(0&lt;r_0+ct&lt;1\)</span>. This interval also keeps <span class="math inline">\(1+tZ&gt;0\)</span> for every <span class="math inline">\(Z\in[-b,a]\)</span>.</p>
-<p>The derivation of (9)–(12), including differentiation under the integral sign, is in Parts I–II of <code>reader_ode_moments.md</code>.</p>
-<hr />
-</section>
-<section id="unequal-sample-sizes" class="level3">
-<h3>5. Unequal sample sizes</h3>
-<p>Assume <span class="math inline">\(a\ne b\)</span>, equivalently <span class="math inline">\(n_1\ne n_2\)</span>. Differentiating (12) three times at zero gives</p>
-<p><span class="math display">\[
-E[Z]=a-b,
-\tag{13}
-\]</span></p>
-<p><span class="math display">\[
-E[Z^2]
-=
-\frac{a^2-ab+b^2+\lambda(a-b)^2}{\lambda+1},
-\tag{14}
-\]</span></p>
-<p>and</p>
-<p><span class="math display">\[
-E[Z^3]
-=
-\frac{(a-b)
-\{2(a^2+b^2)+3\lambda(a^2-ab+b^2)
-                  +\lambda^2(a-b)^2\}}
-     {(\lambda+1)(\lambda+2)}.
-\tag{15}
-\]</span></p>
-<p>Because</p>
-<p><span class="math display">\[
-\theta=\frac{a-Z}{h},\qquad
-\theta-r_0=\frac{a-b-Z}{h},\qquad
-1-\theta=\frac{b+Z}{h},
-\]</span></p>
-<p>substitution of (13)–(15) gives</p>
-<p><span class="math display">\[
-\boxed{
-E_\nu[(\theta-r_0)\theta(1-\theta)]
-=
-\frac{2ab(a-b)(2h+1)}
-{h^3(2h+3)(2h+5)}.
-}
-\tag{16}
-\]</span></p>
-<p>At <span class="math inline">\((r,q)=(r_0,0)\)</span>, equation (5) has the constant value</p>
-<p><span class="math display">\[
-B_\theta(r_0,0)=\frac{2ab}{h}=2c.
-\]</span></p>
-<p>Differentiating the quotient (8) from the right in <span class="math inline">\(q\)</span> gives</p>
-<p><span class="math display">\[
-\partial_{q+}A_\nu(r_0,0)
-=
--\frac{p}{2c}
-E_\nu[(\theta-r_0)\theta(1-\theta)].
-\]</span></p>
-<p>Using (16),</p>
-<p><span class="math display">\[
-\boxed{
-\partial_{q+}A_\nu(r_0,0)
-=
--\frac{(a-b)(2h+1)}
-       {2h^2(2h+5)}
-\ne0.
-}
-\tag{17}
-\]</span></p>
-<p>But <span class="math inline">\((\star)\)</span> says <span class="math inline">\(A_\nu(r_0,q)=r_0\)</span>, a constant function of <span class="math inline">\(q\)</span>, whose right derivative must be zero. This is a contradiction.</p>
-<p>Parts III–V of <code>reader_ode_moments.md</code> derive every line of (13)–(17), including the polynomial expansion behind (16).</p>
-<hr />
-</section>
-<section id="equal-sample-sizes" class="level3">
-<h3>6. Equal sample sizes</h3>
-<p>It remains to consider <span class="math inline">\(a=b\)</span>, equivalently <span class="math inline">\(n_1=n_2\)</span>. The derivative in (17) then vanishes by symmetry.</p>
-<p>Put</p>
-<p><span class="math display">\[
-Y=1-2\theta.
-\]</span></p>
-<p>The transform (12) becomes</p>
-<p><span class="math display">\[
-E_\nu[(1+sY)^{-\lambda}]
-=(1-s^2)^{-\lambda/2}.
-\tag{18}
-\]</span></p>
-<p>Comparing the coefficients of <span class="math inline">\(s^2\)</span> and <span class="math inline">\(s^4\)</span>, with <span class="math inline">\(p=\lambda+1\)</span>, gives</p>
-<p><span class="math display">\[
-E[Y^2]=\frac1p,\qquad
-E[Y^4]=\frac3{p(p+2)}.
-\tag{19}
-\]</span></p>
-<p>In these centered coordinates,</p>
-<p><span class="math display">\[
-B_\theta(r,q)
-=
-a+2a\left(r-\frac12\right)Y
-+\frac q4(1-Y^2).
-\tag{20}
-\]</span></p>
-<p>Differentiate the numerator and denominator in (8), first in <span class="math inline">\(r\)</span> and then from the right in <span class="math inline">\(q\)</span>, at <span class="math inline">\((r,q)=(1/2,0)\)</span>. Substitution of (19) gives</p>
-<p><span class="math display">\[
-\boxed{
-\partial_{q+}\partial_r A_\nu(1/2,0)
-=
-\frac{p-1}{4a(p+2)}&gt;0.
-}
-\tag{21}
-\]</span></p>
-<p>But <span class="math inline">\((\star)\)</span> says <span class="math inline">\(A_\nu(r,q)=r\)</span>. Its derivative in <span class="math inline">\(r\)</span> is identically <span class="math inline">\(1\)</span>, whose derivative in <span class="math inline">\(q\)</span> is zero. Equation (21) is the required contradiction.</p>
-<p>Part VI of <code>reader_ode_moments.md</code> derives (18)–(21), including every quotient-rule term and the two moment substitutions.</p>
-<hr />
-</section>
-<section id="conclusion" class="level3">
-<h3>7. Conclusion</h3>
-<p>For every <span class="math inline">\(n_1,n_2\ge2\)</span>, exactly one of the following holds:</p>
-<ol type="1">
-<li><span class="math inline">\(n_1\ne n_2\)</span>, in which case (17) contradicts <span class="math inline">\((\star)\)</span>;</li>
-<li><span class="math inline">\(n_1=n_2\)</span>, in which case (21) contradicts <span class="math inline">\((\star)\)</span>.</li>
-</ol>
-<p>Therefore the reduced rule <span class="math inline">\(r\)</span> cannot be admissible. By the definition of inadmissibility, there exists a reduced rule <span class="math inline">\(\phi\)</span> whose squared risk is no larger for every <span class="math inline">\(\theta\in(0,1)\)</span> and strictly smaller for at least one <span class="math inline">\(\theta\)</span>. Equation (3) lifts it to the estimator</p>
-<p><span class="math display">\[
-\delta_\phi=\bar X_1+D\phi(r,q),
-\]</span></p>
-<p>which dominates Graybill–Deal for all <span class="math inline">\(\mu\in\mathbb R\)</span> and all positive variance pairs, with strict improvement somewhere. Hence Graybill–Deal is inadmissible.</p>
-<p>The estimator <span class="math inline">\(\phi\)</span> may depend on the fixed pair <span class="math inline">\((n_1,n_2)\)</span>; the theorem does not assert that the same rule works simultaneously for every choice of sample sizes.</p>
-<hr />
-</section>
-<section id="suggested-verification-order" class="level3">
-<h3>8. Suggested verification order</h3>
-<ol type="1">
-<li>Verify the ordinary Graybill–Deal algebra and the oracle decomposition.</li>
-<li>Verify the Gamma laws, the <span class="math inline">\(t^2\)</span> Jacobian, and density (4).</li>
-<li>Read Lehmann–Casella Theorem 5.7.15 and compare its hypotheses with Section 3.</li>
-<li>Verify the reweighting (7) and the two weak limits in (8).</li>
-<li>Verify the ODE (9)–(11).</li>
-<li>Use WolframAlpha to differentiate transform (12) three times and check (13)–(16).</li>
-<li>Verify the one quotient derivative leading to (17).</li>
-<li>On the diagonal, compare the <span class="math inline">\(s^2,s^4\)</span> coefficients in (18) and check the quotient-rule calculation yielding (21).</li>
-</ol>
-<p>The consolidated symbolic checker <code>verify_graybill_deal_universal_reader.py</code> verifies the density Jacobian and exponents, the unequal obstruction (16)–(17), the equal obstruction (19)–(21), and the special constants. It deliberately does not attempt to verify the Lehmann–Casella theorem.</p>
-</section>
-<section id="status-and-scope" class="level3">
-<h3>9. Status and scope</h3>
-<p>The proof has been reconstructed independently in its probability, decision-theory, and analytic parts and checked symbolically. Because the conclusion is unusually strong and potentially resolves a longstanding question, independent review by a specialist in statistical decision theory remains prudent.</p>
-<p>The theorem concerns:</p>
-<ul>
-<li>exactly two independent normal populations;</li>
-<li>a common unknown mean;</li>
-<li>arbitrary positive population variances;</li>
-<li>ordinary squared-error loss;</li>
-<li>fixed sample sizes <span class="math inline">\(n_1,n_2\ge2\)</span>.</li>
-</ul>
-<p>It does not cover sample size <span class="math inline">\(1\)</span>, where the usual unbiased sample variance is unavailable.</p>
-</section>
+<p>again contradicting (3). Therefore Graybill–Deal is inadmissible for every <span class="math inline">\(n_1,n_2\ge2\)</span>. <span class="math inline">\(\square\)</span></p>
 </section>
 <section id="an-elementary-local-proof-of-graybilldeal-inadmissibility" class="level2">
 <h2>An elementary local proof of Graybill–Deal inadmissibility</h2>
-<section id="theorem-1" class="level3">
+<section id="theorem" class="level3">
 <h3>Theorem</h3>
 <p>Let two independent normal samples have a common unknown mean <span class="math inline">\(\mu\)</span>, positive unknown variances <span class="math inline">\(\sigma_1^2,\sigma_2^2\)</span>, and sample sizes <span class="math inline">\(n_1,n_2\ge 2\)</span>. Under ordinary squared-error loss, the Graybill–Deal estimator is inadmissible.</p>
 <p>The proof uses only normal regression, chi-square densities, elementary differentiation, uniform continuity on a compact set, and integration by parts. In particular, it uses no complete-class or limiting-Bayes theorem.</p>
@@ -1186,8 +670,9 @@ dQ_\theta(r,q)
 \begin{split}
 B_\theta(r,q)
    &amp;=2ar(1-\theta)+2b(1-r)\theta+q\theta(1-\theta),\\
-w(r,q)&amp;=r^{a-1}(1-r)^{b-1}q^{1/2}.                                 \tag{3}
+w(r,q)&amp;=r^{a-1}(1-r)^{b-1}q^{1/2}.
 \end{split}
+\tag{3}
 \]</span> The short verification of (2) is given in Section 5 below.</p>
 </section>
 <section id="the-two-differential-certificates" class="level3">
@@ -1195,7 +680,7 @@ w(r,q)&amp;=r^{a-1}(1-r)^{b-1}q^{1/2}.                                 \tag{3}
 <p>Define the first-variation kernel <span class="math display">\[
 K_\theta(r,q)=(r-\theta)B_\theta(r,q)^{-p}.                         \tag{4}
 \]</span> At each pivot used below, <span class="math inline">\(B_\theta\)</span> is bounded away from zero uniformly in <span class="math inline">\(0\le\theta\le1\)</span>. Thus <span class="math inline">\(K_\theta\)</span> extends smoothly to a two-sided neighborhood of <span class="math inline">\(q=0\)</span>, so the displayed boundary derivatives are ordinary derivatives rather than a distributional convention.</p>
-<section id="unequal-sample-sizes-1" class="level4">
+<section id="unequal-sample-sizes" class="level4">
 <h4>Unequal sample sizes</h4>
 <p>Suppose <span class="math inline">\(a\ne b\)</span>, and put <span class="math display">\[
 r_0=\frac bh,\qquad c=\frac{2ab}{h},\qquad \Delta=a-b.
@@ -1213,7 +698,7 @@ L_u=\operatorname{sgn}(\Delta)\left[
 \quad}                                                            \tag{6}
 \]</span></p>
 </section>
-<section id="equal-sample-sizes-1" class="level4">
+<section id="equal-sample-sizes" class="level4">
 <h4>Equal sample sizes</h4>
 <p>Suppose <span class="math inline">\(a=b\)</span>, and put <span class="math display">\[
 d=p^2+p+1.
@@ -1269,8 +754,9 @@ I_\theta
 &amp;:=\int H(r,q)K_\theta(r,q)w(r,q)\,dr\,dq\\
 &amp;=\int \rho(r,q)(LK_\theta)(r,q)\,dr\,dq\\
 &amp;\le-\frac{\kappa}{2}\int\rho(r,q)\,dr\,dq
-=:-\gamma&lt;0.                                                      \tag{12}
+=:-\gamma&lt;0.
 \end{split}
+\tag{12}
 \]</span></p>
 <p>Also set <span class="math display">\[
 J_\theta=\int H(r,q)^2B_\theta(r,q)^{-p}
@@ -1291,8 +777,9 @@ M:=\sup_{0\le\theta\le1}J_\theta
 \{2\varepsilon I_\theta+\varepsilon^2J_\theta\}\\
 &amp;\quad\le
 \tau C_{a,b}\theta^{b+3/2}(1-\theta)^{a+3/2}
-\{-2\varepsilon\gamma+\varepsilon^2M\}.                            \tag{15}
+\{-2\varepsilon\gamma+\varepsilon^2M\}.
 \end{split}
+\tag{15}
 \]</span> Every factor outside the braces is positive. Since the correction is compactly supported away from <span class="math inline">\(r=0,1\)</span>, put <span class="math display">\[
 d_0=\operatorname{dist}\!\left(
        \operatorname{proj}_r(\operatorname{supp}H),\{0,1\}\right)&gt;0.
@@ -1318,8 +805,9 @@ K_{rr}&amp;=-2pAB^{-p-1}+p(p+1)xA^2B^{-p-2},\\
 K_q&amp;=-pxQB^{-p-1},\\
 K_{rq}&amp;=-pQB^{-p-1}+p(p+1)xAQB^{-p-2},\\
 K_{rrr}&amp;=3p(p+1)A^2B^{-p-2}
-          -p(p+1)(p+2)xA^3B^{-p-3}.                                \tag{17}
+          -p(p+1)(p+2)xA^3B^{-p-3}.
 \end{split}
+\tag{17}
 \]</span></p>
 <p>For the unequal case, evaluate at <span class="math inline">\((r_0,0)\)</span> and retain <span class="math inline">\(x=r_0-\theta\)</span>. Then <span class="math display">\[
 B=c,\qquad
@@ -1338,8 +826,9 @@ a^pK_{rq}
        -1+4(p+2)x^2-16(p+1)x^4
      \},\\
 a^pK_{rrr}
-&amp;=48p(p+1)x^2-64p(p+1)(p+2)x^4.                                  \tag{19}
+&amp;=48p(p+1)x^2-64p(p+1)(p+2)x^4.
 \end{split}
+\tag{19}
 \]</span> Inserting (19) into (7) cancels the <span class="math inline">\(x^2\)</span> and <span class="math inline">\(x^4\)</span> terms. The constant is <span class="math display">\[
 1-\frac{p(p+2)}{p^2+p+1}
 =-\frac{p-1}{p^2+p+1},
